@@ -1,4 +1,4 @@
-('C:\\Users\\M.ATA\\Documents\\GitHub\\SosyalMonopoly\\build\\SosyalMonopoly\\PYZ-00.pyz',
+('C:\\Users\\M.ATA\\Documents\\GitHub\\Sosyal-Monopoly\\build\\SosyalMonopoly\\PYZ-00.pyz',
  [('__future__',
    'C:\\Program '
    'Files\\WindowsApps\\PythonSoftwareFoundation.Python.3.12_3.12.2800.0_x64__qbz5n2kfra8p0\\Lib\\__future__.py',

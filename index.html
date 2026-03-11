@@ -10,54 +10,57 @@
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <style>
         :root {
-            --bg-color: #2c3e50;
-            /* Koyu dış çerçeve eklendi */
-            --board-bg: #d1e8d5;
-            /* Açık yeşil tahta içi */
-            --panel-bg: #1e293b;
-            --text-main: #334155;
+            /* Deeper, more atmospheric background tones */
+            --bg-color-1: #09090e;
+            --bg-color-2: #161122;
+            --bg-color-3: #111827;
+            
+            /* Glassmorphism Panel Colors */
+            --glass-bg: rgba(15, 23, 42, 0.4);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --glass-shadow: rgba(0, 0, 0, 0.5);
 
-            /* Maarif Modeli Renkleri */
-            --u1: #3b82f6;
-            /* Birlikte Yaşamak - Mavi */
-            --u2: #22c55e;
-            /* Evimiz Dünya - Yeşil */
-            --u3: #f97316;
-            /* Ortak Miras - Turuncu */
-            --u4: #ef4444;
-            /* Yaşayan Demokrasi - Kırmızı */
-            --u5: #eab308;
-            /* Hayat. Ekonomi - Sarı */
-            --u6: #a855f7;
-            /* Teknoloji & Sos. - Mor */
+            --text-main: #f8fafc;
 
-            /* Takım Renkleri */
-            --t1: #10b981;
-            /* Kaşifler */
-            --t2: #eab308;
-            /* Girişimciler */
-            --t3: #a855f7;
-            /* Araştırmacılar */
-            --t4: #3b82f6;
-            /* Diplomatlar */
+            /* Neon Theme Colors (Brighter/Saturated for Glow) */
+            --u1: #60a5fa; /* Birlikte Yaşamak - Mavi */
+            --u2: #4ade80; /* Evimiz Dünya - Yeşil */
+            --u3: #fb923c; /* Ortak Miras - Turuncu */
+            --u4: #f87171; /* Yaşayan Demokrasi - Kırmızı */
+            --u5: #facc15; /* Hayat. Ekonomi - Sarı */
+            --u6: #c084fc; /* Teknoloji & Sos. - Mor */
+
+            /* Team Colors (Neon) */
+            --t1: #34d399; /* Kaşifler */
+            --t2: #fbbf24; /* Girişimciler */
+            --t3: #a78bfa; /* Araştırmacılar */
+            --t4: #60a5fa; /* Diplomatlar */
         }
 
         * {
             box-sizing: border-box;
             font-family: 'Outfit', sans-serif;
             user-select: none;
+            -webkit-user-drag: none;
         }
 
         body {
             margin: 0;
             height: 100vh;
-            background: var(--bg-color);
+            background: radial-gradient(circle at center, var(--bg-color-2), var(--bg-color-1) 80%);
             display: flex;
             justify-content: center;
             align-items: center;
             overflow: hidden;
             color: var(--text-main);
             padding: 1vmin;
+            /* Animated subtle background glow */
+            animation: bgBreath 10s infinite alternate;
+        }
+
+        @keyframes bgBreath {
+            0% { background: radial-gradient(circle at center, var(--bg-color-2), var(--bg-color-1) 90%); }
+            100% { background: radial-gradient(circle at center, #1b1433, var(--bg-color-1) 70%); }
         }
 
         /* Main Container representing looking at a screen */
@@ -65,81 +68,102 @@
             width: 100%;
             max-width: calc(100vh * 16 / 9 - 2vmin);
             aspect-ratio: 16/9;
-            background: linear-gradient(145deg, #0a0f1a, #1a1f2e, #0d1117);
+            background: rgba(10, 15, 26, 0.6);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
             border-radius: 2vmin;
             padding: 1vmin;
-            box-shadow: 0 2vmin 6vmin rgba(0, 0, 0, 0.7), inset 0 0.1vmin 0 rgba(255, 255, 255, 0.08);
+            box-shadow: 0 4vmin 8vmin rgba(0, 0, 0, 0.8), inset 0 1px 1px rgba(255, 255, 255, 0.15);
             position: relative;
             display: flex;
             gap: 1vmin;
-            border: 0.15vmin solid rgba(255, 255, 255, 0.06);
+            border: 0.15vmin solid var(--glass-border);
         }
 
         /* Layout inside Smartboard */
-        .left-panel {
+        .left-panel, .right-panel {
             width: 18%;
             display: flex;
             flex-direction: column;
-            gap: 0.5vmin;
-            padding: 2vmin 0 0.5vmin 0;
+            gap: 1vmin;
+            padding: 1vmin 0 0.5vmin 0;
             overflow: visible;
         }
 
+        /* Game Board Area - Frosted Dark Glass */
         .board-panel {
             width: 58%;
-            background: linear-gradient(135deg, #c8e6cc, #b8d8be, #d4edd8);
-            border-radius: 1.2vmin;
-            border: 0.3vmin solid rgba(255, 255, 255, 0.5);
+            background: rgba(15, 23, 42, 0.4);
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
+            border-radius: 1.5vmin;
+            border: 0.2vmin solid rgba(255, 255, 255, 0.1);
             position: relative;
             display: grid;
             grid-template-columns: repeat(11, 1fr);
             grid-template-rows: repeat(7, 1fr);
-            padding: 0.5vmin;
-            gap: 0.3vmin;
-            box-shadow: inset 0 0 3vmin rgba(0, 0, 0, 0.08), 0 0.5vmin 2vmin rgba(0, 0, 0, 0.3);
-        }
-
-        .right-panel {
-            width: 18%;
-            display: flex;
-            flex-direction: column;
-            gap: 0.5vmin;
-            padding: 2vmin 0 0.5vmin 0;
-            overflow: visible;
+            padding: 0.6vmin;
+            gap: 0.4vmin;
+            box-shadow: inset 0 0 5vmin rgba(0, 0, 0, 0.5), 0 2vmin 4vmin rgba(0, 0, 0, 0.4);
         }
 
         .sidebar-panel {
             width: 6%;
-            background: linear-gradient(180deg, #0f172a, #1e293b);
-            border-radius: 1.2vmin;
-            border: 0.15vmin solid rgba(255, 255, 255, 0.08);
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 1.5vmin;
+            border: 0.15vmin solid var(--glass-border);
             display: flex;
             flex-direction: column;
             align-items: center;
             padding: 1vmin 0;
             gap: 1.5vmin;
-            box-shadow: inset 0 0 2vmin rgba(0, 0, 0, 0.3);
+            box-shadow: inset 0 0 2vmin rgba(0, 0, 0, 0.5), 0 1vmin 2vmin rgba(0, 0, 0, 0.3);
         }
 
-        /* ----- TEAM CARDS ----- */
+        /* ----- TEAM CARDS (Glassmorphism & Neon) ----- */
         .team-card {
             flex: 1;
             border-radius: 1.5vmin;
-            border: 0.3vmin solid rgba(255, 255, 255, 0.25);
+            border: 0.2vmin solid rgba(255, 255, 255, 0.1);
             padding: 1vmin;
             display: flex;
             flex-direction: column;
             position: relative;
             color: white;
-            box-shadow: inset 0 0 2vmin rgba(0, 0, 0, 0.2), 0 0.8vmin 2vmin rgba(0, 0, 0, 0.4);
-            filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.4));
-            backdrop-filter: blur(5px);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            box-shadow: 
+                inset 0 0 3vmin rgba(0, 0, 0, 0.4), 
+                inset 0 1px 1px rgba(255, 255, 255, 0.2),
+                0 1vmin 2vmin rgba(0, 0, 0, 0.3);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            overflow: hidden;
         }
 
-        .team-card[data-team="1"] {
-            background: linear-gradient(135deg, #065f46, var(--t1));
+        /* Ambient colored glow behind the card content based on team */
+        .team-card::before {
+            content: '';
+            position: absolute;
+            top: -50%; left: -50%; width: 200%; height: 200%;
+            background: radial-gradient(circle at center, var(--card-color, rgba(255,255,255,0.1)) 0%, transparent 60%);
+            opacity: 0.15;
+            transition: opacity 0.4s ease;
+            pointer-events: none;
+            z-index: 0;
         }
+
+        .team-card > * {
+            position: relative;
+            z-index: 1;
+        }
+
+        .team-card[data-team="1"] { --card-color: var(--t1); }
+        .team-card[data-team="2"] { --card-color: var(--t2); }
+        .team-card[data-team="3"] { --card-color: var(--t3); }
+        .team-card[data-team="4"] { --card-color: var(--t4); }
 
         .team-card[data-team="2"] {
             background: linear-gradient(135deg, #854d0e, var(--t2));
@@ -250,17 +274,20 @@
         }
 
         .super-power-box {
-            background: rgba(0, 0, 0, 0.2);
+            background: rgba(0, 0, 0, 0.4);
             border-radius: 1vmin;
             padding: 0.5vmin;
             text-align: center;
+            border: 0.1vmin solid rgba(255, 255, 255, 0.05);
+            box-shadow: inset 0 0 1vmin rgba(0, 0, 0, 0.5);
         }
 
         .super-power-title {
             font-size: 1.2vmin;
             font-weight: 600;
-            opacity: 0.8;
+            opacity: 0.9;
             margin-bottom: 0.5vmin;
+            color: #cbd5e1;
         }
 
         .coin-slot {
@@ -268,69 +295,84 @@
             align-items: center;
             justify-content: center;
             gap: 1vmin;
+            padding: 0.5vmin;
+            border-radius: 1vmin;
+            background: rgba(255, 255, 255, 0.05);
+            cursor: pointer;
+            transition: background 0.2s, box-shadow 0.2s;
+        }
+
+        .coin-slot:hover {
+            background: rgba(255, 255, 255, 0.1);
+            box-shadow: 0 0 1vmin rgba(255, 255, 255, 0.1);
         }
 
         .token {
             width: 4vmin;
             height: 4vmin;
             border-radius: 50%;
-            background: radial-gradient(#fcd34d, #d97706);
-            border: 0.2vmin solid #fff;
+            background: radial-gradient(circle at 30% 30%, #fde047, #b45309);
+            border: 0.2vmin solid #fef3c7;
             display: flex;
             align-items: center;
             justify-content: center;
             font-weight: 900;
             font-size: 1.5vmin;
-            color: #78350f;
-            box-shadow: 0 0.5vmin 1vmin rgba(0, 0, 0, 0.5);
+            color: #451a03;
+            box-shadow: inset -0.5vmin -0.5vmin 1vmin rgba(0,0,0,0.5), 0 0.5vmin 1vmin rgba(0, 0, 0, 0.6);
         }
 
         .token.silver {
-            background: radial-gradient(#e2e8f0, #94a3b8);
-            color: #0f172a;
+            background: radial-gradient(circle at 30% 30%, #f1f5f9, #64748b);
+            border-color: #ffffff;
+            color: #0c4a6e;
         }
 
-        .score-row {
+        .score-row, .badge-row {
             display: flex;
             align-items: center;
             gap: 1vmin;
-            background: rgba(0, 0, 0, 0.3);
             border-radius: 1vmin;
-            padding: 0.5vmin;
+            padding: 0.6vmin 1vmin;
             margin-top: 0.5vmin;
+            background: rgba(0, 0, 0, 0.4);
+            box-shadow: inset 0 0 1vmin rgba(0, 0, 0, 0.5);
+            border: 0.1vmin solid rgba(255, 255, 255, 0.05);
+        }
+
+        .score-row {
+            background: linear-gradient(90deg, rgba(0,0,0,0.5), rgba(255,255,255,0.05));
+        }
+
+        .badge-row {
+            background: linear-gradient(90deg, rgba(16, 185, 129, 0.15), rgba(0,0,0,0.3));
+            border-color: rgba(16, 185, 129, 0.2);
         }
 
         .sbp-value {
             font-size: 2.5vmin;
             font-weight: 900;
             letter-spacing: 1px;
-        }
-
-        .badge-row {
-            display: flex;
-            align-items: center;
-            gap: 1vmin;
-            background: rgba(16, 185, 129, 0.4);
-            border-radius: 1vmin;
-            padding: 0.5vmin;
-            margin-top: 0.5vmin;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
         }
 
         .badge-icon {
-            color: #6ee7b7;
+            color: #34d399; /* Neon green */
             font-size: 2vmin;
+            filter: drop-shadow(0 0 0.5vmin rgba(52, 211, 153, 0.8));
         }
 
         .badge-text {
             font-size: 1.4vmin;
             font-weight: 700;
+            color: #a7f3d0;
         }
 
         /* ----- RIGHT PANELS ----- */
         .final-challenge {
             flex: 1;
-            background: linear-gradient(135deg, #1e1b4b, #312e81);
-            border: 0.4vmin solid #fbbf24;
+            background: linear-gradient(135deg, rgba(30, 27, 75, 0.8), rgba(49, 46, 129, 0.8));
+            border: 0.3vmin solid #fbbf24;
             border-radius: 1.5vmin;
             padding: 1vmin;
             color: white;
@@ -339,15 +381,34 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 0 2vmin rgba(251, 191, 36, 0.2);
+            box-shadow: 
+                inset 0 0 3vmin rgba(0,0,0,0.5), 
+                0 0 2vmin rgba(251, 191, 36, 0.3);
+            backdrop-filter: blur(10px);
             cursor: pointer;
-            transition: 0.2s;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             position: relative;
+            overflow: hidden;
+        }
+
+        .final-challenge::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%; width: 50%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transform: skewX(-20deg);
+            animation: shine 4s infinite;
+        }
+
+        @keyframes shine {
+            0% { left: -100%; }
+            20% { left: 200%; }
+            100% { left: 200%; }
         }
 
         .final-challenge:hover {
-            transform: scale(1.02);
-            box-shadow: 0 0 3vmin rgba(251, 191, 36, 0.5);
+            transform: scale(1.05) translateY(-0.5vmin);
+            box-shadow: 0 1vmin 3vmin rgba(251, 191, 36, 0.6), inset 0 0 2vmin rgba(255,255,255,0.1);
         }
 
         .fc-title {
@@ -356,7 +417,8 @@
             color: #fde047;
             text-transform: uppercase;
             margin-bottom: 1vmin;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+            text-shadow: 0 0 1vmin rgba(253, 224, 71, 0.5), 0 2px 4px rgba(0, 0, 0, 0.8);
+            letter-spacing: 1px;
         }
 
         .fc-cards {
@@ -364,6 +426,7 @@
             width: 8vmin;
             height: 10vmin;
             margin-bottom: 1vmin;
+            filter: drop-shadow(0 1vmin 1vmin rgba(0,0,0,0.5));
         }
 
         .fc-card {
@@ -371,20 +434,20 @@
             width: 100%;
             height: 100%;
             border-radius: 0.5vmin;
-            border: 0.2vmin solid white;
+            border: 0.2vmin solid rgba(255,255,255,0.5);
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
+            box-shadow: inset 0 0 1vmin rgba(0,0,0,0.5);
         }
 
         .fc-card:nth-child(1) {
-            background: #3b82f6;
+            background: linear-gradient(135deg, #1d4ed8, #3b82f6);
             transform: rotate(-10deg) translate(-1vmin, 0);
         }
 
         .fc-card:nth-child(2) {
-            background: #1e293b;
+            background: linear-gradient(135deg, #0f172a, #1e293b);
             transform: rotate(5deg);
             z-index: 2;
             flex-direction: column;
@@ -392,35 +455,44 @@
 
         .fc-crown {
             position: absolute;
-            right: -2vmin;
-            top: -1vmin;
-            font-size: 3vmin;
+            right: -2.5vmin;
+            top: -1.5vmin;
+            font-size: 3.5vmin;
             color: #fbbf24;
-            filter: drop-shadow(0 2px 2px rgba(0, 0, 0, 0.5));
+            filter: drop-shadow(0 0 1vmin rgba(251, 191, 36, 0.8));
             transform: rotate(15deg);
             z-index: 5;
+            animation: floatCrown 3s ease-in-out infinite;
+        }
+
+        @keyframes floatCrown {
+            0%, 100% { transform: rotate(15deg) translateY(0); }
+            50% { transform: rotate(20deg) translateY(-0.5vmin); }
         }
 
         /* ----- JOKER SIDEBAR ----- */
         .sidebar-title {
-            color: white;
+            color: #f8fafc;
             font-size: 1.5vmin;
             font-weight: 800;
             text-align: center;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+            letter-spacing: 1px;
         }
 
         .sidebar-title i {
-            font-size: 2vmin;
+            font-size: 2.2vmin;
             margin-bottom: 0.5vmin;
             display: block;
+            color: #94a3b8;
         }
 
         .joker-btn {
             width: 90%;
             aspect-ratio: 1;
-            background: #1e293b;
-            border: 0.2vmin solid #475569;
-            border-radius: 1vmin;
+            background: rgba(30, 41, 59, 0.6);
+            border: 0.2vmin solid rgba(255, 255, 255, 0.1);
+            border-radius: 1.2vmin;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -428,35 +500,37 @@
             color: white;
             gap: 0.5vmin;
             cursor: pointer;
-            transition: 0.2s;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: inset 0 0 1vmin rgba(0,0,0,0.5), 0 0.5vmin 1vmin rgba(0,0,0,0.3);
         }
 
         .joker-btn:hover {
-            background: #334155;
-            border-color: #60a5fa;
+            transform: scale(1.05) translateY(-0.3vmin);
         }
 
         .joker-btn i {
-            font-size: 2.5vmin;
+            font-size: 3vmin;
+            filter: drop-shadow(0 0 0.5vmin currentColor);
         }
 
         .joker-btn span {
-            font-size: 1vmin;
-            font-weight: 600;
+            font-size: 1.1vmin;
+            font-weight: 700;
             text-align: center;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.8);
         }
 
-        .joker-btn.red i {
-            color: #ef4444;
-        }
+        .joker-btn.red { border-bottom: 0.3vmin solid #ef4444; }
+        .joker-btn.red:hover { background: rgba(239, 68, 68, 0.2); box-shadow: 0 0 2vmin rgba(239, 68, 68, 0.4); }
+        .joker-btn.red i { color: #f87171; }
 
-        .joker-btn.blue i {
-            color: #3b82f6;
-        }
+        .joker-btn.blue { border-bottom: 0.3vmin solid #3b82f6; }
+        .joker-btn.blue:hover { background: rgba(59, 130, 246, 0.2); box-shadow: 0 0 2vmin rgba(59, 130, 246, 0.4); }
+        .joker-btn.blue i { color: #60a5fa; }
 
-        .joker-btn.green i {
-            color: #10b981;
-        }
+        .joker-btn.green { border-bottom: 0.3vmin solid #10b981; }
+        .joker-btn.green:hover { background: rgba(16, 185, 129, 0.2); box-shadow: 0 0 2vmin rgba(16, 185, 129, 0.4); }
+        .joker-btn.green i { color: #34d399; }
 
         /* ----- BOARD STYLES ----- */
         .board-center {
@@ -470,60 +544,73 @@
         }
 
         .monopoly-logo {
-            background: #ef4444;
-            color: white;
-            border: 0.5vmin solid white;
-            padding: 1vmin 3vmin;
-            font-size: 4vmin;
+            background: linear-gradient(135deg, #dc2626, #991b1b);
+            color: #f8fafc;
+            border: 0.4vmin solid rgba(255, 255, 255, 0.8);
+            padding: 1.5vmin 4vmin;
+            font-size: 4.5vmin;
             font-weight: 900;
             transform: rotate(-3deg);
-            box-shadow: 0 1vmin 2vmin rgba(0, 0, 0, 0.3);
+            box-shadow: 0 1.5vmin 3vmin rgba(0, 0, 0, 0.6), inset 0 0 2vmin rgba(255, 255, 255, 0.2);
             text-transform: uppercase;
-            letter-spacing: 2px;
+            letter-spacing: 3px;
             z-index: 5;
+            text-shadow: 0 4px 6px rgba(0,0,0,0.8);
+            border-radius: 1vmin;
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .monopoly-logo:hover {
+            transform: rotate(-1deg) scale(1.05);
         }
 
         .subtitle {
-            font-size: 1.5vmin;
+            font-size: 1.8vmin;
             font-weight: 800;
-            color: #1e293b;
-            margin-top: 1vmin;
-            letter-spacing: 1px;
+            color: #94a3b8;
+            margin-top: 1.5vmin;
+            letter-spacing: 2px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+            text-transform: uppercase;
         }
 
         .timer-container {
-            background: linear-gradient(145deg, #111827, #1e293b);
-            color: white;
-            border-radius: 1.2vmin;
-            padding: 1vmin 3vmin;
-            font-size: 5vmin;
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            color: #f8fafc;
+            border-radius: 1.5vmin;
+            padding: 1.5vmin 4vmin;
+            font-size: 5.5vmin;
             font-weight: 900;
             display: flex;
             align-items: center;
-            gap: 1.5vmin;
-            margin-top: 2vmin;
-            box-shadow: inset 0 0 2vmin rgba(0, 0, 0, 0.6), 0 1vmin 2vmin rgba(0, 0, 0, 0.3), 0 0 1.5vmin rgba(16, 185, 129, 0.15);
-            border: 0.15vmin solid rgba(255, 255, 255, 0.1);
+            gap: 2vmin;
+            margin-top: 2.5vmin;
+            box-shadow: inset 0 0 2vmin rgba(0, 0, 0, 0.8), 0 1vmin 3vmin rgba(0, 0, 0, 0.5), 0 0 2vmin rgba(52, 211, 153, 0.2);
+            border: 0.2vmin solid rgba(52, 211, 153, 0.3);
+            text-shadow: 0 0 1vmin rgba(52, 211, 153, 0.5);
         }
 
         .timer-sub {
-            font-size: 1.5vmin;
-            font-weight: 600;
-            color: #94a3b8;
+            font-size: 1.6vmin;
+            font-weight: 700;
+            color: #cbd5e1;
             margin-top: 0.5vmin;
             text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
         .dice-container {
             display: flex;
-            gap: 2vmin;
-            margin-top: 2vmin;
+            gap: 2.5vmin;
+            margin-top: 3vmin;
         }
 
         .dice {
-            font-size: 6vmin;
-            color: #1e293b;
-            background: linear-gradient(145deg, #ffffff, #f1f5f9);
+            font-size: 7vmin;
+            color: #f8fafc;
+            background: linear-gradient(145deg, #334155, #1e293b);
             border-radius: 1.2vmin;
             padding: 0.5vmin;
             box-shadow: 0 0.5vmin 1.5vmin rgba(0, 0, 0, 0.25), inset 0 0.1vmin 0 rgba(255, 255, 255, 0.8);
@@ -686,22 +773,34 @@
 
         /* Squares */
         .square {
-            background: linear-gradient(145deg, #ffffff, #f8fafc);
-            border: 0.15vmin solid #c1c9d4;
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            border: 0.15vmin solid rgba(255, 255, 255, 0.1);
             display: flex;
             flex-direction: column;
             align-items: center;
             text-align: center;
             position: relative;
             overflow: hidden;
-            border-radius: 0.3vmin;
-            box-shadow: 0 0.1vmin 0.3vmin rgba(0, 0, 0, 0.08);
+            border-radius: 0.5vmin;
+            box-shadow: inset 0 0 1vmin rgba(0, 0, 0, 0.8), 0 0.5vmin 1vmin rgba(0, 0, 0, 0.4);
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            color: #f8fafc;
+        }
+
+        .square:hover {
+            transform: scale(1.08);
+            z-index: 10;
+            box-shadow: inset 0 0 2vmin rgba(255, 255, 255, 0.1), 0 1vmin 3vmin rgba(0, 0, 0, 0.8);
+            border-color: rgba(255, 255, 255, 0.5);
         }
 
         .sq-header {
             width: 100%;
             height: 25%;
-            border-bottom: 0.2vmin solid #94a3b8;
+            border-bottom: 0.2vmin solid rgba(255,255,255,0.1);
+            box-shadow: 0 0.2vmin 0.5vmin rgba(0,0,0,0.5);
         }
 
         .sq-body {
@@ -712,13 +811,15 @@
             justify-content: center;
             align-items: center;
             padding: 0.2vmin;
+            background: linear-gradient(180deg, rgba(255,255,255,0.05), transparent);
         }
 
         .top-row .sq-header {
             position: absolute;
             bottom: 0;
             border-bottom: none;
-            border-top: 0.2vmin solid #94a3b8;
+            border-top: 0.2vmin solid rgba(255,255,255,0.1);
+            box-shadow: 0 -0.2vmin 0.5vmin rgba(0,0,0,0.5);
         }
 
         .top-row .sq-body {
@@ -735,9 +836,10 @@
             width: 25%;
             height: 100%;
             border-bottom: none;
-            border-right: 0.2vmin solid #94a3b8;
+            border-right: 0.2vmin solid rgba(255,255,255,0.1);
             position: absolute;
             left: 0;
+            box-shadow: 0.2vmin 0 0.5vmin rgba(0,0,0,0.5);
         }
 
         .right-col .sq-body {
@@ -756,9 +858,10 @@
             width: 25%;
             height: 100%;
             border-bottom: none;
-            border-left: 0.2vmin solid #94a3b8;
+            border-left: 0.2vmin solid rgba(255,255,255,0.1);
             position: absolute;
             right: 0;
+            box-shadow: -0.2vmin 0 0.5vmin rgba(0,0,0,0.5);
         }
 
         .left-col .sq-body {
@@ -774,22 +877,27 @@
             font-weight: 800;
             line-height: 1.1;
             text-transform: uppercase;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.8);
+            letter-spacing: 0.5px;
         }
 
         .sq-sub {
             font-size: 0.9vmin;
             font-weight: 600;
             margin-top: 2px;
+            color: #cbd5e1;
         }
 
         .sq-icon {
-            font-size: 2vmin;
+            font-size: 2.2vmin;
             margin-bottom: 2px;
-            color: #475569;
+            color: #94a3b8;
+            filter: drop-shadow(0 2px 2px rgba(0,0,0,0.8));
         }
 
         .corner {
             justify-content: center;
+            background: radial-gradient(circle at center, rgba(30, 41, 59, 0.9), rgba(15, 23, 42, 0.9));
         }
 
         .corner .sq-body {
@@ -797,6 +905,7 @@
             position: static !important;
             width: 100% !important;
             height: 100% !important;
+            background: none;
         }
 
         .corner .sq-header {
@@ -805,10 +914,13 @@
 
         .corner .sq-icon {
             font-size: 4vmin;
+            color: #f8fafc;
         }
 
         .corner .sq-title {
             font-size: 1.5vmin;
+            color: #fde047;
+            text-shadow: 0 0 1vmin rgba(253, 224, 71, 0.5), 0 2px 4px rgba(0,0,0,0.8);
         }
 
         .corner.go-sq {
@@ -821,31 +933,34 @@
 
         .pawn-indicator {
             position: absolute;
-            width: 4vmin;
-            height: 4vmin;
-            font-size: 2.2vmin;
-            z-index: 10;
-            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            width: 4.5vmin;
+            height: 4.5vmin;
+            font-size: 2.5vmin;
+            z-index: 15;
+            transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
             transform: translate(-50%, -50%);
-            filter: drop-shadow(0 0.3vmin 0.6vmin rgba(0, 0, 0, 0.6));
             display: flex;
             align-items: center;
             justify-content: center;
             border-radius: 50%;
-            border: 0.25vmin solid white;
-            animation: pawnBounce 2s ease-in-out infinite;
+            border: 0.3vmin solid rgba(255, 255, 255, 0.9);
+            box-shadow: 0 1vmin 2vmin rgba(0, 0, 0, 0.6), inset 0 0 1vmin rgba(0, 0, 0, 0.4);
+            animation: pawnBounce 2s ease-in-out infinite, pawnGlow 2s infinite alternate;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.8);
         }
 
         @keyframes pawnBounce {
-
-            0%,
-            100% {
+            0%, 100% {
                 transform: translate(-50%, -50%) scale(1);
             }
-
             50% {
-                transform: translate(-50%, -55%) scale(1.08);
+                transform: translate(-50%, -60%) scale(1.1);
             }
+        }
+
+        @keyframes pawnGlow {
+            from { filter: drop-shadow(0 0 0.5vmin currentColor); }
+            to { filter: drop-shadow(0 0 1.5vmin currentColor); }
         }
 
         /* Modals */
@@ -855,7 +970,9 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: rgba(15, 23, 42, 0.9);
+            background: rgba(15, 23, 42, 0.85);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
             z-index: 100;
             display: flex;
             justify-content: center;
@@ -863,33 +980,42 @@
         }
 
         .modal {
-            background: white;
+            background: linear-gradient(145deg, rgba(30, 41, 59, 0.95), rgba(15, 23, 42, 0.95));
             padding: 4vmin;
             border-radius: 2vmin;
-            border: 0.6vmin solid #334155;
+            border: 0.2vmin solid rgba(255, 255, 255, 0.15);
             max-width: 70vw;
             text-align: center;
-            box-shadow: 0 2vmin 5vmin rgba(0, 0, 0, 0.8);
+            box-shadow: 0 4vmin 8vmin rgba(0, 0, 0, 0.8), inset 0 0 2vmin rgba(255, 255, 255, 0.05);
+            color: #f8fafc;
         }
 
         .primary-btn {
-            background: #10b981;
-            color: white;
-            border: none;
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: #f8fafc;
+            border: 0.2vmin solid rgba(255, 255, 255, 0.2);
             padding: 1.5vmin 4vmin;
             font-size: 2.5vmin;
             font-weight: 900;
             border-radius: 1vmin;
             cursor: pointer;
             text-transform: uppercase;
-            transition: 0.2s;
-            box-shadow: 0 0.5vmin 0 #065f46;
-            margin-top: 2vmin;
+            transition: all 0.2s cubic-bezier(0.25, 0.8, 0.25, 1);
+            box-shadow: 0 0.8vmin 1.5vmin rgba(0, 0, 0, 0.4), inset 0 0.2vmin 0.5vmin rgba(255, 255, 255, 0.3);
+            margin-top: 2.5vmin;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+            letter-spacing: 1px;
+        }
+
+        .primary-btn:hover {
+            transform: translateY(-0.3vmin);
+            box-shadow: 0 1.2vmin 2vmin rgba(0, 0, 0, 0.5), inset 0 0.2vmin 0.5vmin rgba(255, 255, 255, 0.4);
+            background: linear-gradient(135deg, #34d399, #10b981);
         }
 
         .primary-btn:active {
             transform: translateY(0.5vmin);
-            box-shadow: 0 0 0 #065f46;
+            box-shadow: 0 0.2vmin 0.5vmin rgba(0, 0, 0, 0.5);
         }
 
         .opt-btn {
@@ -949,12 +1075,15 @@
 
         .rules-panel {
             position: relative;
-            background: white;
+            background: var(--glass-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--glass-border);
             border-radius: 2vmin;
             width: 80%;
             max-width: calc(100vh * 16 / 9 - 4vmin);
             padding: 4vmin;
-            box-shadow: 0 4vmin 6vmin rgba(0, 0, 0, 0.6);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), inset 0 0 0 1px rgba(255, 255, 255, 0.1);
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -964,23 +1093,25 @@
         .rules-header {
             font-size: 4vmin;
             font-weight: 900;
-            color: #1e293b;
+            color: #fff;
             text-transform: uppercase;
             letter-spacing: 2px;
             margin-bottom: 0.5vmin;
             text-align: center;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
         }
 
         .rules-sub {
             font-size: 2vmin;
             font-weight: 700;
-            color: #ef4444;
+            color: #fca5a5;
             margin-bottom: 4vmin;
             text-align: center;
             letter-spacing: 1px;
-            background: #fee2e2;
+            background: rgba(239, 68, 68, 0.2);
             padding: 0.5vmin 2vmin;
             border-radius: 1vmin;
+            border: 1px solid rgba(239, 68, 68, 0.3);
         }
 
         .rules-grid {
@@ -992,20 +1123,22 @@
         }
 
         .rule-card {
-            background: #f8fafc;
-            border: 0.2vmin solid #cbd5e1;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 1.5vmin;
             padding: 2vmin;
             display: flex;
             flex-direction: column;
             gap: 1vmin;
-            transition: 0.2s;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            color: #e2e8f0;
         }
 
         .rule-card:hover {
             transform: translateY(-0.5vmin);
-            box-shadow: 0 1vmin 2vmin rgba(0, 0, 0, 0.1);
-            border-color: #94a3b8;
+            box-shadow: 0 1vmin 2vmin rgba(0, 0, 0, 0.2), 0 0 15px rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.1);
         }
 
         .rc-header {
@@ -1014,8 +1147,8 @@
             gap: 1.5vmin;
             font-size: 2vmin;
             font-weight: 800;
-            color: #334155;
-            border-bottom: 0.2vmin solid #e2e8f0;
+            color: #fff;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
             padding-bottom: 1vmin;
         }
 
@@ -1028,12 +1161,13 @@
             justify-content: center;
             border-radius: 50%;
             color: white;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
         }
 
         .rc-body {
             font-size: 1.6vmin;
             font-weight: 600;
-            color: #64748b;
+            color: #cbd5e1;
             line-height: 1.4;
         }
 
@@ -1645,6 +1779,9 @@
         <div class="modal" id="game-modal-content"></div>
     </div>
 
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     <script>
         let baseTeams = [
             { id: 0, name: "Kaşifler", color: 'var(--t1)', sbp: 1500, badges: 0, pos: 0, powerReady: true, icon: 'fa-compass', usedJokers: {} },
@@ -1870,7 +2007,10 @@
                 { q: "Bir ülkede demokratik katılımı değerlendirirken, 'gençlerin siyasi katılımındaki düşüklüğün' temel nedenleri arasında aşağıdakilerden hangisi en yaygındır?<br><br>Gençlerin siyasi süreçlere katılımını engelleyen en temel faktör nedir?", opts: ["A) Yasal yaş sınırlamaları", "B) Siyasi partilerin gençlere yönelik politikaları", "C) Eğitim sisteminin siyasi katılımı teşvik etmemesi", "D) Tüm bu faktörler eşit derecede etkili"], ans: 2 },
                 { q: "Çevre sorunlarının çözümünde 'sürdürülebilir kalkınma' (sustainable development) yaklaşımını benimseyen bir ülke, ekonomik büyüme ile çevre koruması arasında nasıl bir denge kurar?<br><br>Sürdürülebilir kalkınma ilkelerine göre, ekonomik büyüme ile çevre koruması arasındaki ideal ilişki nasıl olmalıdır?", opts: ["A) Ekonomik büyüme her zaman önceliklidir", "B) Çevre koruması ekonomik büyümeden tamamen bağımsızdır", "C) İkisi arasında denge kurulmalı, bir diğeri feda etmeden", "D) Sadece gelişmiş ülkeler sürdürülebilir kalkınmayı uygulayabilir"], ans: 2 },
                 { q: "Teknolojinin sosyal ilişkiler üzerindeki etkilerini analiz ederken, 'dijital uçurum' (digital divide) olgusunun eğitim eşitliği üzerindeki özel etkisi nedir?<br><br>Dijital uçurumun eğitim eşitliği üzerindeki en zararlı uzun vadeli etkisi nedir?", opts: ["A) Sadece geçici bir sorundur", "B) Erişim eşitsizliğini kalıcı hale getirir", "C) Öğrenme kalitesini artırır", "D) Sosyal ilişkileri güçlendirir"], ans: 1 },
-                { q: "Küresel göç olgusunu incelerken, 'beyin göçü' (brain drain) kavramının gelişmekte olan ülkeler üzerindeki etkisi aşağıdakilerden hangisiyle en doğru açıklanır?<br><br>Beyin göçünün, gelişmekte olan ülkeler üzerindeki en ciddi uzun vadici sonucu nedir?", opts: ["A) Sadece ekonomik olarak faydalıdır", "B) İnsan sermayesi kaybına neden olur", "C) Teknolojik gelişmeyi hızlandırır", "D) Nüfus artışını dengeler"], ans: 1 }
+                { q: "Küresel göç olgusunu incelerken, 'beyin göçü' (brain drain) kavramının gelişmekte olan ülkeler üzerindeki etkisi aşağıdakilerden hangisiyle en doğru açıklanır?<br><br>Beyin göçünün, gelişmekte olan ülkeler üzerindeki en ciddi uzun vadici sonucu nedir?", opts: ["A) Sadece ekonomik olarak faydalıdır", "B) İnsan sermayesi kaybına neden olur", "C) Teknolojik gelişmeyi hızlandırır", "D) Nüfus artışını dengeler"], ans: 1 },
+                { q: "Fransız İhtilali'nin yaydığı milliyetçilik akımının Osmanlı Devleti üzerindeki en yıkıcı etkisi aşağıdakilerden hangisidir?", opts: ["A) Azınlık isyanlarının çıkması ve devletin dağılma sürecine girmesi", "B) Demokrasi hareketlerinin başlaması", "C) Ekonominin güçlenmesi", "D) Yeni toprakların fethedilmesi"], ans: 0 },
+                { q: "Mustafa Kemal'in askeri idadi yıllarında okuduğu ve etkilendiği, ona milliyetçilik ve vatan sevgisi aşılayan Türk düşünürler arasında aşağıdakilerden hangisi yer alır?", opts: ["A) Montesquieu", "B) Ziya Gökalp", "C) Jean Jacques Rousseau", "D) Voltaire"], ans: 1 },
+                { q: "Mustafa Kemal'in ilk askeri başarısı olan ve sömürgeciliğe karşı verdiği ilk mücadele aşağıdakilerden hangisidir?", opts: ["A) Çanakkale Savaşı", "B) Trablusgarp Savaşı", "C) Kafkas Cephesi", "D) Sakarya Meydan Muharebesi"], ans: 1 }
             ],
             2: [
                 { q: "Bir bölgenin fiziki coğrafyasını analiz ederken, 'jeopolitik konum' kavramı, o bölgenin tarih boyunca nasıl bir önem taşıdığını nasıl açıklar?<br><br>Bir bölgenin jeopolitik konumunu belirleyen en önemli faktör nedir?", opts: ["A) İklim koşulları", "B) Coğrafi konumun stratejik önemi", "C) Yüzey şekilleri", "D) Nüfus yoğunluğu"], ans: 1 },
@@ -1881,7 +2021,10 @@
                 { q: "Yenilenebilir enerji kaynaklarını değerlendirirken, 'enerji geçişinin' (energy transition) sosyal ve ekonomik etkileri nelerdir?<br><br>Enerji geçişinin en zorlayıcı sosyal etkisi nedir?", opts: ["A) Sadece teknolojik zorluklar yaratır", "B) Geleneksel enerji sektöründe iş kayıplarına neden olur", "C) Her kesim için eşit fayda sağlar", "D) Sadece gelişmiş ülkeleri etkiler"], ans: 1 },
                 { q: "Biyoçeşitliliğin korunmasında, 'ekosistem hizmetleri' (ecosystem services) kavramı, insan refahı için neden kritiktir?<br><br>Ekosistem hizmetlerinin kaybının, insan refahı üzerindeki en acil etkisi nedir?", opts: ["A) Sadece estetik kayıptır", "B) Gıda ve su güvenliğini tehdit eder", "C) Sadece bilimsel değeri azalır", "D) Yerel ekonomiyi güçlendirir"], ans: 1 },
                 { q: "Kırsal kalkınma politikalarını analiz ederken, 'kırsaldan kente göç'ün (rural-urban migration) geleneksel kırsal yaşam üzerindeki etkileri nelerdir?<br><br>Kırsaldan kente göçün geleneksel kırsal yapı üzerindeki en kalıcı etkisi nedir?", opts: ["A) Sadece demografik değişiklik yaratır", "B) Geleneksel üretim yöntemlerini güçlendirir", "C) Kırsal nüfusu azaltır ve kültürel mirası tehdit eder", "D) Tarım verimliliğini artırır"], ans: 2 },
-                { q: "Deniz kaynaklarının yönetiminde 'mavi ekonomi' (blue economy) kavramı, sürdürülebilir kalkınmaya nasıl katkı sağlar?<br><br>Mavi ekonomi yaklaşımının, sürdürülebilir kalkınmaya en önemli katkısı nedir?", opts: ["A) Sadece balıkçılık gelirini artırır", "B) Deniz biyoçeşitliliğini korurken ekonomik fayda sağlar", "C) Sadece turizmi geliştirir", "D) Geleneksel denizcilikten daha maliyetlidir"], ans: 1 }
+                { q: "Deniz kaynaklarının yönetiminde 'mavi ekonomi' (blue economy) kavramı, sürdürülebilir kalkınmaya nasıl katkı sağlar?<br><br>Mavi ekonomi yaklaşımının, sürdürülebilir kalkınmaya en önemli katkısı nedir?", opts: ["A) Sadece balıkçılık gelirini artırır", "B) Deniz biyoçeşitliliğini korurken ekonomik fayda sağlar", "C) Sadece turizmi geliştirir", "D) Geleneksel denizcilikten daha maliyetlidir"], ans: 1 },
+                { q: "Mondros Ateşkes Antlaşması'nın 'İtilaf Devletleri, güvenliklerini tehdit eden herhangi bir stratejik noktayı işgal edebilecektir. (7. Madde)' hükmünün temel amacı nedir?", opts: ["A) Osmanlı ordusunu terhis etmek", "B) Anadolu'yu işgale hukuki bir zemin hazırlamak", "C) Sınırları güvence altına almak", "D) Azınlıkları korumak"], ans: 1 },
+                { q: "Mustafa Kemal'in 'Ya İstiklal Ya Ölüm!' parolasını benimsediği ve milli sınırların (Misakımilli) temellerinin atıldığı kongre aşağıdakilerden hangisidir?", opts: ["A) Erzurum Kongresi", "B) Sivas Kongresi", "C) Amasya Genelgesi", "D) Havza Genelgesi"], ans: 0 },
+                { q: "Sevr Antlaşması'nı Türk milletinin kabul etmemesi ve TBMM'nin onaylamaması aşağıdakilerden hangisinin göstergesidir?", opts: ["A) Milli Mücadele'nin sona erdiğinin", "B) Padişahın desteklendiğinin", "C) Bağımsızlık inancının ve kararlılığının güçlendiğinin", "D) Yeni ittifakların arandığının"], ans: 2 }
             ],
             3: [
                 { q: "Bir medeniyetin çöküşünü analiz ederken, 'kültürel çöküş' kavramı, arkeolojik kanıtlar dışında nasıl anlaşılır?<br><br>Kültürel çöküşün en belirgin göstergesi nedir?", opts: ["A) Nüfus azalması", "B) Yazılı kayıtların kaybolması", "C) Sanatsal ve teknolojik yeniliklerin durması", "D) Sosyal organizasyonun çözülmesi"], ans: 3 },
@@ -1891,7 +2034,10 @@
                 { q: "Arkeolojik kazı çalışmalarında, 'katmanlı stratifigrafi' analizinin önemi nedir?<br><br>Katmanlı stratifigrafi analizinin tarihsel olayları yeniden oluşturmadaki temel işlevi nedir?", opts: ["A) Sadece nesnelerin yaşını belirler", "B) Zaman sırasını ve kültürel değişimleri gösterir", "C) Sadece jeolojik bilgi verir", "D) Sadece ekonomik değerini belirler"], ans: 1 },
                 { q: "Kültürel peyzajı korurken, 'integre koruma yönetimi' yaklaşımı nasıl uygulanır?<br><br>Integre koruma yönetimin kültürel peyzaj korumadaki en önemli özelliği nedir?", opts: ["A) Sadece tarihi yapıları korur", "B) Doğal ve kültürel değerleri birlikte yönetir", "C) Sadece turizmi geliştirir", "D) Yerel halkın katılımını dışlar"], ans: 1 },
                 { q: "Dijital arkeolojide, 3D modelleme ve sanal gerçeklik teknolojilerinin tarihi mirasın korunmasına ve sunumuna katkıları nelerdir?<br><br>Dijital arkeolojinin tarihi miras korumadaki en yenilikçi katkısı nedir?", opts: ["A) Sadece araştırmacılar için kullanılır", "B) Fiziksel korumayı gereksiz kılar", "C) Erişimi artırır ve belgelemeyi sağlar", "D) Sadece turistik amaçlıdır"], ans: 2 },
-                { q: "Müze eğitiminde, 'katılımcı müzecilik' (participatory museology) yaklaşımı toplumla müze ilişkisini nasıl değiştirir?<br><br>Katılımcı müzeciliğin toplum-müze ilişkisindeki en temel değişiklik nedir?", opts: ["A) Müzeyi otoriter bir kurum haline getirir", "B) Toplumu pasif alıcıya dönüştürür", "C) Toplumu aktif katılımcıya dönüştürür ve diyalog teşvik eder", "D) Sadece akademik araştırmaya hizmet eder"], ans: 2 }
+                { q: "Müze eğitiminde, 'katılımcı müzecilik' (participatory museology) yaklaşımı toplumla müze ilişkisini nasıl değiştirir?<br><br>Katılımcı müzeciliğin toplum-müze ilişkisindeki en temel değişiklik nedir?", opts: ["A) Müzeyi otoriter bir kurum haline getirir", "B) Toplumu pasif alıcıya dönüştürür", "C) Toplumu aktif katılımcıya dönüştürür ve diyalog teşvik eder", "D) Sadece akademik araştırmaya hizmet eder"], ans: 2 },
+                { q: "Düzenli ordunun Batı Cephesi'nde kazandığı ilk askeri zafer olan ve TBMM'ye duyulan güveni artıran savaş hangisidir?", opts: ["A) Kütahya-Eskişehir Savaşları", "B) Sakarya Meydan Muharebesi", "C) I. İnönü Savaşı", "D) Büyük Taarruz"], ans: 2 },
+                { q: "Mudanya Ateşkes Antlaşması ile İstanbul ve Boğazların savaşılmadan TBMM'ye bırakılması, Osmanlı Devleti açısından hangi anlama gelir?", opts: ["A) Osmanlı Devleti'nin hukuken sona erdiği", "B) Savaşın henüz bitmediği", "C) İtilaf Devletleri'nin Osmanlı'yı desteklediği", "D) Yeni bir ittifak kurulduğu"], ans: 0 },
+                { q: "Mustafa Kemal Paşa'ya 'Gazi' unvanı ve 'Mareşal' rütbesi TBMM tarafından hangi savaştan sonra verilmiştir?", opts: ["A) I. İnönü Savaşı", "B) Çanakkale Savaşı", "C) Büyük Taarruz", "D) Sakarya Meydan Muharebesi"], ans: 3 }
             ],
             4: [
                 { q: "Modern demokrasilerde 'temsili demokrasi' (representative democracy) ile 'katılımcı demokrasi' (participatory democracy) arasındaki temel fark nedir?<br><br>Katılımcı demokrasinin temelsel farkı nedir?", opts: ["A) Vatandaşların doğrudan karar alma sürecine katılımı", "B) Sadece seçimlerde oy kullanma", "C) Sadece temsilciler üzerinden yönetim", "D) Sadece yerel düzeyde geçerlidir"], ans: 0 },
@@ -1901,7 +2047,10 @@
                 { q: "İnsan hakları korumasında 'anayasal mahkeme' (constitutional court)'nin önemi nedir?<br><br>Anayasal mahkemen en temel işlevi nedir?", opts: ["A) Ordinary davaları görür", "B) Anayasaya aykırılıkları denetler", "C) Hükümeti atar", "D) Sadece idari kararları verir"], ans: 1 },
                 { q: "Yerel yönetimde 'merkeziyetçilik' (centralization) ile 'merkeziyetsizlik' (decentralization) arasındaki denge, kamu hizmeti sunumunu nasıl etkiler?<br><br>Merkeziyetsizliğin kamu hizmeti sunumundaki en önemli avantajı nedir?", opts: ["A) Daha az maliyet", "B) Yerel ihtiyaçlara daha hızlı yanıt", "C) Merkezi kontrolü artırır", "D) Standart kalite sağlar"], ans: 1 },
                 { q: "Medyanın demokratik süreçlerdeki rolünü analiz ederken, 'dördüncü kuvvet' (fourth estate) olgusu günümüzde nasıl bir anlam kazanmaktadır?<br><br>Günümüzde medyanın 'dördüncü kuvvet' olma sorunu nedir?", opts: ["A) Tamamen objektif bilgi sunması", "B) Siyasi partilerin kontrolü", "C) Teknolojinin getirdiği parçalanma", "D) Sadece eğlence işlevi görmesi"], ans: 2 },
-                { q: "Siyasi partilerde 'demokratik iç tartışma' (intra-party democracy) kavramı neden önemlidir?<br><br>Siyasi partilerde demokratik iç tartışmanın en kritik işlevi nedir?", opts: ["A) Lider seçimini sağlar", "B) Parti disiplinini güçlendirir", "C) Politikaların şekillenmesinde üyelerin katılımını sağlar", "D) Dışarıdan müdahaleyi engeller"], ans: 2 }
+                { q: "Siyasi partilerde 'demokratik iç tartışma' (intra-party democracy) kavramı neden önemlidir?<br><br>Siyasi partilerde demokratik iç tartışmanın en kritik işlevi nedir?", opts: ["A) Lider seçimini sağlar", "B) Parti disiplinini güçlendirir", "C) Politikaların şekillenmesinde üyelerin katılımını sağlar", "D) Dışarıdan müdahaleyi engeller"], ans: 2 },
+                { q: "Atatürk'ün 'Hayatta en hakiki mürşit ilimdir, fendir.' sözü, aşağıdaki Atatürk ilkelerinden hangisinin temelini oluşturur?", opts: ["A) Laiklik", "B) Devletçilik", "C) Cumhuriyetçilik", "D) Milliyetçilik"], ans: 0 },
+                { q: "Toplumda ayrıcalık belirten unvanların kaldırılması, kılık-kıyafet inkılabı ve Soyadı Kanunu'nun kabul edilmesi Atatürk'ün hangi ilkesiyle doğrudan ilişkilidir?", opts: ["A) İnkılapçılık", "B) Halkçılık", "C) Milliyetçilik", "D) Devletçilik"], ans: 1 },
+                { q: "Özel sektörün sermaye yetersizliği nedeniyle yapamadığı büyük yatırımların (demir çelik, dokuma fabrikaları vb.) devlet eliyle yapılmasını öngören ilke aşağıdakilerden hangisidir?", opts: ["A) Cumhuriyetçilik", "B) Laiklik", "C) Devletçilik", "D) İnkılapçılık"], ans: 2 }
             ],
             5: [
                 { q: "Küresel ekonomide 'tedarik zinciri' (supply chain) kavramı, ülkelerin ekonomik güvenliği üzerinde nasıl etki gösterir?<br><br>Tedarik zincirlerinin küresel ekonomi üzerindeki en hassas etkisi nedir?", opts: ["A) Sadece maliyetleri düşürür", "B) Tek bir ülken sorunları tüm sistemi etkileyebilir", "C) Sadece gelişmiş ülkeleri ilgilendirir", "D) Yerel ekonomileri güçlendirir"], ans: 1 },
@@ -1911,7 +2060,10 @@
                 { q: "Kripto paraların geleneksel finans sistemine etkilerini değerlendirirken, 'merkeziyetsiz finans' (decentralized finance) kavramı nasıl bir yenilik sunmaktadır?<br><br>Merkeziyetsiz finansın en temel yeniliği nedir?", opts: ["A) Sadece işlem hızını artırır", "B) Aracısız finansal işlemler sağlar", "C) Merkezi otorite kontrolünü güçlendirir", "D) Sadece yasal işlemler için kullanılır"], ans: 1 },
                 { q: "Sürdürülebilir kalkınmada 'çevresel, sosyal ve yönetişim' (ESG) kriterlerinin yatırım kararlarına etkisi nasıldır?<br><br>ESG kriterlerinin yatırım kararları üzerindeki en önemli etkisi nedir?", opts: ["A) Sadece yasal uyumu sağlar", "B) Uzun vadeli finansal performansı düşürür", "C) Risk yönetimini ve sürdürülebilirliği entegre eder", "D) Sadece büyük şirketler için geçerlidir"], ans: 2 },
                 { q: "Gelişmekte olan ülkelerde 'dış borçlanma' (external debt) sorununun sürdürülebilir kalkınma üzerindeki etkileri nelerdir?<br><br>Dış borçlanmanın sürdürülebilir kalkınma üzerindeki en tehlikeli uzun vadeli etkisi nedir?", opts: ["A) Ekonomik büyümeyi hızlandırır", "B) Ülkenin ekonomik bağımsızlığını zayıflatır", "C) Yabancı yatırımları teşvik eder", "D) Sosyal refahı artırır"], ans: 1 },
-                { q: "Teknoloji şirketlerinin piyasa hakimiyeti (monopoly) durumları, ekonomik rekabeti nasıl etkiler?<br><br>Teknoloji şirketlerinin piyasa hakimiyetinin en zararlı ekonomik sonucu nedir?", opts: ["A) İnovasyonu teşvik eder", "B) Tüketici fiyatlarını düşürür", "C) Rekabeti ve yeniliği engeller", "D) Piyasa verimliliğini artırır"], ans: 2 }
+                { q: "Teknoloji şirketlerinin piyasa hakimiyeti (monopoly) durumları, ekonomik rekabeti nasıl etkiler?<br><br>Teknoloji şirketlerinin piyasa hakimiyetinin en zararlı ekonomik sonucu nedir?", opts: ["A) İnovasyonu teşvik eder", "B) Tüketici fiyatlarını düşürür", "C) Rekabeti ve yeniliği engeller", "D) Piyasa verimliliğini artırır"], ans: 2 },
+                { q: "Cumhuriyetin ilk yıllarında çok partili hayata geçiş denemelerinin yapılmasının temel amacı aşağıdakilerden hangisidir?", opts: ["A) Saltanatı geri getirmek", "B) Hükümetin meclis tarafından denetlenmesini sağlamak ve demokrasiyi güçlendirmek", "C) Yeni savaşlara hazırlanmak", "D) Ekonomiyi dışa bağımlı hale getirmek"], ans: 1 },
+                { q: "Serbest Cumhuriyet Fırkası ve Terakkiperver Cumhuriyet Fırkası'nın kapatılması aşağıdakilerden hangisinin göstergesidir?", opts: ["A) Demokrasinin tamamen yerleştiğinin", "B) Toplumun henüz çok partili hayata hazır olmadığının", "C) Mustafa Kemal'in tek adam olmak istediğinin", "D) Ekonomik krizin sona erdiğinin"], ans: 1 },
+                { q: "Türkiye'nin dış politikada belirlediği 'Yurtta barış, dünyada barış' ilkesi aşağıdakilerden hangisine öncelik verildiğini gösterir?", opts: ["A) Sınırların savaş yoluyla genişletilmesine", "B) Uluslararası sorunların barışçıl diplomasi ile çözülmesine", "C) Sadece yerel sorunlarla ilgilenilmesine", "D) Diğer ülkelerin iç işlerine karışılmasına"], ans: 1 }
             ],
             6: [
                 { q: "Yapay zeka etiği alanında 'algoritma önyargısı' (algorithmic bias) kavramı, toplumsal eşitlik açısından nasıl bir risk oluşturur?<br><br>Algoritma önyargısının toplumsal eşitlik üzerindeki en tehlikeli etkisi nedir?", opts: ["A) Sadece teknik hatalara yol açar", "B) Mevcut toplumsal eşitsizlikleri pekiştirir ve otomatikleştirir", "C) Her zaman objektiftir", "D) Sadece performansı etkiler"], ans: 1 },
@@ -1953,7 +2105,10 @@
                 { q: "Öğrencinin okula zamanında gelmesi hangi kavramla ilgilidir?<br><br>I. Sorumluluk<br>II. Hak<br>III. Ayrıcalık<br><br>Bu durum dikkate alındığında, yukarıdaki ifadelerden hangisi veya hangileri doğrudur?", opts: ["A) I, II ve III", "B) I ve II", "C) Yalnız I", "D) II ve III"], ans: 2 },
                 { q: "Bir toplulukta insanların birbirinin haklarına saygı göstermesine ne denir?<br><br>I. Rekabet<br>II. Ön yargı<br>III. Birlikte yaşama kültürü<br><br> yukarıdaki ifadelerden hangisi veya hangileri doğrudur?", opts: ["A) I, II ve III", "B) Yalnız III", "C) II ve III", "D) I ve II"], ans: 1 },
                 { q: "Aşağıdakilerden hangisi bir grubun özelliği değildir?", opts: ["A) Bireysel hareket etme", "B) Bir araya gelme", "C) Ortak amaç", "D) Etkileşim"], ans: 0 },
-                { q: "Toplumsal sorunların çözümünde hangisi daha olumlu sonuç verir?", opts: ["A) Uzlaşma ve iletişim", "B) Çatışma ve baskı", "C) Görmezden gelme", "D) Ön yargı"], ans: 0 }
+                { q: "Toplumsal sorunların çözümünde hangisi daha olumlu sonuç verir?", opts: ["A) Uzlaşma ve iletişim", "B) Çatışma ve baskı", "C) Görmezden gelme", "D) Ön yargı"], ans: 0 },
+                { q: "Aşağıdakilerden hangisi çocukların temel haklarından biridir?", opts: ["A) Ehliyet almak", "B) Askere gitmek", "C) Vergi vermek", "D) Oyun oynamak"], ans: 3 },
+                { q: "Farklı kültürlerin bir arada barış içinde yaşamasının temel şartı nedir?", opts: ["A) Saygı ve hoşgörü", "B) Bencillik", "C) Rekabet", "D) Dışlama"], ans: 0 },
+                { q: "Yaş ilerledikçe rollerimizin değişimine ilişkin hangisi doğrudur?", opts: ["A) Roller azalır", "B) Sorumluluklar değişir ve artar", "C) Tüm haklar biter", "D) Aynı kalır"], ans: 1 }
             ],
             2: [
                 { q: "Bir yerin dağlara, denizlere, kıtalara göre konumuna ne denir?", opts: ["A) Özel Enlem", "B) Mutlak Konum", "C) Göreceli Konum", "D) Sadece matematik konum"], ans: 2 },
@@ -1981,7 +2136,10 @@
                 { q: "Aşağıdakilerden hangisi Türkiye'nin komşu ülkelerinden biri değildir?", opts: ["A) Irak", "B) Mısır", "C) Gürcistan", "D) Suriye"], ans: 1 },
                 { q: "İnsanlar tarafından yapılmış yapılar hangi unsur grubuna girer?<br><br>I. Ekonomik<br>II. Tabiat<br>III. Beşeri<br><br>Verilen bilgilere göre, yukarıdaki ifadelerden hangisi veya hangileri doğrudur?", opts: ["A) I, II ve III", "B) I ve II", "C) Yalnız III", "D) II ve III"], ans: 2 },
                 { q: "Denize kıyısı olan bölgelerin ılıman olmasının nedeni nedir?<br><br>I. Rüzgar<br>II. Denizin ılımanlaştırıcı etkisi<br>III. Toprak yapısı<br><br>Verilen bilgilere göre, yukarıdaki ifadelerden hangisi veya hangileri doğrudur?", opts: ["A) Yalnız II", "B) I ve II", "C) II ve III", "D) I, II ve III"], ans: 0 },
-                { q: "Bir bölgede yaşayan canlıların tamamına ne ad verilir?<br><br>I. Biyoçeşitlilik<br>II. Flora<br>III. Ekosistem<br><br>Bu durum dikkate alındığında, yukarıdaki ifadelerden hangisi veya hangileri doğrudur?", opts: ["A) I, II ve III", "B) Yalnız I", "C) I ve II", "D) II ve III"], ans: 1 }
+                { q: "Bir bölgede yaşayan canlıların tamamına ne ad verilir?<br><br>I. Biyoçeşitlilik<br>II. Flora<br>III. Ekosistem<br><br>Bu durum dikkate alındığında, yukarıdaki ifadelerden hangisi veya hangileri doğrudur?", opts: ["A) I, II ve III", "B) Yalnız I", "C) I ve II", "D) II ve III"], ans: 1 },
+                { q: "Bölgenin fiziki özelliklerini ve yeryüzü şekillerini gösteren haritalara ne ad verilir?", opts: ["A) Siyasi Harita", "B) Fiziki Harita", "C) Nüfus Haritası", "D) İklim Haritası"], ans: 1 },
+                { q: "Çevresine göre alçakta kalmış ve akarsular tarafından derin yarılmamış geniş düzlüklere ne ad verilir?", opts: ["A) Ova", "B) Tepe", "C) Vadi", "D) Plato"], ans: 0 },
+                { q: "Bitki örtüsü cılız olan, kurak ve yarı kurak bölgelerde esen rüzgârların şekillendirdiği yer şekillerine ne denir?", opts: ["A) Kumul", "B) Gölet", "C) Körfez", "D) Yarımada"], ans: 0 }
             ],
             3: [
                 { q: "Tarihte ilk yazıyı icat eden Mezopotamya uygarlığı hangisidir?<br><br>I. Sümerler<br>II. Asurlar<br>III. Hititler<br><br>Bu durum dikkate alındığında, yukarıdaki ifadelerden hangisi veya hangileri doğrudur?", opts: ["A) Yalnız I", "B) I ve II", "C) II ve III", "D) I, II ve III"], ans: 0 },
@@ -2009,7 +2167,10 @@
                 { q: "Göbeklitepe hangi açıdan dünya tarihinde önemlidir?<br><br>I. İlk alfabe<br>II. İlk para<br>III. Dünyanın en eski tapınağı<br><br>Verilen bilgilere göre, yukarıdaki ifadelerden hangisi veya hangileri doğrudur?", opts: ["A) I ve II", "B) I, II ve III", "C) II ve III", "D) Yalnız III"], ans: 3 },
                 { q: "İnsanlığın ortak mirasına bir tehdit olan davranış hangisidir?<br><br>I. Müze açmak<br>II. Kaçak kazı yapmak<br>III. Tarihi eserleri restore etmek<br><br> yukarıdaki ifadelerden hangisi veya hangileri doğrudur?", opts: ["A) I ve II", "B) I, II ve III", "C) II ve III", "D) Yalnız II"], ans: 3 },
                 { q: "Antik Yunan'da bilim ve felsefenin gelişme nedeni nedir?<br><br>I. Coğrafi keşifler<br>II. Savaşlar<br>III. Özgür düşünce ortamı<br><br>Verilen bilgilere göre, yukarıdaki ifadelerden hangisi veya hangileri doğrudur?", opts: ["A) I ve II", "B) II ve III", "C) I, II ve III", "D) Yalnız III"], ans: 3 },
-                { q: "Verilen açıklama dikkate alındığında, anadolu medeniyetlerinin ortak özelliği hangisidir?", opts: ["A) Kesinlikle çölde yaşama", "B) Göçebelik", "C) Ticaret yolları üzerinde olma", "D) Denizcilik"], ans: 2 }
+                { q: "Verilen açıklama dikkate alındığında, anadolu medeniyetlerinin ortak özelliği hangisidir?", opts: ["A) Kesinlikle çölde yaşama", "B) Göçebelik", "C) Ticaret yolları üzerinde olma", "D) Denizcilik"], ans: 2 },
+                { q: "Anadolu medeniyetlerinden biri olan Friglerin tarıma çok önem verdiği bilinmektedir. Buna göre Friglerin tarımı koruyan sert kanunlar yapması aşağıdakilerden hangisine kanıttır?", opts: ["A) Ekonominin tarıma dayalı olduğuna", "B) Göçebe bir hayat sürdüklerine", "C) Ticarette ileri olduklarına", "D) Denizcilikte ustalaştıklarına"], ans: 0 },
+                { q: "Tarihte ilk yazılı antlaşma olan Kadeş Antlaşması hangi devletler arasında imzalanmıştır?", opts: ["A) Hititler-Sümerler", "B) Akadlar-Lidyalılar", "C) Hititler-Mısırlılar", "D) Babiller-Mısırlılar"], ans: 2 },
+                { q: "Van başkent olmak üzere Doğu Anadolu'da kurulan, madencilik, su kanalları ve taş işçiliğinde usta olan medeniyet hangisidir?", opts: ["A) İyonlar", "B) Urartular", "C) Frigler", "D) Lidyalılar"], ans: 1 }
             ],
             4: [
                 { q: "Halkın kendisini yönetecek kişileri seçtiği yönetim şekline ne denir?<br><br>I. Cumhuriyet<br>II. Monarşi<br>III. Oligarşi<br><br>Bu durum dikkate alındığında, yukarıdaki ifadelerden hangisi veya hangileri doğrudur?", opts: ["A) II ve III", "B) I, II ve III", "C) I ve II", "D) Yalnız I"], ans: 3 },
@@ -2037,7 +2198,10 @@
                 { q: "Aşağıdakilerden hangisi görevdir, hak değildir?<br><br>I. Yaşam hakkı<br>II. Eğitim almak<br>III. Vergi ödemek<br><br>Yukarıdaki metinden hareketle, yukarıdaki ifadelerden hangisi veya hangileri doğrudur?", opts: ["A) I ve II", "B) II ve III", "C) I, II ve III", "D) Yalnız III"], ans: 3 },
                 { q: "Temel hakların sınırlandırılma nedeni ne olabilir?<br><br>I. Kamu düzeni<br>II. Kişisel istek<br>III. Ekonomik çıkar<br><br>Bu durum dikkate alındığında, yukarıdaki ifadelerden hangisi veya hangileri doğrudur?", opts: ["A) II ve III", "B) Yalnız I", "C) I ve II", "D) I, II ve III"], ans: 1 },
                 { q: "Çocukların zorla çalıştırılması durumunda hangi kuruluşa başvurulabilir?<br><br>I. Banka<br>II. Belediye<br>III. UNICEF<br><br>Verilen bilgilere göre, yukarıdaki ifadelerden hangisi veya hangileri doğrudur?", opts: ["A) I ve II", "B) I, II ve III", "C) II ve III", "D) Yalnız III"], ans: 3 },
-                { q: "Eğitim hakkının kapsamında olan hangisidir?<br><br>I. Araba kullanma<br>II. İş yapma<br>III. Zorunlu eğitim<br><br>Bu durum dikkate alındığında, yukarıdaki ifadelerden hangisi veya hangileri doğrudur?", opts: ["A) I, II ve III", "B) I ve II", "C) Yalnız III", "D) II ve III"], ans: 2 }
+                { q: "Eğitim hakkının kapsamında olan hangisidir?<br><br>I. Araba kullanma<br>II. İş yapma<br>III. Zorunlu eğitim<br><br>Bu durum dikkate alındığında, yukarıdaki ifadelerden hangisi veya hangileri doğrudur?", opts: ["A) I, II ve III", "B) I ve II", "C) Yalnız III", "D) II ve III"], ans: 2 },
+                { q: "Sivil Toplum Kuruluşlarından (STK) Kızılay'ın başlıca görev alanı hangisidir?", opts: ["A) Tarımı desteklemek", "B) Doğal afetlerde çadır ve kan yardımı yapmak", "C) Okul yapmak", "D) Sporcu yetiştirmek"], ans: 1 },
+                { q: "Aşağıdakilerden hangisi doğrudan devlete karşı anayasal vatandaşlık devleri (sorumlulukları) arasındadır?", opts: ["A) Sadece vergi ödemek", "B) Araba kullanmak", "C) Vergi vermek, askere gitmek, kanunlara uymak", "D) Ünlü olmak"], ans: 2 },
+                { q: "Ülkemizde 18 yaşını dolduran her vatandaşın elde ettiği anayasal hak aşağıdakilerden hangisidir?", opts: ["A) Barınma", "B) Sağlık", "C) Yaşama", "D) Seçme ve seçilme (oy kullanma)"], ans: 3 }
             ],
             5: [
                 { q: "İnsanların ihtiyaçlarını karşılamak için yaptıkları faaliyetlere ne ad verilir?<br><br>I. İletişim<br>II. Ekonomik Faaliyet<br>III. Tüketim<br><br>Bu durum dikkate alındığında, yukarıdaki ifadelerden hangisi veya hangileri doğrudur?", opts: ["A) Yalnız II", "B) II ve III", "C) I, II ve III", "D) I ve II"], ans: 0 },
@@ -2065,7 +2229,10 @@
                 { q: "Hizmet sektörünün payı arttıkça ülke nasıl kabul edilir?", opts: ["A) Sadece az gelişmiş", "B) Sadece tarım ülkesi", "C) Gelişmiş", "D) Geri kalmış"], ans: 2 },
                 { q: "Bölgelerin ekonomik faaliyetlerini etkileyen temel faktör nedir?<br><br>I. Kültür<br>II. Tarih<br>III. Coğrafi koşullar<br><br>Yukarıdaki metinden hareketle, yukarıdaki ifadelerden hangisi veya hangileri doğrudur?", opts: ["A) II ve III", "B) I ve II", "C) I, II ve III", "D) Yalnız III"], ans: 3 },
                 { q: "Bir malın üretildiği yerden tüketiciye ulaştırılmasına ne denir?<br><br>I. Üretim<br>II. Dağıtım<br>III. Tüketim<br><br>Yukarıdaki metinden hareketle, yukarıdaki ifadelerden hangisi veya hangileri doğrudur?", opts: ["A) II ve III", "B) I ve II", "C) Yalnız II", "D) I, II ve III"], ans: 2 },
-                { q: "Verilen açıklama dikkate alındığında, i̇nsanların temel ihtiyaçlarından biri olmayan hangisidir?", opts: ["A) Lüks tüketim", "B) Sadece giyinme", "C) Her zaman barınma", "D) Beslenme"], ans: 0 }
+                { q: "Verilen açıklama dikkate alındığında, i̇nsanların temel ihtiyaçlarından biri olmayan hangisidir?", opts: ["A) Lüks tüketim", "B) Sadece giyinme", "C) Her zaman barınma", "D) Beslenme"], ans: 0 },
+                { q: "Eriyen karların veya şiddetli yağmurların etkisiyle toprağın hızla akıp gitmesine veya taşınmasına (Erozyon) karşı alınacak en etkili önlem nedir?", opts: ["A) Arazileri betonlaştırmak", "B) Teraslama yapmak ve ağaçlandırmak", "C) Akarsuları kurutmak", "D) Nüfusu azaltmak"], ans: 1 },
+                { q: "Dağlık, engebeli ve kışları sert geçen Doğu Anadolu Bölgesinde yaygın olarak yapılan ekonomik faaliyet nedir?", opts: ["A) Turizm", "B) Büyükbaş Hayvancılık", "C) Sanayi", "D) Denizcilik"], ans: 1 },
+                { q: "Ekonomik faaliyetler ile coğrafi özellikler arasında bağ vardır. Buna göre, seracılık faaliyetlerinin en çok yapıldığı ve kışların ılık geçtiği bölge hangisidir?", opts: ["A) Akdeniz", "B) İç Anadolu", "C) Marmara", "D) Karadeniz"], ans: 0 }
             ],
             6: [
                 { q: "Medya okuryazarlığı ne demektir?<br><br>I. Siber Suç<br>II. Dijital Kimlik<br>III. Medya Okuryazarlığı<br><br> yukarıdaki ifadelerden hangisi veya hangileri doğrudur?", opts: ["A) Yalnız III", "B) II ve III", "C) I ve II", "D) I, II ve III"], ans: 0 },
@@ -2125,7 +2292,10 @@
                 { q: "Propaganda ne demektir?", opts: ["A) Kesinlikle eğitim faaliyeti", "B) Tarafsız haber", "C) Bilimsel araştırma", "D) Bir fikri yaymak için yapılan bilinçli çaba"], ans: 3 },
                 { q: "İletişimde saygı göstermenin en önemli yolu hangisidir?", opts: ["A) Yalnızca bağırmak", "B) Görmezden gelmek", "C) Dinlemek", "D) Eleştirmek"], ans: 2 },
                 { q: "Sosyal medyada kişisel bilgi paylaşmanın riski nedir?<br><br>I. Kimlik hırsızlığı<br>II. Arkadaş edinmek<br>III. Daha popüler olmak<br><br> yukarıdaki ifadelerden hangisi veya hangileri doğrudur?", opts: ["A) II ve III", "B) I ve II", "C) I, II ve III", "D) Yalnız I"], ans: 3 },
-                { q: "Haberlerin tek bir kaynaktan alınmasının sakıncası nedir?<br><br>I. Daha hızlı öğrenmek<br>II. Tek taraflı bilgilenmek<br>III. Daha doğru bilgi<br><br>Bu durum dikkate alındığında, yukarıdaki ifadelerden hangisi veya hangileri doğrudur?", opts: ["A) I ve II", "B) I, II ve III", "C) Yalnız II", "D) II ve III"], ans: 2 }
+                { q: "Haberlerin tek bir kaynaktan alınmasının sakıncası nedir?<br><br>I. Daha hızlı öğrenmek<br>II. Tek taraflı bilgilenmek<br>III. Daha doğru bilgi<br><br>Bu durum dikkate alındığında, yukarıdaki ifadelerden hangisi veya hangileri doğrudur?", opts: ["A) I ve II", "B) I, II ve III", "C) Yalnız II", "D) II ve III"], ans: 2 },
+                { q: "Aşağıdakilerden hangisi iletişimi olumlu etkileyen tutumlardan biridir?", opts: ["A) Alay etmek", "B) Emir vermek", "C) Etkili dinlemek", "D) Söz kesmek"], ans: 2 },
+                { q: "Kişinin kendi duygularını ve düşüncelerini karşı tarafı suçlamadan ifade etmesine ne denir?", opts: ["A) Sen dili", "B) Beden dili", "C) Ben dili", "D) Empati"], ans: 2 },
+                { q: "Kitle iletişim araçlarının hukuka aykırı yayın yapmasına engel olmak için getirilen yayın kısıtlamasına ne denir?", opts: ["A) Tekzip", "B) Sansür", "C) RTÜK kararı", "D) Kamuoyu açıklaması"], ans: 1 }
             ],
             2: [
                 { q: "1299 yılında kurulan devlete adını veren yönetici kimdir?<br><br>I. Fatih Sultan Mehmet<br>II. Ertuğrul Gazi<br>III. Osman Bey<br><br> yukarıdaki ifadelerden hangisi veya hangileri doğrudur?", opts: ["A) II ve III", "B) I, II ve III", "C) I ve II", "D) Yalnız III"], ans: 3 },
@@ -2153,7 +2323,10 @@
                 { q: "Lale Devri hangi alanda gelişmelerin yaşandığı dönemdir?<br><br>I. Dini<br>II. Siyasi<br>III. Kültürel ve sanatsal<br><br> yukarıdaki ifadelerden hangisi veya hangileri doğrudur?", opts: ["A) II ve III", "B) I, II ve III", "C) I ve II", "D) Yalnız III"], ans: 3 },
                 { q: "Osmanlı'da ilk matbaa hangi dönemde kurulmuştur?<br><br>I. Tanzimat<br>II. Kuruluş<br>III. Lale Devri<br><br>Yukarıdaki metinden hareketle, yukarıdaki ifadelerden hangisi veya hangileri doğrudur?", opts: ["A) Yalnız III", "B) II ve III", "C) I, II ve III", "D) I ve II"], ans: 0 },
                 { q: "Tanzimat Fermanı hangi yıl ilan edilmiştir?<br><br>I. 1908<br>II. 1876<br>III. 1839<br><br>Bu durum dikkate alındığında, yukarıdaki ifadelerden hangisi veya hangileri doğrudur?", opts: ["A) I ve II", "B) I, II ve III", "C) II ve III", "D) Yalnız III"], ans: 3 },
-                { q: "Aydınlanma Çağı'nın temel düşüncesi nedir?", opts: ["A) Din merkezli düşünce", "B) Savaş yoluyla ilerleme", "C) Geleneklere bağlılık", "D) Akıl ve bilim merkezli düşünce"], ans: 3 }
+                { q: "Aydınlanma Çağı'nın temel düşüncesi nedir?", opts: ["A) Din merkezli düşünce", "B) Savaş yoluyla ilerleme", "C) Geleneklere bağlılık", "D) Akıl ve bilim merkezli düşünce"], ans: 3 },
+                { q: "Osmanlı Devleti'nin Rumeli'ye geçişini kolaylaştıran ve Avrupa'da ilerlemesine zemin hazırlayan ilk toprak parçası hangisidir?", opts: ["A) Edirne", "B) Çimpe Kalesi", "C) Gelibolu", "D) İstanbul"], ans: 1 },
+                { q: "Osmanlı Devleti'nde fethedilen yerlerdeki gayrimüslim halka adaletli ve hoşgörülü davranılması politikasına ne ad verilir?", opts: ["A) Tımar", "B) İskan", "C) İstimalet", "D) Devşirme"], ans: 2 },
+                { q: "Karadeniz'in bir Türk gölü haline gelmesini sağlayan ve Fatih Sultan Mehmet döneminde fethedilen yer neresidir?", opts: ["A) Kırım", "B) Kıbrıs", "C) Girit", "D) Rodos"], ans: 0 }
             ],
             3: [
                 { q: "İnsanların başka bir yere gitmesine ne denir?<br><br>I. Turizm<br>II. Nüfus<br>III. Göç<br><br>Bu durum dikkate alındığında, yukarıdaki ifadelerden hangisi veya hangileri doğrudur?", opts: ["A) I, II ve III", "B) II ve III", "C) Yalnız III", "D) I ve II"], ans: 2 },
@@ -2181,7 +2354,10 @@
                 { q: "Doğal afetler neye neden olabilir?<br><br>I. İç ticaretin artmasına<br>II. Zorunlu göçe<br>III. Nüfus artışına<br><br>Bu durum dikkate alındığında, yukarıdaki ifadelerden hangisi veya hangileri doğrudur?", opts: ["A) II ve III", "B) Yalnız II", "C) I ve II", "D) I, II ve III"], ans: 1 },
                 { q: "Geçmişte insanlar neden su kaynaklarına yakın yerleşmişlerdir?", opts: ["A) İçme suyu ve tarım", "B) Sadece ulaşım", "C) Tamamen güvenlik", "D) Her zaman eğlence"], ans: 0 },
                 { q: "Yaylacılık ne tür bir yerleşim biçimidir?", opts: ["A) Sanayi", "B) Sadece kalıcı", "C) Kentsel", "D) Geçici (mevsimlik)"], ans: 3 },
-                { q: "Savaştan kaçan kişiler hangi tür göç yapar?<br><br>I. Mevsimlik göç<br>II. Gönüllü göç<br>III. Zorunlu dış göç<br><br> yukarıdaki ifadelerden hangisi veya hangileri doğrudur?", opts: ["A) II ve III", "B) I, II ve III", "C) Yalnız III", "D) I ve II"], ans: 2 }
+                { q: "Savaştan kaçan kişiler hangi tür göç yapar?<br><br>I. Mevsimlik göç<br>II. Gönüllü göç<br>III. Zorunlu dış göç<br><br> yukarıdaki ifadelerden hangisi veya hangileri doğrudur?", opts: ["A) II ve III", "B) I, II ve III", "C) Yalnız III", "D) I ve II"], ans: 2 },
+                { q: "Bir ülkede nüfus sayımı yapılarak aşağıdakilerden hangisi hakkında bilgi edinilemez?", opts: ["A) Nüfusun cinsiyet durumu", "B) Eğitim durumu", "C) İnsanların dini inançları", "D) Çalışan nüfusun sektörlere dağılışı"], ans: 2 },
+                { q: "Eğitim görmüş, yetenekli ve uzman kişilerin araştırma yapmak veya daha iyi şartlarda çalışmak için başka ülkelere göç etmesine ne denir?", opts: ["A) Beyin göçü", "B) İşçi göçü", "C) Mübadele göçü", "D) Mülteci göçü"], ans: 0 },
+                { q: "Özellikle gelişmekte olan ülkelerde çocuk nüfus oranı giderek azalıyorsa bu durum aşağıdakilerden hangisinin göstergesidir?", opts: ["A) Nüfus artış hızının düştüğünün", "B) Nüfus yoğunluğunun arttığının", "C) Yaşlı nüfusun azaldığının", "D) Dış göç yaşandığının"], ans: 0 }
             ],
             4: [
                 { q: "Çivi yazısını icat eden medeniyet kimdir?", opts: ["A) Sümerler", "B) Fenikeliler", "C) Hititler", "D) Mısırlılar"], ans: 0 },
@@ -2209,7 +2385,10 @@
                 { q: "Buhar makinesini geliştiren kişi kimdir?", opts: ["A) Newton", "B) Galileo", "C) James Watt", "D) Edison"], ans: 2 },
                 { q: "Wright Kardeşler hangi icatlarıyla tanınır?", opts: ["A) Uçak", "B) Gemi", "C) Otomobil", "D) Tren"], ans: 0 },
                 { q: "Nikola Tesla hangi alanda çalışmıştır?<br><br>I. Tıp<br>II. Elektrik ve enerji<br>III. Denizcilik<br><br>Yukarıdaki metinden hareketle, yukarıdaki ifadelerden hangisi veya hangileri doğrudur?", opts: ["A) Yalnız II", "B) I ve II", "C) I, II ve III", "D) II ve III"], ans: 0 },
-                { q: "Bilimsel bilginin en önemli özelliği nedir?", opts: ["A) Değişmez olması", "B) Test edilebilir ve sorgulanabilir olması", "C) Sadece uzmanların anlaması", "D) Gizli olması"], ans: 1 }
+                { q: "Bilimsel bilginin en önemli özelliği nedir?", opts: ["A) Değişmez olması", "B) Test edilebilir ve sorgulanabilir olması", "C) Sadece uzmanların anlaması", "D) Gizli olması"], ans: 1 },
+                { q: "Galileo'nun çalışmaları yüzünden Engizisyon Mahkemesinde yargılanması, engellenen hakkın aşağıdakilerden hangisi olduğunu gösterir?", opts: ["A) Mülkiyet hakkı", "B) Eğitim hakkı", "C) Düşünce ve bilim özgürlüğü", "D) Katılım hakkı"], ans: 2 },
+                { q: "Eski çağlarda Mısır'da Nil Nehri'nin taşma zamanlarını hesaplamak ve tarlaların sınırlarını yeniden çizmek amacıyla hangi bilim dalları gelişmiştir?", opts: ["A) Tıp ve Eczacılık", "B) Coğrafya ve Tarih", "C) Astronomi ve Geometri", "D) Felsefe ve Sosyoloji"], ans: 2 },
+                { q: "İbni Sina'nın tıp alanındaki meşhur eseri olan ve Avrupa'da yüzyıllarca okutulan kitabın adı nedir?", opts: ["A) El Kanun Fi't Tıb", "B) Kitabül Bahriye", "C) Seyahatname", "D) Mukaddime"], ans: 0 }
             ],
             5: [
                 { q: "Vakıf ne tür bir kurumdur?<br><br>I. Banka<br>II. Lonca<br>III. Vakıf<br><br>Verilen bilgilere göre, yukarıdaki ifadelerden hangisi veya hangileri doğrudur?", opts: ["A) I ve II", "B) Yalnız III", "C) I, II ve III", "D) II ve III"], ans: 1 },
@@ -2237,7 +2416,10 @@
                 { q: "Sürdürülebilir kalkınma ne demektir?<br><br>I. Gelecek nesillerin ihtiyaçlarını da düşünerek kalkınma<br>II. Sadece bugünü düşünme<br>III. Hızlı tüketim<br><br>Verilen bilgilere göre, yukarıdaki ifadelerden hangisi veya hangileri doğrudur?", opts: ["A) II ve III", "B) I ve II", "C) Yalnız I", "D) I, II ve III"], ans: 2 },
                 { q: "Rekabet ne demektir?<br><br>I. Yardımlaşma<br>II. Aynı alanda yarışma<br>III. Dayanışma<br><br> yukarıdaki ifadelerden hangisi veya hangileri doğrudur?", opts: ["A) I, II ve III", "B) Yalnız II", "C) I ve II", "D) II ve III"], ans: 1 },
                 { q: "KDV ne demektir?", opts: ["A) Katma Değer Vergisi", "B) Kent Destek Vergisi", "C) Kırsal Destek Vergisi", "D) Kamu Denetim Vergisi"], ans: 0 },
-                { q: "Tasarruf yapmanın bireysel faydası nedir?<br><br>I. Borçlanma<br>II. Gelecek için güvence<br>III. Daha çok harcama<br><br>Bu durum dikkate alındığında, yukarıdaki ifadelerden hangisi veya hangileri doğrudur?", opts: ["A) I ve II", "B) II ve III", "C) Yalnız II", "D) I, II ve III"], ans: 2 }
+                { q: "Tasarruf yapmanın bireysel faydası nedir?<br><br>I. Borçlanma<br>II. Gelecek için güvence<br>III. Daha çok harcama<br><br>Bu durum dikkate alındığında, yukarıdaki ifadelerden hangisi veya hangileri doğrudur?", opts: ["A) I ve II", "B) II ve III", "C) Yalnız II", "D) I, II ve III"], ans: 2 },
+                { q: "Osmanlı Devleti'nde bir kimsenin mülkiyetindeki malını ve gelirini hayır işlerine teşvik ederek kamu yararına tahsis etmesine ne denir?", opts: ["A) Tımar Sistemi", "B) Vakıf Sistemi", "C) Devşirme Sistemi", "D) Lonca Teşkilatı"], ans: 1 },
+                { q: "Ahi Teşkilatı içerisinde yer alan esnaflar arasında haksız rekabeti önlemek için aşağıdakilerden hangisi yapılırdı?", opts: ["A) Kalite ve fiyat kontrolü yapılırdı", "B) İsteyen istediği fiyata mal satardı", "C) Üretimde sınırlama olmazdı", "D) Sadece yerli malı üretilirdi"], ans: 0 },
+                { q: "Toprağın devlete ait olduğu, kullanım hakkının ise devlete hizmet eden asker ve memurlara verildiği ekonomik sistem aşağıdakilerden hangisidir?", opts: ["A) İltizam Sistemi", "B) Tımar Sistemi", "C) Ahilik Teşkilatı", "D) Kapıkulu Sistemi"], ans: 1 }
             ],
             6: [
                 { q: "Halkın yöneticileri seçimlerle belirlemesine ne denir?<br><br>I. Demokrasi<br>II. Monarşi<br>III. Teokrasi<br><br>Bu durum dikkate alındığında, yukarıdaki ifadelerden hangisi veya hangileri doğrudur?", opts: ["A) Yalnız I", "B) I, II ve III", "C) I ve II", "D) II ve III"], ans: 0 },
@@ -2312,7 +2494,10 @@
                 { q: "Aşağıdakilerden hangisi bireysel haktır?<br><br>I. Askerlik<br>II. Oy kullanmak<br>III. Yaşam hakkı<br><br>Yukarıdaki metinden hareketle, yukarıdaki ifadelerden hangisi veya hangileri doğrudur?", opts: ["A) II ve III", "B) I ve II", "C) Yalnız III", "D) I, II ve III"], ans: 2 },
                 { q: "Toplumsal normlar ne demektir?<br><br>I. Yasalar<br>II. Bilimsel kurallar<br>III. Toplumun kabul ettiği davranış kalıpları<br><br>Yukarıdaki metinden hareketle, yukarıdaki ifadelerden hangisi veya hangileri doğrudur?", opts: ["A) II ve III", "B) I ve II", "C) Yalnız III", "D) I, II ve III"], ans: 2 },
                 { q: "Empati kurabilmenin ön koşulu nedir?<br><br>I. Karşıdakini dinleme<br>II. Güç<br>III. Rekabet<br><br>Yukarıdaki metinden hareketle, yukarıdaki ifadelerden hangisi veya hangileri doğrudur?", opts: ["A) Yalnız I", "B) II ve III", "C) I, II ve III", "D) I ve II"], ans: 0 },
-                { q: "Toplumsal cinsiyet rolleri nereden kaynaklanır?", opts: ["A) Toplumsal beklentiler", "B) Biyoloji", "C) Yasalar", "D) Doğa"], ans: 0 }
+                { q: "Toplumsal cinsiyet rolleri nereden kaynaklanır?", opts: ["A) Toplumsal beklentiler", "B) Biyoloji", "C) Yasalar", "D) Doğa"], ans: 0 },
+                { q: "Sosyalleşme süreci bireye ne kazandırır?", opts: ["A) Yalnız yaşama becerisi", "B) Bencillik", "C) Topluma uyum sağlama ve kimlik edinme", "D) Sadece akademik başarı"], ans: 2 },
+                { q: "Bir kimse veya olayla ilgili yeterli bilgi edinmeden, önceden peşin bir karara varma durumuna ne denir?", opts: ["A) Sempati", "B) Ön yargı", "C) Hoşgörü", "D) Dayanışma"], ans: 1 },
+                { q: "Toplumun yardıma muhtaç kesimlerine karşılıksız destek olan sivil toplum kuruluşlarının (STK) temel çalışma ilkesi nedir?", opts: ["A) Gönüllülük", "B) Kar elde etme", "C) Devlet zoru", "D) Rekabet"], ans: 0 }
             ],
             2: [
                 { q: "Türkiye'nin Ekvator'a ve Greenwich'e göre konumuna ne ad verilir?<br><br>I. Jeopolitik Konum<br>II. Özel Konum<br>III. Matematik Konum<br><br>Yukarıdaki metinden hareketle, yukarıdaki ifadelerden hangisi veya hangileri doğrudur?", opts: ["A) I, II ve III", "B) Yalnız III", "C) II ve III", "D) I ve II"], ans: 1 },
@@ -2340,7 +2525,10 @@
                 { q: "Tsunami hangi doğal afet türüdür?", opts: ["A) Meteorolojik", "B) Biyolojik", "C) Teknolojik", "D) Jeolojik"], ans: 3 },
                 { q: "Deprem kuşağında olan Türkiye hangi fay hattı üzerindedir?", opts: ["A) Yalnızca pasifik fayı", "B) Kuzey Anadolu Fay Hattı", "C) Atlas Fayı", "D) Tamamen san andreas"], ans: 1 },
                 { q: "Orhun Yazıtları Türk kültürü açısından neden önemlidir?", opts: ["A) İlk harita", "B) İlk anayasa", "C) İlk yazılı Türkçe metinler", "D) İlk alfabe"], ans: 2 },
-                { q: "Türkiye'nin iklim çeşitliliğinin nedeni nedir?<br><br>I. Küçük olması<br>II. Tek iklim tipi<br>III. Yer şekilleri ve denize yakınlık<br><br>Bu durum dikkate alındığında, yukarıdaki ifadelerden hangisi veya hangileri doğrudur?", opts: ["A) I ve II", "B) I, II ve III", "C) Yalnız III", "D) II ve III"], ans: 2 }
+                { q: "Türkiye'nin iklim çeşitliliğinin nedeni nedir?<br><br>I. Küçük olması<br>II. Tek iklim tipi<br>III. Yer şekilleri ve denize yakınlık<br><br>Bu durum dikkate alındığında, yukarıdaki ifadelerden hangisi veya hangileri doğrudur?", opts: ["A) I ve II", "B) I, II ve III", "C) Yalnız III", "D) II ve III"], ans: 2 },
+                { q: "Türkiye'de dağların güney yamaçlarının kuzey yamaçlarına göre daha sıcak olması aşağıdakilerden hangisiyle açıklanır?", opts: ["A) Bakı etkisi", "B) Rüzgar", "C) Denizellik", "D) Okyanus akıntıları"], ans: 0 },
+                { q: "Türkiye'nin matematik (mutlak) konumu aşağıdakilerden hangisidir?", opts: ["A) 26-45 Kuzey Enlemleri, 36-42 Doğu Boylamları", "B) 36-42 Kuzey Enlemleri, 26-45 Doğu Boylamları", "C) 10-20 Kuzey Enlemleri", "D) 40-50 Doğu Boylamları"], ans: 1 },
+                { q: "Aşağıdakilerden hangisi Asya ve Avrupa kıtaları arasında bir köprü görevi görmemizin doğrudan bir sonucudur?", opts: ["A) İklim çeşitliliği", "B) Petrol üreten ülkelere komşu olmak", "C) Tarih boyunca önemli ticaret yollarının yurdumuzdan geçmesi", "D) Üç tarafımızın denizlerle çevrili olması"], ans: 2 }
             ],
             3: [
                 { q: "Çin'den Avrupa'ya uzanan tarihi ticaret yolunun adı nedir?<br><br>I. Baharat Yolu<br>II. İpek Yolu<br>III. Kral Yolu<br><br>Bu durum dikkate alındığında, yukarıdaki ifadelerden hangisi veya hangileri doğrudur?", opts: ["A) Yalnız II", "B) I ve II", "C) I, II ve III", "D) II ve III"], ans: 0 },
@@ -2368,7 +2556,10 @@
                 { q: "Göktürk alfabesi kaç harften oluşur?<br><br>I. 38<br>II. 44<br>III. 22<br><br>Verilen bilgilere göre, yukarıdaki ifadelerden hangisi veya hangileri doğrudur?", opts: ["A) II ve III", "B) Yalnız I", "C) I ve II", "D) I, II ve III"], ans: 1 },
                 { q: "Türk-İslam medeniyetinde ilk hastane hangi isimle bilinir?", opts: ["A) Cami", "B) Medrese", "C) Darüşşifa", "D) Kütüphane"], ans: 2 },
                 { q: "Kutadgu Bilig kimin eseridir?", opts: ["A) Yusuf Has Hacip", "B) Kaşgarlı Mahmut", "C) Ahmet Yesevi", "D) Biruni"], ans: 0 },
-                { q: "Divanü Lügati't-Türk kimin eseridir?<br><br>I. İbn-i Sina<br>II. Yusuf Has Hacip<br>III. Kaşgarlı Mahmut<br><br>Yukarıdaki metinden hareketle, yukarıdaki ifadelerden hangisi veya hangileri doğrudur?", opts: ["A) I, II ve III", "B) I ve II", "C) II ve III", "D) Yalnız III"], ans: 3 }
+                { q: "Divanü Lügati't-Türk kimin eseridir?<br><br>I. İbn-i Sina<br>II. Yusuf Has Hacip<br>III. Kaşgarlı Mahmut<br><br>Yukarıdaki metinden hareketle, yukarıdaki ifadelerden hangisi veya hangileri doğrudur?", opts: ["A) I, II ve III", "B) I ve II", "C) II ve III", "D) Yalnız III"], ans: 3 },
+                { q: "Tarihte Türk adıyla kurulan ilk devlet aşağıdakilerden hangisidir?", opts: ["A) Asya Hun Devleti", "B) Göktürkler", "C) Uygurlar", "D) Karahanlılar"], ans: 1 },
+                { q: "İslamiyet'i topluca kabul eden ilk Türk boyu aşağıdakilerden hangisidir?", opts: ["A) Karluklar", "B) Kıpçaklar", "C) Peçenekler", "D) Oğuzlar"], ans: 0 },
+                { q: "Sultan Alparslan komutasındaki Türk ordusunun 1071 yılında Bizans'ı yenerek Anadolu'nun kapılarını Türklere açtığı savaş hangisidir?", opts: ["A) Pasinler", "B) Kösedağ", "C) Miryokefalon", "D) Malazgirt"], ans: 3 }
             ],
             4: [
                 { q: "Cumhuriyet rejiminin temel özelliği hangisidir?<br><br>I. Monarşi<br>II. Teokrasi<br>III. Halkın egemenliği<br><br> yukarıdaki ifadelerden hangisi veya hangileri doğrudur?", opts: ["A) II ve III", "B) Yalnız III", "C) I ve II", "D) I, II ve III"], ans: 1 },
@@ -2396,7 +2587,10 @@
                 { q: "Verilen açıklama dikkate alındığında, türkiye'nin idari yapısında en küçük birim hangisidir?", opts: ["A) Köy/Mahalle", "B) Tamamen i̇lçe", "C) Her zaman i̇l", "D) Bölge"], ans: 0 },
                 { q: "Verilen açıklama dikkate alındığında, aşağıdakilerden hangisi atatürk ilkelerinden biridir?", opts: ["A) Cumhuriyetçilik", "B) Teokrasi", "C) Feodalizm", "D) Sadece monarşi"], ans: 0 },
                 { q: "Milliyetçilik ilkesi neyi savunur?", opts: ["A) Irkçılık", "B) Milli birlik ve beraberlik", "C) Kesinlikle sınıf ayrımı", "D) Her zaman dini ayrım"], ans: 1 },
-                { q: "İnkılapçılık ne demektir?<br><br>I. Eski düzeni koruma<br>II. Geleneklere bağlılık<br>III. Çağdaş değişim ve yenilik<br><br>Verilen bilgilere göre, yukarıdaki ifadelerden hangisi veya hangileri doğrudur?", opts: ["A) Yalnız III", "B) II ve III", "C) I ve II", "D) I, II ve III"], ans: 0 }
+                { q: "İnkılapçılık ne demektir?<br><br>I. Eski düzeni koruma<br>II. Geleneklere bağlılık<br>III. Çağdaş değişim ve yenilik<br><br>Verilen bilgilere göre, yukarıdaki ifadelerden hangisi veya hangileri doğrudur?", opts: ["A) Yalnız III", "B) II ve III", "C) I ve II", "D) I, II ve III"], ans: 0 },
+                { q: "Yasama yetkisinin TBMM'ye, yürütme yetkisinin Cumhurbaşkanı'na, yargının bağımsız mahkemelere ait olması hangi ilkedir?", opts: ["A) Güçler Birliği", "B) Monarşi", "C) Teokrasi", "D) Kuvvetler Ayrılığı"], ans: 3 },
+                { q: "Devletin vergi toplayarak okul, hastane, yol gibi hizmetler sunması hangi devlet anlayışının gereğidir?", opts: ["A) Sosyal Devlet", "B) Laik Devlet", "C) Polis Devleti", "D) Geleneksel Devlet"], ans: 0 },
+                { q: "Kanunların üstün tutulduğu, herkesin kanun önünde eşit olduğu devlet modeline ne ad verilir?", opts: ["A) Teokratik Devlet", "B) Otoriter Devlet", "C) Hukuk Devleti", "D) Sosyalist Devlet"], ans: 2 }
             ],
             5: [
                 { q: "Girişimci kimdir?<br><br>I. Tüketici<br>II. İşçi<br>III. Girişimci<br><br> yukarıdaki ifadelerden hangisi veya hangileri doğrudur?", opts: ["A) II ve III", "B) I ve II", "C) I, II ve III", "D) Yalnız III"], ans: 3 },
@@ -2424,7 +2618,10 @@
                 { q: "Planlı ekonomi ne demektir?<br><br>I. Serbest piyasa<br>II. Bireysel üretim<br>III. Devletin üretimi planlaması<br><br>Verilen bilgilere göre, yukarıdaki ifadelerden hangisi veya hangileri doğrudur?", opts: ["A) Yalnız III", "B) I ve II", "C) I, II ve III", "D) II ve III"], ans: 0 },
                 { q: "Tarım sektörünün GSMH'deki payı azalıyorsa bu ne anlama gelir?", opts: ["A) Tarım bitmektedir", "B) Sanayi ve hizmet sektörü büyümektedir", "C) İhracat azalmaktadır", "D) Ülke gerilemektedir"], ans: 1 },
                 { q: "Tüketici bilinçlenmesi neden önemlidir?<br><br>I. Haklarını bilmek ve korumak<br>II. Reklam izlemek<br>III. Daha fazla harcamak<br><br> yukarıdaki ifadelerden hangisi veya hangileri doğrudur?", opts: ["A) I ve II", "B) Yalnız I", "C) I, II ve III", "D) II ve III"], ans: 1 },
-                { q: "Ülkemizde bor madeni dünya üretimindeki payı ne kadardır?<br><br>I. %50<br>II. %10<br>III. %70<br><br>Yukarıdaki metinden hareketle, yukarıdaki ifadelerden hangisi veya hangileri doğrudur?", opts: ["A) I ve II", "B) I, II ve III", "C) II ve III", "D) Yalnız III"], ans: 3 }
+                { q: "Ülkemizde bor madeni dünya üretimindeki payı ne kadardır?<br><br>I. %50<br>II. %10<br>III. %70<br><br>Yukarıdaki metinden hareketle, yukarıdaki ifadelerden hangisi veya hangileri doğrudur?", opts: ["A) I ve II", "B) I, II ve III", "C) II ve III", "D) Yalnız III"], ans: 3 },
+                { q: "Girişimcinin meyve suyu fabrikası kurmak için, yıl boyunca portakal üretiminin çok olduğu bir bölgeyi tercih etmesi neye örnektir?", opts: ["A) Ulaşım kolaylığına", "B) Hammaddeye yakınlığa", "C) Turizm potansiyeline", "D) Eğitim imkanlarına"], ans: 1 },
+                { q: "Gelirlerimizin harcamalarımızdan fazla olmasına dikkat ederek para biriktirmeye (kaynakları idareli kullanmaya) genel olarak ne ad verilir?", opts: ["A) Tüketim", "B) Yatırım", "C) İsraf", "D) Tasarruf"], ans: 3 },
+                { q: "Türkiye ekonomisine döviz kazandırdığı için 'Bacasız Sanayi' olarak da adlandırılan hizmet sektörü aşağıdakilerden hangisidir?", opts: ["A) Turizm", "B) Ormancılık", "C) Madencilik", "D) Tarım"], ans: 0 }
             ],
             6: [
                 { q: "Telif hakkı ne demektir?<br><br>I. Bir eserin yaratıcısının hukuki hakları<br>II. Sertifika<br>III. Tasdik<br><br> yukarıdaki ifadelerden hangisi veya hangileri doğrudur?", opts: ["A) I, II ve III", "B) I ve II", "C) II ve III", "D) Yalnız I"], ans: 3 },
@@ -2500,7 +2697,25 @@
             { text: "E-Devlet üzerinden hızla işlemlerini hallettin!", val: 100 }
         ];
 
-        function handleSquare(pos, passedStart) {
+        // Disiplin Kurulu Events (Square 10)
+        const disiplinEvents = [
+            { text: "Koridorda çok hızlı koştuğun için 100 SBP ceza aldın.", val: -100 },
+            { text: "Öğretmenine karşı saygılı davrandığın için kurul seni affetti.", val: 0 },
+            { text: "Okul eşyalarına zarar verdiğin tespit edildi. 150 SBP ceza ödemelisin.", val: -150 },
+            { text: "Ödevlerini yapmadığın için 50 SBP ceza.", val: -50 },
+            { text: "Kütüphanede sesli konuşup başkalarını rahatsız ettin. 1 Doğa Dostu Rozeti silindi! (Eğer rozetin yoksa 100 SBP ceza)", val: 0, penaltyType: 'badge' }
+        ];
+
+        // Okul Bahçesi Events (Square 26)
+        const bahceEvents = [
+            { text: "Okul bahçesinde dolaşırken yerde 100 SBP buldun!", val: 100 },
+            { text: "Ağaç dikme etkinliğine katıldın. Harikasın! +1 Doğa Dostu Rozeti!", val: 0, rewardType: 'badge' },
+            { text: "Arkadaşlarınla basketbol maçı yaptın, çok eğlendin.", val: 0 },
+            { text: "Okul kermesinde kendi yaptığın bileklikleri sattın, kasanıza 200 SBP eklendi!", val: 200 },
+            { text: "Gönüllü çevre temizliği yaptın, okul müdürü seni 150 SBP ile ödüllendirdi.", val: 150 }
+        ];
+
+        async function handleSquare(pos, passedStart) {
             const sq = boardData[pos];
             const t = teams[currentTurn];
             let preamble = passedStart && pos !== 0 ? `<div style="color:#16a34a; font-size:2vmin; font-weight:800; margin-bottom:1vmin;">+ BAŞLANGIÇ MAAŞI (200 SBP) ALINDI!</div>` : '';
@@ -2533,8 +2748,40 @@
                     }, 100);
                 }
             } else if (sq.type === 'corner') {
-                showMsgModal(`${preamble}<h2>${sq.title}</h2><i class="fas ${sq.icon}" style="font-size:6vmin; margin:2vmin 0; color:#475569"></i><p>(Bu karede işlem yok)</p><button class="primary-btn" onclick="nextTurn()">Sırayı Sal</button>`);
-                if (pos === 0 && !passedStart) { t.sbp += 200; confetti(); updateActiveUI(); }
+                if (pos === 10) { // Disiplin Kurulu
+                    let event = disiplinEvents[Math.floor(Math.random() * disiplinEvents.length)];
+                    let clr = '#ef4444'; // Red
+                    if (event.penaltyType === 'badge') {
+                        if (t.badges > 0) {
+                            t.badges -= 1;
+                        } else {
+                            t.sbp -= 100;
+                            event.text += " (Rozetin olmadığı için SBP kesildi)";
+                        }
+                    } else {
+                        t.sbp += event.val;
+                    }
+                    if (event.val === 0 && event.penaltyType !== 'badge') clr = '#475569'; // Neutral color
+                    
+                    showMsgModal(`${preamble}<h2 style="color:${clr}"><i class="fas fa-gavel"></i> DİSİPLİN KURULU</h2><p style="font-size:2.5vmin; font-weight:700">"${event.text}"</p><button class="primary-btn" onclick="nextTurn()">Sırayı Sal</button>`);
+                    updateActiveUI();
+                } else if (pos === 26) { // Okul Bahçesi
+                    let event = bahceEvents[Math.floor(Math.random() * bahceEvents.length)];
+                    let clr = '#10b981'; // Green
+                    if (event.rewardType === 'badge') {
+                        t.badges += 1;
+                    } else {
+                        t.sbp += event.val;
+                    }
+                    if (event.val > 0 || event.rewardType === 'badge') confetti();
+                    if (event.val === 0 && event.rewardType !== 'badge') clr = '#475569'; // Neutral color
+                    
+                    showMsgModal(`${preamble}<h2 style="color:${clr}"><i class="fas fa-tree"></i> OKUL BAHÇESİ</h2><p style="font-size:2.5vmin; font-weight:700">"${event.text}"</p><button class="primary-btn" onclick="nextTurn()">Sırayı Sal</button>`);
+                    updateActiveUI();
+                } else {
+                    showMsgModal(`${preamble}<h2>${sq.title}</h2><i class="fas ${sq.icon}" style="font-size:6vmin; margin:2vmin 0; color:#475569"></i><p>(Bu karede işlem yok)</p><button class="primary-btn" onclick="nextTurn()">Sırayı Sal</button>`);
+                    if (pos === 0 && !passedStart) { t.sbp += 200; confetti(); updateActiveUI(); }
+                }
             } else if (sq.type === 'chance') {
                 let card = chances[Math.floor(Math.random() * chances.length)];
                 t.sbp += card.val;
@@ -2548,19 +2795,48 @@
                 // FLASH CARD EFFECTS
                 if (activeFlashEvent) {
                     if (activeFlashEvent.id === 'heyelan' && sq.unit === 3) {
-                        let ok = confirm("Flash Haber: İpek Yolu Heyelanı! Turuncu karedesiniz. Zarar bedeli olarak 200 SBP ödemek zorundasınız. Onaylıyor musunuz? (İptal ederseniz -200 SBP zorla kesilir.)");
+                        await Swal.fire({
+                            title: 'Flash Haber: İpek Yolu Heyelanı!',
+                            text: 'Turuncu karedesiniz. Zarar bedeli olarak 200 SBP ödemek zorundasınız. Onaylıyor musunuz? (İptal ederseniz -200 SBP zorla kesilir.)',
+                            icon: 'warning',
+                            showCancelButton: true,
+                            confirmButtonText: 'Evet, Öde',
+                            cancelButtonText: 'İptal',
+                            confirmButtonColor: '#ca8a04',
+                            cancelButtonColor: '#ef4444'
+                        });
                         t.sbp -= 200;
                     } else if (activeFlashEvent.id === 'kriz' && sq.unit === 5) {
-                        alert("Flash Haber Çarpması: Ekonomik dalgalanma! Sarı kareye bastığınız için 100 SBP ceza ödediniz.");
+                        await Swal.fire({
+                            title: 'Flash Haber Çarpması!',
+                            text: 'Ekonomik dalgalanma! Sarı kareye bastığınız için 100 SBP ceza ödediniz.',
+                            icon: 'error',
+                            confirmButtonColor: '#b91c1c'
+                        });
                         t.sbp -= 100;
                     } else if (activeFlashEvent.id === 'bilim' && sq.unit === 6) {
-                        alert("Flash Haber Bonusu: Bilim Şenliği! Mor kareye bastığınız için +150 SBP kazandınız.");
+                        await Swal.fire({
+                            title: 'Flash Haber Bonusu!',
+                            text: 'Bilim Şenliği! Mor kareye bastığınız için +150 SBP kazandınız.',
+                            icon: 'success',
+                            confirmButtonColor: '#6d28d9'
+                        });
                         t.sbp += 150;
                     } else if (activeFlashEvent.id === 'iklim' && sq.unit === 2) {
-                        alert("Flash Haber Bonusu: İklim Zirvesi! Yeşil kareye bastığınız için fazladan +1 Doğa Dostu Rozeti kazandınız.");
+                        await Swal.fire({
+                            title: 'Flash Haber Bonusu!',
+                            text: 'İklim Zirvesi! Yeşil kareye bastığınız için fazladan +1 Doğa Dostu Rozeti kazandınız.',
+                            icon: 'success',
+                            confirmButtonColor: '#15803d'
+                        });
                         t.badges += 1;
                     } else if (activeFlashEvent.id === 'baris' && sq.unit === 4) {
-                        alert("Flash Haber Bonusu: Barış Günü! Kırmızı kareye bastığınız için fazladan +200 SBP kazandınız.");
+                        await Swal.fire({
+                            title: 'Flash Haber Bonusu!',
+                            text: 'Barış Günü! Kırmızı kareye bastığınız için fazladan +200 SBP kazandınız.',
+                            icon: 'success',
+                            confirmButtonColor: '#e11d48'
+                        });
                         t.sbp += 200;
                     }
                     updateActiveUI();
@@ -2573,8 +2849,7 @@
                 let html = `${preamble}<div style="background:${sq.color}; color:white; padding:1vmin; font-size:2vmin; font-weight:800; border-radius:1vmin; margin-bottom:2vmin;">ÜNİTE SORUSU: ${sq.title}</div>`;
                 html += `<p style="font-size:2.5vmin; font-weight:700; margin-bottom:2vmin;">${q.q}</p>`;
                 q.opts.forEach((opt, idx) => {
-                    let l = String.fromCharCode(65 + idx);
-                    html += `<button class="opt-btn" id="q-opt-${idx}" onclick="answerQ(this, ${idx}, ${q.ans})"><b>${l})</b> ${opt}</button>`;
+                    html += `<button class="opt-btn" id="q-opt-${idx}" onclick="answerQ(this, ${idx}, ${q.ans})">${opt}</button>`;
                 });
 
                 // Ekranda takım 2 (Araştırmacılar) aktifse ve gücü hazırsa İpucu butonunu sorunun altına koy
@@ -2649,11 +2924,17 @@
                 btn.style.background = '#10b981';
                 btn.style.color = 'white';
                 confetti({ particleCount: 200, spread: 100 });
-                setTimeout(() => { alert('Tebrikler! Final Başarıyla Tamamlandı! Kazanana rozetler veriliyor.'); document.getElementById('game-overlay').style.display = 'none'; }, 1500);
+                setTimeout(() => { 
+                    Swal.fire({ title: 'Başarılı', text: 'Tebrikler! Final Başarıyla Tamamlandı! Kazanana rozetler veriliyor.', icon: 'success' });
+                    document.getElementById('game-overlay').style.display = 'none'; 
+                }, 1500);
             } else {
                 btn.style.background = '#ef4444';
                 btn.style.color = 'white';
-                setTimeout(() => { alert('Maalesef yanlış cevap! Final kaybedildi.'); document.getElementById('game-overlay').style.display = 'none'; }, 1500);
+                setTimeout(() => { 
+                    Swal.fire({ title: 'Başarısız', text: 'Maalesef yanlış cevap! Final kaybedildi.', icon: 'error' });
+                    document.getElementById('game-overlay').style.display = 'none'; 
+                }, 1500);
             }
         }
 
@@ -2662,11 +2943,11 @@
 
             if (extraRollActivated && currentTurn === 0) {
                 extraRollActivated = false;
-                alert("Kaşifler süper gücü devrede: Tekrar zar atma hakkınız var!");
+                Swal.fire({ title: 'Kaşifler', text: 'Kaşifler süper gücü devrede: Tekrar zar atma hakkınız var!', icon: 'info' });
             } else {
                 currentTurn = (currentTurn + 1) % teams.length;
                 if (skipNextTurn) {
-                    alert(`${teams[currentTurn].name} takımı pas geçiliyor (Diplomatlar Molası devrede)!`);
+                    Swal.fire({ title: 'Diplomatlar', text: `${teams[currentTurn].name} takımı pas geçiliyor (Diplomatlar Molası devrede)!`, icon: 'info' });
                     skipNextTurn = false;
                     currentTurn = (currentTurn + 1) % teams.length;
                 }
@@ -2682,42 +2963,41 @@
             if (!t) return;
 
             if (!t.powerReady) {
-                alert(`${t.name} takımı süper gücünü yarışmada sadece 1 kez kullanabilir ve bu hak önceden kullanıldı!`);
+                Swal.fire({ title: 'Uyarı', text: `${t.name} takımı süper gücünü yarışmada sadece 1 kez kullanabilir ve bu hak önceden kullanıldı!`, icon: 'warning' });
                 return;
             }
-            if (teams[currentTurn].id !== teamId && teamId !== 3) { // Diplomatlar 3 can technically demand break whenever but best kept to their turn
-                alert(`Sadece kendi sıranızda süper gücünüzü kullanabilirsiniz!`);
+            if (teams[currentTurn].id !== teamId && teamId !== 3) {
+                Swal.fire({ title: 'Uyarı', text: 'Sadece kendi sıranızda süper gücünüzü kullanabilirsiniz!', icon: 'warning' });
                 return;
             }
 
             if (teamId === 0) { // Kaşifler
                 extraRollActivated = true;
-                alert("Kaşifler süper gücü aktif! Bu hamlenizden sonra sıranızı kaybetmeyip tekrar zar atacaksınız.");
+                Swal.fire({ title: 'Süper Güç Aktif', text: 'Kaşifler süper gücü aktif! Bu hamlenizden sonra sıranızı kaybetmeyip tekrar zar atacaksınız.', icon: 'info' });
             } else if (teamId === 1) { // Girişimciler
                 let bonus = Math.floor(t.sbp * 0.20);
                 t.sbp += bonus;
-                alert(`Girişimciler süper gücü aktif! Kasadan anında mevcut paranızın %20'si kadar bonus eklendi (+${bonus} SBP)!`);
+                Swal.fire({ title: 'Süper Güç Aktif', text: `Girişimciler süper gücü aktif! Kasadan anında mevcut paranızın %20'si kadar bonus eklendi (+${bonus} SBP)!`, icon: 'success' });
                 confetti({ particleCount: 100, spread: 80, colors: ['#eab308', '#ffffff'] });
             } else if (teamId === 2) { // Araştırmacılar
                 if (!activeQuestionMode) {
-                    alert("Araştırmacılar süper gücünü (İpucu) SADECE ekranda takımınıza ait bir soru açıkken (cevaplamadan önce) kullanabilirsiniz!");
-                    return; // Gücü harcama
+                    Swal.fire({ title: 'Uyarı', text: 'Araştırmacılar süper gücünü (İpucu) SADECE ekranda takımınıza ait bir soru açıkken (cevaplamadan önce) kullanabilirsiniz!', icon: 'warning' });
+                    return;
                 }
 
-                // If question is active, check if all buttons are already disabled (answered)
                 const btns = document.querySelectorAll('.opt-btn');
                 if (btns.length > 0 && btns[0].disabled) {
-                    alert("Soruyu zaten cevapladınız! İpucu yeteneği kullanılamaz.");
+                    Swal.fire({ title: 'Uyarı', text: 'Soruyu zaten cevapladınız! İpucu yeteneği kullanılamaz.', icon: 'warning' });
                     return;
                 }
 
                 apply5050Joker();
-                alert("Araştırmacılar süper gücü aktif! 2 yanlış seçenek elendi.");
+                Swal.fire({ title: 'Süper Güç Aktif', text: 'Araştırmacılar süper gücü aktif! 2 yanlış seçenek elendi.', icon: 'success' });
                 let btnAra = document.getElementById("btn-ara-power");
                 if (btnAra) btnAra.style.display = "none";
             } else if (teamId === 3) { // Diplomatlar
                 skipNextTurn = true;
-                alert("Diplomatlar süper gücü aktif! Mola istediniz, bir sonraki oynayacak takımın sırası pas geçilecek.");
+                Swal.fire({ title: 'Süper Güç Aktif', text: 'Diplomatlar süper gücü aktif! Mola istediniz, bir sonraki oynayacak takımın sırası pas geçilecek.', icon: 'info' });
             }
 
             t.powerReady = false;
@@ -2903,7 +3183,7 @@
                 btn.style.color = 'white';
                 confetti({ particleCount: 500, spread: 200, colors: ['#fbbf24', '#f59e0b', '#10b981', '#3b82f6'] });
                 setTimeout(() => {
-                    alert('MUHTEŞEM! Büyük Finali Kazandın! Takımına +1000 SBP ve 2 Rozet eklendi!');
+                    Swal.fire({ title: 'MUHTEŞEM!', text: 'Büyük Finali Kazandın! Takımına +1000 SBP ve 2 Rozet eklendi!', icon: 'success' });
                     teams[currentTurn].sbp += 1000;
                     teams[currentTurn].badges += 2;
                     updateActiveUI();
@@ -2912,7 +3192,10 @@
             } else {
                 btn.style.background = '#ef4444';
                 btn.style.color = 'white';
-                setTimeout(() => { alert('Maalesef yanlış cevap! Final kaybedildi.'); document.getElementById('game-overlay').style.display = 'none'; }, 1500);
+                setTimeout(() => { 
+                    Swal.fire({ title: 'Başarısız', text: 'Maalesef yanlış cevap! Final kaybedildi.', icon: 'error' });
+                    document.getElementById('game-overlay').style.display = 'none'; 
+                }, 1500);
             }
         }
 
@@ -2960,44 +3243,45 @@
             if (type === '5050') {
                 t.usedJokers['5050'] = t.usedJokers['5050'] || 0;
                 if (t.usedJokers['5050'] >= 2) {
-                    alert(`${t.name} takımı %50 Joker haklarını bitirdi! (Maksimum 2 kullanım)`);
+                    Swal.fire({ title: 'Uyarı', text: `${t.name} takımı %50 Joker haklarını bitirdi! (Maksimum 2 kullanım)`, icon: 'warning' });
                     return;
                 }
                 if (activeJoker5050 && activeJoker5050.teamId === t.id) {
-                    alert("Bu joker zaten aktif edildi! Karşınıza çıkacak ilk soruda otomatik kullanılacak.");
+                    Swal.fire({ title: 'Bilgi', text: 'Bu joker zaten aktif edildi! Karşınıza çıkacak ilk soruda otomatik kullanılacak.', icon: 'info' });
                     return;
                 }
                 activeJoker5050 = { teamId: t.id };
                 t.usedJokers['5050']++;
-                alert(`✓ ${t.name} için %50 Joker yeteneği HAZIRLANDI! Kalan Hak: ${2 - t.usedJokers['5050']}`);
+                Swal.fire({ title: 'Joker Aktif', text: `✓ ${t.name} için %50 Joker yeteneği HAZIRLANDI! Kalan Hak: ${2 - t.usedJokers['5050']}`, icon: 'success' });
             } else if (type === 'hediye') {
                 t.usedJokers['hediye'] = t.usedJokers['hediye'] || 0;
                 if (t.usedJokers['hediye'] >= 2) {
-                    alert(`${t.name} takımı Hediye SBP Joker haklarını bitirdi! (Maksimum 2 kullanım)`);
+                    Swal.fire({ title: 'Uyarı', text: `${t.name} takımı Hediye SBP Joker haklarını bitirdi! (Maksimum 2 kullanım)`, icon: 'warning' });
                     return;
                 }
                 t.usedJokers['hediye']++;
                 t.sbp += 100;
                 updateActiveUI();
                 confetti({ particleCount: 100, spread: 80, colors: ['#3b82f6', '#1e40af'] });
-                alert(`Hediye SBP Jokeri: ${t.name} takımına 100 SBP hediye edildi! Kalan Hak: ${2 - t.usedJokers['hediye']}`);
+                Swal.fire({ title: 'Hediye SBP Jokeri', text: `${t.name} takımına 100 SBP hediye edildi! Kalan Hak: ${2 - t.usedJokers['hediye']}`, icon: 'success' });
             } else if (type === 'diplomasi') {
                 t.usedJokers['diplomasi'] = t.usedJokers['diplomasi'] || 0;
                 if (t.usedJokers['diplomasi'] >= 2) {
-                    alert(`${t.name} takımı Diplomasi Joker haklarını bitirdi! (Maksimum 2 kullanım)`);
+                    Swal.fire({ title: 'Uyarı', text: `${t.name} takımı Diplomasi Joker haklarını bitirdi! (Maksimum 2 kullanım)`, icon: 'warning' });
                     return;
                 }
                 t.usedJokers['diplomasi']++;
                 teams.forEach(team => team.sbp += 50);
                 updateActiveUI();
                 confetti({ particleCount: 100, spread: 80, colors: ['#10b981', '#059669'] });
-                alert(`Diplomasi Jokeri: Tüm okul idaresi adına her takıma 50 SBP dağıtıldı! Kalan Hak: ${2 - t.usedJokers['diplomasi']}`);
+                Swal.fire({ title: 'Diplomasi Jokeri', text: `Tüm okul idaresi adına her takıma 50 SBP dağıtıldı! Kalan Hak: ${2 - t.usedJokers['diplomasi']}`, icon: 'success' });
             }
         }
 
 
         let activeQuestions = questions6;
         let activeFinalPool = finalQuestionsPool6;
+        let usedQuestions = { 1: [], 2: [], 3: [], 4: [], 5: [], 6: [] };
 
         function startGame() {
             let gradeRadio = document.querySelector('input[name="grade-radio"]:checked');
@@ -3023,7 +3307,7 @@
             if (document.getElementById('chk-team-3').checked) selectedIds.push(3);
 
             if (selectedIds.length < 2) {
-                alert("Oyuna başlamak için en az 2 takım seçmelisiniz!");
+                Swal.fire({ title: 'Hata', text: 'Oyuna başlamak için en az 2 takım seçmelisiniz!', icon: 'error' });
                 return;
             }
 
