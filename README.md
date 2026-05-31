@@ -1,6 +1,6 @@
-# Sosyal Bilgiler Monopoly v2.0
+# Bilgiopoli – Sosyal Bilgiler v2.0
 
-Sosyal Bilgiler Monopoly, 5-7. sınıf öğrencileri için tasarlanmış interaktif bir eğitim oyunudur. Akıllı tahta ve dijital sınıflar için optimize edilmiştir.
+Bilgiopoli, 5-7. sınıf öğrencileri için tasarlanmış interaktif bir Sosyal Bilgiler eğitim oyunudur. Akıllı tahta ve dijital sınıflar için optimize edilmiştir.
 
 ## 🎮 Özellikler
 
@@ -184,4 +184,4 @@ Bu proje MIT Lisansı altında dağıtılmaktadır. Detaylar için [LICENSE](LIC
 
 ---
 
-**Sosyal Bilgiler Monopoly** - Eğitimi daha eğlenceli hale getirin! 🎓🎮
+**Bilgiopoli – Sosyal Bilgiler** - Eğitimi daha eğlenceli hale getirin! 🎓🎮

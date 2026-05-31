@@ -1,7 +1,7 @@
 {
   "name": "sosyal-monopoly",
   "version": "2.0.0",
-  "description": "Sosyal Bilgiler Monopoly - Eğitici Oyun",
+  "description": "Bilgiopoli – Sosyal Bilgiler Eğitici Oyun",
   "main": "index.html",
   "scripts": {
     "dev": "python -m http.server 8000",
@@ -18,7 +18,7 @@
     "turkish",
     "smartboard"
   ],
-  "author": "Sosyal Monopoly Team",
+  "author": "M.A.E",
   "license": "MIT",
   "devDependencies": {
     "eslint": "^8.0.0",

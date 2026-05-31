@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <title>İkon Üretici - Sosyal Monopoly</title>
+  <style>
+    body { font-family: system-ui, sans-serif; background:#0f172a; color:#e2e8f0; text-align:center; padding:40px; }
+    button { background:#3b82f6; color:#fff; border:none; padding:12px 24px; font-size:16px; border-radius:8px; cursor:pointer; margin:8px; }
+    .row { display:flex; gap:24px; justify-content:center; flex-wrap:wrap; margin-top:24px; }
+    .card { background:#1e293b; padding:16px; border-radius:12px; }
+    canvas { background:#fff; border-radius:8px; }
+  </style>
+</head>
+<body>
+  <h1>PWA İkon Üretici</h1>
+  <p>Aşağıdaki butona bas, üç PNG dosyası inecek. Onları <code>icons/</code> klasörüne koy.</p>
+  <button onclick="generateAll()">PNG İkonları Üret ve İndir</button>
+  <div class="row" id="preview"></div>
+
+  <script>
+    const SVG_URL = 'icon.svg';
+
+    function drawToCanvas(size, maskable) {
+      return new Promise((resolve) => {
+        const canvas = document.createElement('canvas');
+        canvas.width = size; canvas.height = size;
+        const ctx = canvas.getContext('2d');
+        const img = new Image();
+        img.crossOrigin = 'anonymous';
+        img.onload = () => {
+          if (maskable) {
+            // maskable: %10 güvenli kenar boşluğu, dolu arka plan
+            ctx.fillStyle = '#0f172a';
+            ctx.fillRect(0, 0, size, size);
+            const pad = size * 0.1;
+            ctx.drawImage(img, pad, pad, size - pad * 2, size - pad * 2);
+          } else {
+            ctx.drawImage(img, 0, 0, size, size);
+          }
+          resolve(canvas);
+        };
+        img.src = SVG_URL;
+      });
+    }
+
+    function download(canvas, name) {
+      const a = document.createElement('a');
+      a.download = name;
+      a.href = canvas.toDataURL('image/png');
+      a.click();
+    }
+
+    async function generateAll() {
+      const preview = document.getElementById('preview');
+      preview.innerHTML = '';
+      const specs = [
+        { size: 192, name: 'icon-192.png', maskable: false },
+        { size: 512, name: 'icon-512.png', maskable: false },
+        { size: 512, name: 'icon-maskable-512.png', maskable: true }
+      ];
+      for (const s of specs) {
+        const canvas = await drawToCanvas(s.size, s.maskable);
+        download(canvas, s.name);
+        const card = document.createElement('div');
+        card.className = 'card';
+        const shown = canvas.cloneNode();
+        shown.getContext('2d').drawImage(canvas, 0, 0);
+        shown.style.width = '128px'; shown.style.height = '128px';
+        card.appendChild(shown);
+        card.innerHTML += '<div>' + s.name + '</div>';
+        preview.appendChild(card);
+      }
+    }
+  </script>
+</body>
+</html>

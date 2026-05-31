@@ -14,7 +14,7 @@ def main():
     with open(html_path, 'r', encoding='utf-8') as f:
         html_content = f.read()
 
-    window = webview.create_window('Sosyal Bilgiler Monopoly', html=html_content, width=1280, height=720, resizable=True, frameless=False)
+    window = webview.create_window('Bilgiopoli – Sosyal Bilgiler', html=html_content, width=1280, height=720, resizable=True, frameless=False)
     webview.start()
 
 if __name__ == '__main__':
