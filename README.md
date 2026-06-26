@@ -6,8 +6,8 @@ Bilgiopoli, 5-7. sınıf öğrencileri için tasarlanmış interaktif bir Sosyal
 
 ### 📚 Eğitsel İçerik
 - **6 Ünite**: Birlikte Yaşamak, Evimiz Dünya, Ortak Miras, Yaşayan Demokrasi, Hayat Ekonomi, Teknoloji & Sosyal
-- **3 Sınıf Seviyesi**: 5. 6. ve 7. sınıf müfredatına uygun sorular
-- **150+ Soru**: Her ünite için zengin soru havuzu
+- **4 Sınıf Seviyesi**: 5, 6, 7 ve 8 (LGS) müfredatına uygun sorular
+- **Zengin Soru Havuzu**: Her sınıf ve ünite için ayrı soru setleri
 - **TEMA İstasyonları**: Çevre bilinci ve doğa dostu rozetleri
 
 ### 🎯 Oyun Mekanikleri
@@ -25,49 +25,57 @@ Bilgiopoli, 5-7. sınıf öğrencileri için tasarlanmış interaktif bir Sosyal
 
 ## 🚀 Yenilikler (v2.0)
 
-### 🏗️ Teknik İyileştirmeler
-- **Modüler Yapı**: HTML, CSS, JavaScript ayrıştırıldı
-- **Performans Optimizasyonu**: Daha hızlı yükleme ve akıcı oyun
-- **Hata Yönetimi**: Gelişmiş loglama ve hata yakalama
-- **Kaydet/Yükle**: Oyun ilerlemesini kaydetme özelliği
-- **Ses Efektleri**: Web Audio API ile sentetik sesler
+### 🏗️ Teknik Yapı
+- **Tek Dosya Dağıtım**: Tüm HTML, CSS, JavaScript ve soru havuzu `index.html` içinde gömülü (kurulum gerektirmez)
+- **PWA Desteği**: `manifest.json` ve `sw.js` ile yüklenebilir uygulama
+- **Masaüstü Paketi**: `pywebview` + PyInstaller ile `.exe` derleme
+- **Kaydet/Devam Et**: `localStorage` ile tek slotlu oyun kaydı
 
 ### 🎨 Kullanıcı Deneyimi
-- **Loading States**: Yükleme ekranları ve görsel geri bildirimler
-- **Klavye Kısayolları**: Space, Ctrl+S, Ctrl+L
-- **Responsive Tasarım**: Farklı ekran boyutlarına uyum
-- **Erişilebilirlik**: Ekran okuyucu desteği ve yüksek kontrast
-- **Oryantasyon Uyarısı**: Dikey modda uyarı sistemi
-
-### 🔧 Geliştirici Araçları
-- **Logger Sistemi**: Detaylı loglama ve hata takibi
-- **Performance Monitor**: FPS ve bellek kullanımı takibi
-- **Debug Mod**: Geliştirme için hata ayıklama araçları
+- **Modern Arayüz**: Glassmorphism temalı, neon vurgulu 16:9 akıllı tahta tasarımı
+- **Animasyonlar**: Zar atma, konfeti (canvas-confetti) ve geçiş efektleri
+- **SweetAlert2 Modalları**: Soru, sonuç ve bilgilendirme pencereleri
+- **Responsive Tasarım**: `vmin` tabanlı ölçekleme ile farklı ekranlara uyum
 
 ## 📁 Proje Yapısı
 
+> Proje modüler bir yapıya kavuşturulmuştur: HTML iskeleti `index.html` içinde,
+> stiller `css/style.css`, soru havuzu `js/questions.js` içinde yer alır. Oyun
+> motoru hâlâ `index.html` sonundaki `<script>` bloğundadır.
+
 ```
 sosyal-monopoly/
-├── index.html              # Ana HTML dosyası
+├── index.html            # HTML iskeleti + oyun motoru (script)
 ├── css/
-│   └── style.css          # Tüm stiller
+│   └── style.css         # Tüm stiller (arka plan görseli dahil)
 ├── js/
-│   ├── app.js            # Ana uygulama
-│   ├── game.js          # Oyun motoru
-│   ├── ui.js            # Arayüz yönetimi
-│   ├── audio.js         # Ses sistemi
-│   ├── logger.js        # Loglama sistemi
-│   ├── questions_expanded.js      # 5. sınıf soruları
-│   ├── questions6_expanded.js     # 6. sınıf soruları
-│   └── questions7_expanded.js     # 7. sınıf soruları
-├── assets/
-│   └── bg.png           # Arka plan resmi
-├── dist/
-│   └── SosyalMonopoly.exe      # Derlenmiş uygulama
-├── main.py               # Python wrapper
-├── package.json          # Proje bilgileri
-└── README.md            # Bu dosya
+│   └── questions.js      # Soru havuzu (questions5/6/7/8 + final havuzları)
+├── vendor/               # Yerelleştirilmiş kütüphaneler (offline için)
+│   ├── confetti.browser.min.js
+│   ├── sweetalert2.all.min.js
+│   ├── fontawesome/      # FA solid css + webfont
+│   └── fonts/            # Outfit yazı tipi (woff2 + outfit.css)
+├── tools/
+│   ├── split.js              # index.html'i css/js'e ayıran betik
+│   ├── validate-questions.js # soru havuzu doğrulayıcı
+│   └── check-index.js        # index yapısı kontrolü
+├── manifest.json         # PWA manifesti
+├── sw.js                 # Service Worker (çevrimdışı önbellek)
+├── icons/                # PWA ikonu (icon.svg)
+├── main.py               # pywebview masaüstü sarmalayıcı
+├── SosyalMonopoly.spec   # PyInstaller derleme tanımı
+├── package.json          # Proje bilgileri ve script'ler
+└── README.md             # Bu dosya
+
+# Aşağıdakiler git'e dahil edilmez (.gitignore):
+#   build/   dist/   *.exe   tmp_*.txt   index.html.bak
 ```
+
+### Soru Doğrulama
+```bash
+npm test          # veya: node tools/validate-questions.js
+```
+Her sorunun `{ q, opts[4], ans:0..3 }` biçimine uygunluğunu denetler.
 
 ## 🎮 Nasıl Oynanır
 
@@ -77,7 +85,7 @@ sosyal-monopoly/
 3. "Oyunu Başlat" butonuna tıklayın
 
 ### Oyun Akışı
-1. **Zar At**: Space tuşu veya buton
+1. **Zar At**: “Zar At” butonuna tıkla
 2. **Hareket Et**: Zar toplamı kadar ilerle
 3. **Soru Cevapla**: Karedeki soruyu yanıtla
 4. **SBP Kazan**: Doğru cevaplar için puan al
@@ -85,11 +93,12 @@ sosyal-monopoly/
 6. **Joker Kullan**: Stratejik avantajlar için
 
 ### Kontroller
-- **Space**: Zar at
-- **Ctrl+S**: Oyunu kaydet
-- **Ctrl+L**: Oyunu yükle
-- **M**: Sesi aç/kapat
-- **ESC**: Modalı kapat
+Oyun fare/dokunmatik ile oynanır:
+- **Zar At** butonu: Sıradaki takımın zarını atar
+- **Kare/Joker** düğmeleri: M. lük al, bina yap, joker kullan
+- **Ana menü “DEVAM ET”**: Kayıtlı oyunu yükler
+
+> Not: Klavye kısayolları (Space/Ctrl+S vb.) henüz uygulanmadı; planlanan özelliklerdir.
 
 ## 🛠️ Kurulum ve Çalıştırma
 
@@ -117,6 +126,13 @@ pip install pywebview
 python main.py
 ```
 
+### `.exe` Derleme (Windows)
+```bash
+pip install pyinstaller pywebview
+pyinstaller SosyalMonopoly.spec
+# Çıktı: dist/SosyalMonopoly.exe
+```
+
 ## 🎓 Eğitsel Faydaları
 
 ### Öğrenci Gelişimi
@@ -141,16 +157,13 @@ python main.py
 - ✅ Edge 80+
 
 ### Performans
-- **Hafıza Kullanımı**: Optimize edilmiş kaynak yönetimi
-- **Yükleme Süresi**: < 3 saniye
-- **FPS**: 60+ akıcı animasyonlar
-- **Responsive**: 320px - 4K ekran desteği
+- **Tek Dosya**: Harici JS modülü bağımlılığı yok; soru havuzu gömülü
+- **Hedef Ekran**: 16:9 akıllı tahta ve geniş ekranlar için optimize
 
-### Erişilebilirlik
-- **WCAG 2.1**: AA seviyesi uyumluluk
-- **Klavye Navigasyonu**: Tam erişilebilirlik
-- **Ekran Okuyucu**: NVDA, JAWS desteği
-- **Yüksek Kontrast**: Görme engelli dostu
+### Erişilebilirlik (yol haritası)
+Mevcut sürüm tam WCAG uyumlu değildir. Planlanan iyileştirmeler:
+- Soru şıkları için `<button>` + `aria` etiketleri ve klavye odak desteği
+- Yüksek kontrast ve daha büyük okunabilir font seçenekleri
 
 ## 🤝 Katkıda Bulunma
 
@@ -162,8 +175,9 @@ python main.py
 5. Pull Request oluşturun
 
 ### Soru Katkıları
-- Yeni sorular eklemek için `questions*_expanded.js` dosyalarını düzenleyin
-- Soru formatı: `{ q: "Soru metni", opts: ["A", "B", "C", "D"], ans: 0 }`
+- Yeni sorular eklemek için `js/questions.js` dosyasını düzenleyin (`questions5/6/7/8` ve `finalQuestionsPool5/6/7/8`)
+- Soru formatı: `{ q: "Soru metni", opts: ["A", "B", "C", "D"], ans: 0 }` (`ans` 0–3 arası, doğru şıkkın indeksi)
+- Değişiklikten sonra `npm test` ile soru havuzunu doğrulayın
 - Lütfen müfredat uygunluğuna dikkat edin
 
 ## 📄 Lisans

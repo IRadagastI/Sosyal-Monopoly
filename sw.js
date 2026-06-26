@@ -1,9 +1,21 @@
 // Bilgiopoli - Service Worker (offline destek)
-const CACHE_VERSION = 'bilgiopoli-v2';
+const CACHE_VERSION = 'bilgiopoli-v5';
 const CORE_ASSETS = [
   './',
   './index.html',
-  './manifest.json'
+  './manifest.json',
+  './css/style.css',
+  './js/questions.js',
+  './icons/icon.svg',
+  // Yerelleştirilmiş kütüphaneler (vendor)
+  './vendor/confetti.browser.min.js',
+  './vendor/sweetalert2.all.min.js',
+  './vendor/fontawesome/css/all.min.css',
+  './vendor/fontawesome/webfonts/fa-solid-900.woff2',
+  // Yerelleştirilmiş yazı tipi (Outfit)
+  './vendor/fonts/outfit.css',
+  './vendor/fonts/files/v15-QGYvz_MVcBeNP4NJuktqQ4E.woff2',
+  './vendor/fonts/files/v15-QGYvz_MVcBeNP4NJtEtq.woff2'
 ];
 
 // Yükleme: çekirdek dosyaları önbelleğe al

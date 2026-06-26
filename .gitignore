@@ -1,0 +1,27 @@
+# PyInstaller build çıktıları
+build/
+dist/
+*.exe
+*.spec.bak
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+env/
+
+# Node
+node_modules/
+
+# Geçici / çalışma dosyaları
+tmp_*.txt
+*.tmp
+*.log
+index.html.bak
+
+# IDE / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

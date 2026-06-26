@@ -5,9 +5,9 @@
   "main": "index.html",
   "scripts": {
     "dev": "python -m http.server 8000",
-    "build": "echo 'Build process would be implemented here'",
-    "test": "echo 'Tests would be implemented here'",
-    "lint": "echo 'Linting would be implemented here'",
+    "test": "node tools/validate-questions.js",
+    "validate": "node tools/validate-questions.js",
+    "build:exe": "pyinstaller SosyalMonopoly.spec",
     "serve": "python -m http.server 8000 --bind 0.0.0.0"
   },
   "keywords": [
@@ -22,6 +22,7 @@
   "license": "MIT",
   "devDependencies": {
     "eslint": "^8.0.0",
+    "playwright": "^1.61.0",
     "prettier": "^2.8.0"
   },
   "repository": {
