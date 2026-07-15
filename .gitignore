@@ -25,3 +25,6 @@ index.html.bak
 .idea/
 .DS_Store
 Thumbs.db
+
+# macOS uygulama paketi (yerel; dock adı/simge için üretildi)
+Bilgiopoli.app/

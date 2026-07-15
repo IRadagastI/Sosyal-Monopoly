@@ -233,15 +233,33 @@
     <!-- MAIN GAME -->
     <div class="smartboard-frame" id="smartboard-frame" style="display: none;">
 
-        <!-- LEFT PANEL (Kaşifler & Girişimciler) -->
+        <!-- LEFT PANEL (Joker Kartları + Kaşifler & Girişimciler) -->
         <div class="left-panel">
+
+            <!-- JOKER KARTLARI (sol üst — eskiden en sağdaki sütundaydı) -->
+            <div class="joker-panel">
+                <div class="joker-panel-title">Joker Kartları</div>
+                <div class="joker-btns">
+                    <div class="joker-btn red" onclick="useJoker('5050')">
+                        <i class="fas fa-book-open"></i>
+                        <span>%50 Joker</span>
+                    </div>
+                    <div class="joker-btn blue" onclick="useJoker('hediye')">
+                        <i class="fas fa-gift"></i>
+                        <span>Hediye SBP</span>
+                    </div>
+                    <div class="joker-btn green" onclick="useJoker('diplomasi')">
+                        <i class="fas fa-hands-helping"></i>
+                        <span>Diplomasi</span>
+                    </div>
+                </div>
+            </div>
 
             <div class="team-card" data-team="1" id="tc-0">
                 <div class="turn-indicator-label">SIRA SENDE!</div>
                 <div class="team-header">
                     <div class="team-icon-wrap"><i class="fas fa-globe-americas"></i></div>
                     <div class="team-name">Kaşifler</div>
-                    <i class="fas fa-volume-up speaker-icon"></i>
                 </div>
                 <div class="pawns-wait">
                     <div
@@ -279,9 +297,7 @@
                 <div class="turn-indicator-label">SIRA SENDE!</div>
                 <div class="team-header">
                     <div class="team-icon-wrap"><i class="fas fa-hand-holding-usd"></i></div>
-                    <div class="team-name">Girişimciler</div>
-                    <i class="fas fa-volume-up speaker-icon"></i>
-                </div>
+                    <div class="team-name">Girişimciler</div>                </div>
                 <div class="pawns-wait">
                     <div
                         style="position:static; width:2vmin; height:2vmin; border-radius:50%; background:#eab308; display:flex; align-items:center; justify-content:center; border:0.15vmin solid white; box-shadow:0 0 0.5vmin #eab308;">
@@ -409,17 +425,13 @@
                     </div>
                     <i class="fas fa-crown fc-crown"></i>
                 </div>
-                <i class="fas fa-volume-up"
-                    style="position:absolute; bottom:1vmin; left:1vmin; opacity:0.6; font-size:1.5vmin;"></i>
             </div>
 
-            <div class="team-card" data-team="3" id="tc-2" style="margin-top:1vmin;">
+            <div class="team-card" data-team="3" id="tc-2">
                 <div class="turn-indicator-label">SIRA SENDE!</div>
                 <div class="team-header">
                     <div class="team-icon-wrap"><i class="fas fa-book-open"></i></div>
-                    <div class="team-name">Araştırmacılar</div>
-                    <i class="fas fa-volume-up speaker-icon"></i>
-                </div>
+                    <div class="team-name">Araştırmacılar</div>                </div>
                 <div class="pawns-wait">
                     <div
                         style="position:static; width:2vmin; height:2vmin; border-radius:50%; background:#a855f7; display:flex; align-items:center; justify-content:center; border:0.15vmin solid white; box-shadow:0 0 0.5vmin #a855f7;">
@@ -456,9 +468,7 @@
                 <div class="turn-indicator-label">SIRA SENDE!</div>
                 <div class="team-header">
                     <div class="team-icon-wrap"><i class="fas fa-hands-helping"></i></div>
-                    <div class="team-name">Diplomatlar</div>
-                    <i class="fas fa-volume-up speaker-icon"></i>
-                </div>
+                    <div class="team-name">Diplomatlar</div>                </div>
                 <div class="pawns-wait">
                     <div
                         style="position:static; width:2vmin; height:2vmin; border-radius:50%; background:#3b82f6; display:flex; align-items:center; justify-content:center; border:0.15vmin solid white; box-shadow:0 0 0.5vmin #3b82f6;">
@@ -493,28 +503,7 @@
 
         </div>
 
-        <!-- FAR RIGHT JOKER SIDEBAR -->
-        <div class="sidebar-panel">
-            <div class="sidebar-title">
-                <i class="fas fa-volume-up"></i>
-                Joker<br>Kartları
-            </div>
-
-            <div class="joker-btn red" onclick="useJoker('5050')">
-                <i class="fas fa-book-open"></i>
-                <span>%50 Joker</span>
-            </div>
-
-            <div class="joker-btn blue" onclick="useJoker('hediye')">
-                <i class="fas fa-gift"></i>
-                <span>Hediye SBP</span>
-            </div>
-
-            <div class="joker-btn green" onclick="useJoker('diplomasi')">
-                <i class="fas fa-hands-helping"></i>
-                <span>Diplomasi</span>
-            </div>
-        </div>
+        <!-- (Joker Kartları artık sol panelin üstünde) -->
 
     </div>
 
@@ -1955,13 +1944,8 @@
                 const btn = document.getElementById('btn-resume');
                 if (btn) btn.style.display = 'inline-flex';
             }
-            // İlk ziyarette öğreticiyi otomatik göster
-            try {
-                if (!localStorage.getItem('sm_howto_seen')) {
-                    showHowTo();
-                    localStorage.setItem('sm_howto_seen', '1');
-                }
-            } catch (e) { /* localStorage yoksa yoksay */ }
+            // Not: İlk açılışta "Nasıl Oynanır" otomatik gösterilmiyor;
+            // kullanıcı dilerse "Nasıl Oynanır?" butonundan açabilir.
         };
         window.addEventListener('resize', updatePawnPositions);
 

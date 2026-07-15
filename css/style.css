@@ -72,7 +72,12 @@
 
         /* Layout inside Smartboard */
         .left-panel, .right-panel {
+            /* Sol ve sağ oyuncu alanları birebir eşit genişlikte olsun diye
+               flex-basis kilitlendi (esnek küçülme yüzünden sağdaki alanlar
+               daha dar görünebiliyordu). */
+            flex: 0 0 18%;
             width: 18%;
+            min-width: 0;
             display: flex;
             flex-direction: column;
             gap: 1vmin;
@@ -82,7 +87,8 @@
 
         /* Game Board Area - Frosted Dark Glass */
         .board-panel {
-            width: 58%;
+            /* En sağdaki joker sütunu kaldırıldığı için tahta biraz genişledi. */
+            width: 62%;
             background: rgba(15, 23, 42, 0.4);
             backdrop-filter: blur(30px);
             -webkit-backdrop-filter: blur(30px);
@@ -111,6 +117,50 @@
             gap: 1.5vmin;
             box-shadow: inset 0 0 2vmin rgba(0, 0, 0, 0.5), 0 1vmin 2vmin rgba(0, 0, 0, 0.3);
         }
+
+        /* ----- JOKER PANELİ (sol üst — final kartıyla simetrik) ----- */
+        .joker-panel {
+            flex: 0.62 1 0;                /* final kartıyla eşit; oyuncu kartlarından küçük */
+            min-height: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 0.9vmin;
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 1.5vmin;
+            border: 0.15vmin solid var(--glass-border);
+            padding: 1vmin;
+            box-shadow: inset 0 0 2vmin rgba(0, 0, 0, 0.5), 0 1vmin 2vmin rgba(0, 0, 0, 0.3);
+        }
+        .joker-panel-title {
+            color: #f8fafc;
+            font-size: 1.5vmin;
+            font-weight: 800;
+            text-align: center;
+            letter-spacing: 0.5px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+        }
+        .joker-btns {
+            display: flex;
+            gap: 0.8vmin;
+            width: 100%;
+            justify-content: center;
+        }
+        /* Yatay dizilim için joker butonlarını yeniden boyutlandır (eski dikey
+           sütundaki width:90%; aspect-ratio:1 kuralını geçersiz kıl). */
+        .joker-panel .joker-btn {
+            width: auto;
+            flex: 1 1 0;
+            max-width: 31%;
+            aspect-ratio: 1;
+            gap: 0.3vmin;
+            padding: 0.5vmin;
+        }
+        .joker-panel .joker-btn i { font-size: 2.4vmin; }
+        .joker-panel .joker-btn span { font-size: 0.95vmin; line-height: 1.05; }
 
         /* ----- TEAM CARDS (Glassmorphism & Neon) ----- */
         .team-card {
@@ -362,7 +412,10 @@
 
         /* ----- RIGHT PANELS ----- */
         .final-challenge {
-            flex: 1;
+            /* Joker paneliyle eşit ve kompakt: oyuncu kartlarından (flex:1)
+               daha küçük bir pay alsın, ikisi de aynı oranda olsun. */
+            flex: 0.62 1 0;
+            min-height: 0;
             background: linear-gradient(135deg, rgba(30, 27, 75, 0.8), rgba(49, 46, 129, 0.8));
             border: 0.3vmin solid #fbbf24;
             border-radius: 1.5vmin;
@@ -404,20 +457,20 @@
         }
 
         .fc-title {
-            font-size: 1.8vmin;
+            font-size: 1.5vmin;
             font-weight: 900;
             color: #fde047;
             text-transform: uppercase;
-            margin-bottom: 1vmin;
+            margin-bottom: 0.5vmin;
             text-shadow: 0 0 1vmin rgba(253, 224, 71, 0.5), 0 2px 4px rgba(0, 0, 0, 0.8);
             letter-spacing: 1px;
         }
 
         .fc-cards {
             position: relative;
-            width: 8vmin;
-            height: 10vmin;
-            margin-bottom: 1vmin;
+            width: 5.5vmin;
+            height: 7vmin;
+            margin-bottom: 0.3vmin;
             filter: drop-shadow(0 1vmin 1vmin rgba(0,0,0,0.5));
         }
 
@@ -765,9 +818,11 @@
 
         /* Squares */
         .square {
-            background: rgba(30, 41, 59, 0.7);
-            backdrop-filter: blur(5px);
-            -webkit-backdrop-filter: blur(5px);
+            /* Not: Her kareye ayrı backdrop-filter (blur) uygulamak 40+ kare
+               olduğu için çok pahalıydı; hover'da scale ile birlikte animasyon
+               takılıyordu (düşük FPS). Blur kaldırıldı, arka plan biraz daha
+               opak yapıldı; board-panel'in kendi blur'u zaten var. */
+            background: rgba(30, 41, 59, 0.82);
             border: 0.15vmin solid rgba(255, 255, 255, 0.1);
             display: flex;
             flex-direction: column;
@@ -777,12 +832,15 @@
             overflow: hidden;
             border-radius: 0.5vmin;
             box-shadow: inset 0 0 1vmin rgba(0, 0, 0, 0.8), 0 0.5vmin 1vmin rgba(0, 0, 0, 0.4);
-            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            /* Yalnızca ucuz özellikleri geçişle; `all` backdrop-filter'ı da
+               kapsadığı için jank'e yol açıyordu. */
+            transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+            will-change: transform;
             color: #f8fafc;
         }
 
         .square:hover {
-            transform: scale(1.08);
+            transform: scale(1.06);
             z-index: 10;
             box-shadow: inset 0 0 2vmin rgba(255, 255, 255, 0.1), 0 1vmin 3vmin rgba(0, 0, 0, 0.8);
             border-color: rgba(255, 255, 255, 0.5);
@@ -1201,14 +1259,14 @@
         }
 
         .landing-left-side {
-            flex: 1.1;
+            flex: 1;
             display: flex;
             flex-direction: column;
             justify-content: center;
         }
 
         .landing-right-side {
-            flex: 0.9;
+            flex: 1;
             display: flex;
             flex-direction: column;
             gap: 1.8vmin;
@@ -1526,6 +1584,11 @@
             background: linear-gradient(135deg, #3b82f6, #1d4ed8);
             box-shadow: 0 0.6vmin 0 #1e3a8a, 0 1vmin 2vmin rgba(59, 130, 246, 0.3);
             animation: none;
+            /* İkincil, daha küçük buton — "OYUNU BAŞLAT" ana eylem olarak öne çıksın. */
+            flex: 0 0 auto;
+            padding: 1vmin 2.4vmin;
+            font-size: 1.4vmin;
+            opacity: 0.95;
         }
 
         .btn-start.btn-resume {
