@@ -8,7 +8,7 @@ const { chromium } = require('playwright');
   const errors = [];
   page.on('pageerror', (e) => errors.push('PAGEERROR: ' + e.message));
 
-  await page.goto('http://localhost:8765/index.html', { waitUntil: 'load' });
+  await page.goto('http://localhost:8888/index.html', { waitUntil: 'load' });
   await page.waitForTimeout(800);
   await page.evaluate(() => { try { if (window.Swal && Swal.isVisible()) Swal.close(); } catch (e) {} });
   await page.waitForTimeout(300);

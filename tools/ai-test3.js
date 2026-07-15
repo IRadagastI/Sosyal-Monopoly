@@ -11,13 +11,13 @@ const { chromium } = require('playwright');
   const sumPos = () => page.evaluate(() => (typeof teams !== 'undefined' && teams) ? teams.reduce((a, t) => a + t.pos, 0) : -1);
   const aiState = () => page.evaluate(() => ({ active: aiActive, ids: [...AI_TEAM_IDS] }));
 
-  await page.goto('http://localhost:8765/index.html', { waitUntil: 'load' });
+  await page.goto('http://localhost:8888/index.html', { waitUntil: 'load' });
   await page.waitForTimeout(800); await closeSwal(); await page.waitForTimeout(300);
 
   // 4 takimi da AI yap, baslat
   for (let i = 0; i < 4; i++) { const ai = await page.$('#ai-team-' + i); if (ai) await ai.check(); }
   await page.click('button.btn-start:has-text("OYUNU BAŞLAT")');
-  await page.waitForTimeout(6000); // AI oynar + her tur otomatik kaydeder
+  await page.waitForTimeout(15000); // AI oynar + her tur otomatik kaydeder
   await closeSwal();
   console.log('Ilk oyun AI:', JSON.stringify(await aiState()), 'sumPos=', await sumPos());
 

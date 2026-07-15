@@ -10,7 +10,7 @@ const { chromium } = require('playwright');
   page.on('console', (m) => logs.push(`[${m.type()}] ${m.text()}`));
   page.on('pageerror', (e) => errors.push('PAGEERROR: ' + e.message));
 
-  await page.goto('http://localhost:8765/index.html', { waitUntil: 'load' });
+  await page.goto('http://localhost:8888/index.html', { waitUntil: 'load' });
   await page.waitForTimeout(800);
 
   // Ilk acilis "Nasil Oynanir" modalini kapat

@@ -38,233 +38,190 @@
             <div class="rules-header">BİLGİOPOLİ</div>
             <div class="rules-sub">KURAL PANELİ - MAARİF MODELİ</div>
 
-            <div class="rules-grid">
-                <div class="rule-card">
-                    <div class="rc-header">
-                        <div class="rc-icon" style="background:var(--u1)"><i class="fas fa-shield-alt"></i></div>
-                        Takımlar ve Süper Güçler
+            <!-- OYUN AYARLARI VE KURALLAR ARAYÜZÜ (LANDING MAIN) -->
+            <div class="landing-main-content">
+                <!-- Sol Kolon: Kurallar -->
+                <div class="landing-left-side">
+                    <div class="rules-grid">
+                        <div class="rule-card">
+                            <div class="rc-header">
+                                <div class="rc-icon" style="background:var(--u1)"><i class="fas fa-shield-alt"></i></div>
+                                Takımlar ve Süper Güçler
+                            </div>
+                            <div class="rc-body">4 farklı takım yarışır: Kaşifler, Girişimciler, Araştırmacılar ve Diplomatlar. Her takımın özel bir Süper Gücü bulunur.</div>
+                        </div>
+
+                        <div class="rule-card">
+                            <div class="rc-header">
+                                <div class="rc-icon" style="background:var(--u3)"><i class="fas fa-scroll"></i></div>
+                                Sorular ve Tapular
+                            </div>
+                            <div class="rc-body">Renkli ünitelere geldiğinde konu sorusu çıkar. Doğru cevaplar +SBP kazandırır ve tapu alma hakkı verir.</div>
+                        </div>
+
+                        <div class="rule-card">
+                            <div class="rc-header">
+                                <div class="rc-icon" style="background:var(--u2)"><i class="fas fa-tree"></i></div>
+                                TEMA İstasyonu
+                            </div>
+                            <div class="rc-body">Yeşil ağaç kareleri TEMA istasyonudur. Çevre görevini tamamlayanlar <b>Doğa Dostu Rozeti</b> kazanır.</div>
+                        </div>
+
+                        <div class="rule-card">
+                            <div class="rc-header">
+                                <div class="rc-icon" style="background:var(--u5)"><i class="fas fa-bolt"></i></div>
+                                Son Dakika Haberleri
+                            </div>
+                            <div class="rc-body">Rastgele anlarda sağ menüden <b>Son Dakika</b> haberleri çıkar! Tüm takımları etkileyen sürpriz olaylar gerçekleşir.</div>
+                        </div>
+
+                        <div class="rule-card">
+                            <div class="rc-header">
+                                <div class="rc-icon" style="background:#475569"><i class="fas fa-stopwatch"></i></div>
+                                25 Dakika Hızlı Tur
+                            </div>
+                            <div class="rc-body">Oyun 25 dakika sürer. Süre dolduğunda en çok servete (SBP + mülk + bina + rozet) sahip olan şampiyon olur.</div>
+                        </div>
+
+                        <div class="rule-card">
+                            <div class="rc-header">
+                                <div class="rc-icon" style="background:#1e293b"><i class="fas fa-gavel"></i></div>
+                                Disiplin Kurulu
+                            </div>
+                            <div class="rc-body">Bu kareye gelen takımlar Disiplin Kurulu'na (Hapis) girer. Çıkmak için bir el beklemeli veya kefalet ödemelisiniz.</div>
+                        </div>
                     </div>
-                    <div class="rc-body">4 farklı takım yarışır: Kaşifler, Girişimciler, Araştırmacılar ve Diplomatlar.
-                        Her takımın özel bir Süper Gücü (<i class="fas fa-dice"></i> Tekrar Zar At, <i
-                            class="fas fa-percentage"></i> +%20 Kazanç vb.) bulunur.</div>
                 </div>
 
-                <div class="rule-card">
-                    <div class="rc-header">
-                        <div class="rc-icon" style="background:var(--u3)"><i class="fas fa-scroll"></i></div>
-                        Sorular ve Tapular
-                    </div>
-                    <div class="rc-body">Renkli ünite karelerine geldiğinizde karşınıza konu sorusu çıkar. Doğru
-                        cevaplar size +SBP kazandırır ve tapu alma hakkı verir.</div>
-                </div>
+                <!-- Sağ Kolon: Ayarlar -->
+                <div class="landing-right-side">
+                    <div class="settings-row">
+                        <!-- TAKIM SEÇİMİ KARTI -->
+                        <div class="settings-card flex-1">
+                            <div class="settings-card-header">
+                                <i class="fas fa-users card-header-icon" style="color:#fbbf24;"></i>
+                                <span class="card-header-title">TAKIMLARI SEÇ</span>
+                                <div class="card-header-sub">En az 2 takım işaretleyin</div>
+                            </div>
+                            <div class="teams-select-grid">
+                                <!-- Kaşifler -->
+                                <label class="team-select-label team-0">
+                                    <input type="checkbox" id="chk-team-0" value="0" checked>
+                                    <div class="team-select-info">
+                                        <div class="team-select-name">
+                                            <i class="fas fa-globe-americas"></i>
+                                            <span>Kaşifler</span>
+                                        </div>
+                                        <div class="team-select-power"><i class="fas fa-dice"></i> Tekrar Zar At</div>
+                                    </div>
+                                </label>
 
-                <div class="rule-card">
-                    <div class="rc-header">
-                        <div class="rc-icon" style="background:var(--u2)"><i class="fas fa-tree"></i></div>
-                        TEMA İstasyonu
-                    </div>
-                    <div class="rc-body">Haritadaki yeşil ağaç kareleri TEMA istasyonlarıdır. Buraya basan takımlar
-                        çevre görevini tamamlayarak <b>Doğa Dostu Rozeti</b> kazanır.</div>
-                </div>
+                                <!-- Girişimciler -->
+                                <label class="team-select-label team-1">
+                                    <input type="checkbox" id="chk-team-1" value="1" checked>
+                                    <div class="team-select-info">
+                                        <div class="team-select-name">
+                                            <i class="fas fa-hand-holding-usd"></i>
+                                            <span>Girişimciler</span>
+                                        </div>
+                                        <div class="team-select-power"><i class="fas fa-percentage"></i> +%20 Kazanç</div>
+                                    </div>
+                                </label>
 
-                <div class="rule-card">
-                    <div class="rc-header">
-                        <div class="rc-icon" style="background:var(--u5)"><i class="fas fa-bolt"></i></div>
-                        Son Dakika Haberleri
-                    </div>
-                    <div class="rc-body">Oyun içinde rastgele anlarda sağ menüden <b>Son Dakika (Flash)</b> haberleri
-                        çıkar! "İpek Yolu'nda heyelan" gibi olaylar tüm takımları etkiler.</div>
-                </div>
+                                <!-- Araştırmacılar -->
+                                <label class="team-select-label team-2">
+                                    <input type="checkbox" id="chk-team-2" value="2" checked>
+                                    <div class="team-select-info">
+                                        <div class="team-select-name">
+                                            <i class="fas fa-book-open"></i>
+                                            <span>Araştırmacılar</span>
+                                        </div>
+                                        <div class="team-select-power"><i class="fas fa-search"></i> İpucu (50/50)</div>
+                                    </div>
+                                </label>
 
-                <div class="rule-card">
-                    <div class="rc-header">
-                        <div class="rc-icon" style="background:#475569"><i class="fas fa-stopwatch"></i></div>
-                        25 Dakika Hızlı Tur
-                    </div>
-                    <div class="rc-body">Oyun toplam 25 dakika sürer. Ortadaki büyük sayacı takip edin. Süre dolduğunda
-                        en çok SBP ve Doğa Dostu Rozeti olan takım şampiyon olur.</div>
-                </div>
+                                <!-- Diplomatlar -->
+                                <label class="team-select-label team-3">
+                                    <input type="checkbox" id="chk-team-3" value="3" checked>
+                                    <div class="team-select-info">
+                                        <div class="team-select-name">
+                                            <i class="fas fa-hands-helping"></i>
+                                            <span>Diplomatlar</span>
+                                        </div>
+                                        <div class="team-select-power"><i class="fas fa-handshake"></i> Mola İste</div>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
 
-                <div class="rule-card">
-                    <div class="rc-header">
-                        <div class="rc-icon" style="background:#1e293b"><i class="fas fa-gavel"></i></div>
-                        Disiplin Kurulu
-                    </div>
-                    <div class="rc-body">Bu kareye gelen veya şans kartıyla gönderilen takımlar "Hapise/Disipline"
-                        girer. Çıkmak için bir el beklemeli veya kefalet ödemelisiniz.</div>
-                </div>
-            </div>
-
-            <!-- OYUN AYARLARI PANELI -->
-            <div
-                style="display:flex; gap:2vmin; margin: 2.5vmin auto; justify-content:center; flex-wrap:wrap; max-width:85vmin;">
-
-                <!-- TAKIM SEÇİMİ KARTI -->
-                <div
-                    style="flex:1; min-width:35vmin; background: linear-gradient(135deg, rgba(15,23,42,0.85), rgba(30,41,59,0.9)); backdrop-filter:blur(10px); border:0.2vmin solid rgba(255,255,255,0.15); border-radius:1.5vmin; padding:2vmin; color:white; box-shadow: 0 0.8vmin 2.5vmin rgba(0,0,0,0.4);">
-                    <div style="text-align:center; margin-bottom:1.5vmin;">
-                        <i class="fas fa-users" style="font-size:2.5vmin; color:#fbbf24; margin-right:0.5vmin;"></i>
-                        <span style="font-size:2vmin; font-weight:800; letter-spacing:1px;">TAKIMLARI SEÇ</span>
-                        <div style="font-size:1.2vmin; color:#94a3b8; margin-top:0.3vmin;">En az 2 takım işaretleyin
+                        <!-- SINIF SEVİYESİ KARTI -->
+                        <div class="settings-card flex-1">
+                            <div class="settings-card-header">
+                                <i class="fas fa-graduation-cap card-header-icon" style="color:#10b981;"></i>
+                                <span class="card-header-title">SINIF SEVİYESİ</span>
+                                <div class="card-header-sub">Müfredat seçimi yapın</div>
+                            </div>
+                            <div class="grades-select-list">
+                                <label class="grade-select-label grade-5">
+                                    <input type="radio" name="grade-radio" value="5">
+                                    <div class="grade-select-text"><i class="fas fa-star text-amber"></i> 5. Sınıf</div>
+                                </label>
+                                <label class="grade-select-label grade-6">
+                                    <input type="radio" name="grade-radio" value="6" checked>
+                                    <div class="grade-select-text"><i class="fas fa-star text-amber"></i><i class="fas fa-star text-amber"></i> 6. Sınıf</div>
+                                </label>
+                                <label class="grade-select-label grade-7">
+                                    <input type="radio" name="grade-radio" value="7">
+                                    <div class="grade-select-text"><i class="fas fa-star text-amber"></i><i class="fas fa-star text-amber"></i><i class="fas fa-star text-amber"></i> 7. Sınıf</div>
+                                </label>
+                                <label class="grade-select-label grade-8">
+                                    <input type="radio" name="grade-radio" value="8">
+                                    <div class="grade-select-text"><i class="fas fa-star text-amber"></i><i class="fas fa-star text-amber"></i><i class="fas fa-star text-amber"></i><i class="fas fa-star text-amber"></i> 8. Sınıf</div>
+                                </label>
+                            </div>
                         </div>
                     </div>
 
-                    <div style="display:grid; grid-template-columns:1fr 1fr; gap:1vmin;">
-                        <!-- Kaşifler -->
-                        <label
-                            style="display:flex; align-items:center; gap:1vmin; background:rgba(59,130,246,0.15); border:0.2vmin solid rgba(59,130,246,0.4); border-radius:1vmin; padding:1vmin; cursor:pointer; transition:all 0.2s;"
-                            onmouseover="this.style.background='rgba(59,130,246,0.3)'"
-                            onmouseout="this.style.background='rgba(59,130,246,0.15)'">
-                            <input type="checkbox" id="chk-team-0" value="0" checked
-                                style="width:2vmin; height:2vmin; accent-color:#3b82f6;">
-                            <div>
-                                <div style="display:flex; align-items:center; gap:0.5vmin;">
-                                    <i class="fas fa-globe-americas" style="color:#3b82f6; font-size:1.8vmin;"></i>
-                                    <span style="font-weight:700; font-size:1.6vmin;">Kaşifler</span>
-                                </div>
-                                <div style="font-size:1vmin; color:#93c5fd; margin-top:0.2vmin;"><i class="fas fa-dice"
-                                        style="font-size:0.9vmin;"></i> Tekrar Zar At</div>
-                            </div>
-                        </label>
-
-                        <!-- Girişimciler -->
-                        <label
-                            style="display:flex; align-items:center; gap:1vmin; background:rgba(249,115,22,0.15); border:0.2vmin solid rgba(249,115,22,0.4); border-radius:1vmin; padding:1vmin; cursor:pointer; transition:all 0.2s;"
-                            onmouseover="this.style.background='rgba(249,115,22,0.3)'"
-                            onmouseout="this.style.background='rgba(249,115,22,0.15)'">
-                            <input type="checkbox" id="chk-team-1" value="1" checked
-                                style="width:2vmin; height:2vmin; accent-color:#f97316;">
-                            <div>
-                                <div style="display:flex; align-items:center; gap:0.5vmin;">
-                                    <i class="fas fa-hand-holding-usd" style="color:#f97316; font-size:1.8vmin;"></i>
-                                    <span style="font-weight:700; font-size:1.6vmin;">Girişimciler</span>
-                                </div>
-                                <div style="font-size:1vmin; color:#fdba74; margin-top:0.2vmin;"><i
-                                        class="fas fa-percentage" style="font-size:0.9vmin;"></i> +%20 Kazanç</div>
-                            </div>
-                        </label>
-
-                        <!-- Araştırmacılar -->
-                        <label
-                            style="display:flex; align-items:center; gap:1vmin; background:rgba(168,85,247,0.15); border:0.2vmin solid rgba(168,85,247,0.4); border-radius:1vmin; padding:1vmin; cursor:pointer; transition:all 0.2s;"
-                            onmouseover="this.style.background='rgba(168,85,247,0.3)'"
-                            onmouseout="this.style.background='rgba(168,85,247,0.15)'">
-                            <input type="checkbox" id="chk-team-2" value="2" checked
-                                style="width:2vmin; height:2vmin; accent-color:#a855f7;">
-                            <div>
-                                <div style="display:flex; align-items:center; gap:0.5vmin;">
-                                    <i class="fas fa-book-open" style="color:#a855f7; font-size:1.8vmin;"></i>
-                                    <span style="font-weight:700; font-size:1.6vmin;">Araştırmacılar</span>
-                                </div>
-                                <div style="font-size:1vmin; color:#c4b5fd; margin-top:0.2vmin;"><i
-                                        class="fas fa-search" style="font-size:0.9vmin;"></i> İpucu (50/50)</div>
-                            </div>
-                        </label>
-
-                        <!-- Diplomatlar -->
-                        <label
-                            style="display:flex; align-items:center; gap:1vmin; background:rgba(244,114,182,0.15); border:0.2vmin solid rgba(244,114,182,0.4); border-radius:1vmin; padding:1vmin; cursor:pointer; transition:all 0.2s;"
-                            onmouseover="this.style.background='rgba(244,114,182,0.3)'"
-                            onmouseout="this.style.background='rgba(244,114,182,0.15)'">
-                            <input type="checkbox" id="chk-team-3" value="3" checked
-                                style="width:2vmin; height:2vmin; accent-color:#f472b6;">
-                            <div>
-                                <div style="display:flex; align-items:center; gap:0.5vmin;">
-                                    <i class="fas fa-hands-helping" style="color:#f472b6; font-size:1.8vmin;"></i>
-                                    <span style="font-weight:700; font-size:1.6vmin;">Diplomatlar</span>
-                                </div>
-                                <div style="font-size:1vmin; color:#f9a8d4; margin-top:0.2vmin;"><i
-                                        class="fas fa-handshake" style="font-size:0.9vmin;"></i> Mola İste</div>
-                            </div>
-                        </label>
-                    </div>
-                </div>
-
-                <!-- SINIF SEÇİMİ KARTI -->
-                <div
-                    style="min-width:20vmin; background: linear-gradient(135deg, rgba(15,23,42,0.85), rgba(30,41,59,0.9)); backdrop-filter:blur(10px); border:0.2vmin solid rgba(255,255,255,0.15); border-radius:1.5vmin; padding:2vmin; color:white; box-shadow: 0 0.8vmin 2.5vmin rgba(0,0,0,0.4); display:flex; flex-direction:column; justify-content:center;">
-                    <div style="text-align:center; margin-bottom:1.5vmin;">
-                        <i class="fas fa-graduation-cap"
-                            style="font-size:2.5vmin; color:#10b981; margin-right:0.5vmin;"></i>
-                        <span style="font-size:2vmin; font-weight:800; letter-spacing:1px;">SINIF SEVİYESİ</span>
+                    <!-- AI RAKİP MODU KARTI -->
+                    <div class="settings-card">
+                        <div class="settings-card-header text-center">
+                            <i class="fas fa-robot card-header-icon" style="color:#38bdf8; float:none; margin-right:0.5vmin;"></i>
+                            <span class="card-header-title">AI RAKİP MODU</span>
+                            <div class="card-header-sub">Bot olacak takımları seçin (boş ise hepsi insan)</div>
+                        </div>
+                        <div class="ai-select-grid">
+                            <label class="ai-select-label ai-0">
+                                <input type="checkbox" id="ai-team-0" value="0">
+                                <span><i class="fas fa-compass"></i> Kaşifler</span>
+                            </label>
+                            <label class="ai-select-label ai-1">
+                                <input type="checkbox" id="ai-team-1" value="1">
+                                <span><i class="fas fa-store"></i> Girişimciler</span>
+                            </label>
+                            <label class="ai-select-label ai-2">
+                                <input type="checkbox" id="ai-team-2" value="2">
+                                <span><i class="fas fa-microscope"></i> Araştırmacılar</span>
+                            </label>
+                            <label class="ai-select-label ai-3">
+                                <input type="checkbox" id="ai-team-3" value="3">
+                                <span><i class="fas fa-handshake"></i> Diplomatlar</span>
+                            </label>
+                        </div>
+                        <div class="ai-difficulty-wrap">
+                            <span class="difficulty-title">Zorluk:</span>
+                            <label class="diff-label"><input type="radio" name="ai-diff" value="easy"> Kolay</label>
+                            <label class="diff-label"><input type="radio" name="ai-diff" value="normal" checked> Normal</label>
+                            <label class="diff-label"><input type="radio" name="ai-diff" value="hard"> Zor</label>
+                        </div>
                     </div>
 
-                    <label
-                        style="display:flex; align-items:center; gap:1vmin; background:rgba(16,185,129,0.1); border:0.2vmin solid rgba(16,185,129,0.3); border-radius:1vmin; padding:1vmin; cursor:pointer; margin-bottom:0.8vmin; transition:all 0.2s;"
-                        onmouseover="this.style.background='rgba(16,185,129,0.25)'"
-                        onmouseout="this.style.background='rgba(16,185,129,0.1)'">
-                        <input type="radio" name="grade-radio" value="5"
-                            style="width:2vmin; height:2vmin; accent-color:#10b981;">
-                        <div style="font-weight:700; font-size:1.6vmin;"><i class="fas fa-star"
-                                style="color:#fbbf24; font-size:1.2vmin;"></i> 5. Sınıf</div>
-                    </label>
-                    <label
-                        style="display:flex; align-items:center; gap:1vmin; background:rgba(59,130,246,0.15); border:0.2vmin solid rgba(59,130,246,0.4); border-radius:1vmin; padding:1vmin; cursor:pointer; margin-bottom:0.8vmin; transition:all 0.2s;"
-                        onmouseover="this.style.background='rgba(59,130,246,0.3)'"
-                        onmouseout="this.style.background='rgba(59,130,246,0.15)'">
-                        <input type="radio" name="grade-radio" value="6" checked
-                            style="width:2vmin; height:2vmin; accent-color:#3b82f6;">
-                        <div style="font-weight:700; font-size:1.6vmin;"><i class="fas fa-star"
-                                style="color:#fbbf24; font-size:1.2vmin;"></i><i class="fas fa-star"
-                                style="color:#fbbf24; font-size:1.2vmin;"></i> 6. Sınıf</div>
-                    </label>
-                    <label
-                        style="display:flex; align-items:center; gap:1vmin; background:rgba(168,85,247,0.1); border:0.2vmin solid rgba(168,85,247,0.3); border-radius:1vmin; padding:1vmin; cursor:pointer; transition:all 0.2s;"
-                        onmouseover="this.style.background='rgba(168,85,247,0.25)'"
-                        onmouseout="this.style.background='rgba(168,85,247,0.1)'">
-                        <input type="radio" name="grade-radio" value="7"
-                            style="width:2vmin; height:2vmin; accent-color:#a855f7;">
-                        <div style="font-weight:700; font-size:1.6vmin;"><i class="fas fa-star"
-                                style="color:#fbbf24; font-size:1.2vmin;"></i><i class="fas fa-star"
-                                style="color:#fbbf24; font-size:1.2vmin;"></i><i class="fas fa-star"
-                                style="color:#fbbf24; font-size:1.2vmin;"></i> 7. Sınıf</div>
-                    </label>
-                    <label
-                        style="display:flex; align-items:center; gap:1vmin; background:rgba(239,68,68,0.1); border:0.2vmin solid rgba(239,68,68,0.3); border-radius:1vmin; padding:1vmin; cursor:pointer; transition:all 0.2s;"
-                        onmouseover="this.style.background='rgba(239,68,68,0.25)'"
-                        onmouseout="this.style.background='rgba(239,68,68,0.1)'">
-                        <input type="radio" name="grade-radio" value="8"
-                            style="width:2vmin; height:2vmin; accent-color:#ef4444;">
-                        <div style="font-weight:700; font-size:1.6vmin;"><i class="fas fa-star"
-                                style="color:#fbbf24; font-size:1.2vmin;"></i><i class="fas fa-star"
-                                style="color:#fbbf24; font-size:1.2vmin;"></i><i class="fas fa-star"
-                                style="color:#fbbf24; font-size:1.2vmin;"></i><i class="fas fa-star"
-                                style="color:#fbbf24; font-size:1.2vmin;"></i> 8. Sınıf</div>
-                    </label>
+                    <!-- Butonlar -->
+                    <div class="action-buttons-wrap">
+                        <button class="btn-start" onclick="startGame()">OYUNU BAŞLAT <i class="fas fa-dice" style="margin-left:1vmin;"></i></button>
+                        <button class="btn-start btn-how" onclick="showHowTo()">NASIL OYNANIR? <i class="fas fa-circle-question" style="margin-left:1vmin;"></i></button>
+                        <button class="btn-start btn-resume" id="btn-resume" onclick="loadGame()" style="display:none;">DEVAM ET <i class="fas fa-clock-rotate-left" style="margin-left:1vmin;"></i></button>
+                    </div>
                 </div>
-            </div>
-
-            <div style="max-width:70vmin; margin:0 auto 2vmin; background:linear-gradient(135deg,rgba(15,23,42,0.85),rgba(30,41,59,0.9)); border:0.2vmin solid rgba(255,255,255,0.15); border-radius:1.5vmin; padding:1.8vmin 2vmin; color:white;">
-                <div style="text-align:center; margin-bottom:1.2vmin;">
-                    <i class="fas fa-robot" style="color:#38bdf8; margin-right:0.5vmin;"></i>
-                    <span style="font-size:1.9vmin; font-weight:800; letter-spacing:1px;">AI RAKİP MODU</span>
-                    <span style="font-size:1.3vmin; color:#94a3b8; display:block; margin-top:0.4vmin;">Bot olacak takımları işaretle (boş bırakırsan herkes insan oynar)</span>
-                </div>
-                <div style="display:flex; gap:1vmin; justify-content:center; flex-wrap:wrap; margin-bottom:1.2vmin;">
-                    <label style="display:flex; align-items:center; gap:0.6vmin; background:rgba(16,185,129,0.15); border:0.2vmin solid rgba(16,185,129,0.4); border-radius:1vmin; padding:0.8vmin 1.2vmin; cursor:pointer; font-size:1.5vmin; font-weight:700;">
-                        <input type="checkbox" id="ai-team-0" value="0" style="width:1.8vmin; height:1.8vmin; accent-color:#10b981;"> <i class="fas fa-compass"></i> Kaşifler</label>
-                    <label style="display:flex; align-items:center; gap:0.6vmin; background:rgba(234,179,8,0.15); border:0.2vmin solid rgba(234,179,8,0.4); border-radius:1vmin; padding:0.8vmin 1.2vmin; cursor:pointer; font-size:1.5vmin; font-weight:700;">
-                        <input type="checkbox" id="ai-team-1" value="1" style="width:1.8vmin; height:1.8vmin; accent-color:#eab308;"> <i class="fas fa-store"></i> Girişimciler</label>
-                    <label style="display:flex; align-items:center; gap:0.6vmin; background:rgba(168,85,247,0.15); border:0.2vmin solid rgba(168,85,247,0.4); border-radius:1vmin; padding:0.8vmin 1.2vmin; cursor:pointer; font-size:1.5vmin; font-weight:700;">
-                        <input type="checkbox" id="ai-team-2" value="2" style="width:1.8vmin; height:1.8vmin; accent-color:#a855f7;"> <i class="fas fa-microscope"></i> Araştırmacılar</label>
-                    <label style="display:flex; align-items:center; gap:0.6vmin; background:rgba(59,130,246,0.15); border:0.2vmin solid rgba(59,130,246,0.4); border-radius:1vmin; padding:0.8vmin 1.2vmin; cursor:pointer; font-size:1.5vmin; font-weight:700;">
-                        <input type="checkbox" id="ai-team-3" value="3" style="width:1.8vmin; height:1.8vmin; accent-color:#3b82f6;"> <i class="fas fa-handshake"></i> Diplomatlar</label>
-                </div>
-                <div style="display:flex; gap:1vmin; justify-content:center; align-items:center; flex-wrap:wrap;">
-                    <span style="font-size:1.4vmin; color:#cbd5e1; font-weight:700;">Zorluk:</span>
-                    <label style="font-size:1.4vmin; cursor:pointer;"><input type="radio" name="ai-diff" value="easy" style="accent-color:#10b981;"> Kolay</label>
-                    <label style="font-size:1.4vmin; cursor:pointer;"><input type="radio" name="ai-diff" value="normal" checked style="accent-color:#3b82f6;"> Normal</label>
-                    <label style="font-size:1.4vmin; cursor:pointer;"><input type="radio" name="ai-diff" value="hard" style="accent-color:#ef4444;"> Zor</label>
-                </div>
-            </div>
-
-            <div style="display:flex; gap:1.5vmin; justify-content:center; flex-wrap:wrap; align-items:center;">
-                <button class="btn-start" onclick="startGame()">OYUNU BAŞLAT <i class="fas fa-dice"
-                        style="margin-left:1vmin;"></i></button>
-                <button class="btn-start" onclick="showHowTo()" style="background:linear-gradient(135deg,#3b82f6,#2563eb);">
-                    NASIL OYNANIR? <i class="fas fa-circle-question" style="margin-left:1vmin;"></i></button>
-                <button class="btn-start" id="btn-resume" onclick="loadGame()" style="display:none; background:linear-gradient(135deg,#f59e0b,#d97706);">
-                    DEVAM ET <i class="fas fa-clock-rotate-left" style="margin-left:1vmin;"></i></button>
             </div>
 
             <div style="margin-top:2vmin; font-size:1.4vmin; font-weight:700; color:#cbd5e1; opacity:0.85; letter-spacing:0.5px;">
@@ -301,11 +258,11 @@
                     </div>
                 </div>
                 <div class="super-power-box" style="cursor:pointer;" onclick="useTeamPower(0)"
-                    title="Kendi sıranızda zarı attıktan ve hamlenizi yaptıktan hemen sonra tıklarsanız, sıranızı kaybetmeden bir el daha zar atarsınız.">
+                    title="Planlı Keşif: Kendi sıranızda zarı atmadan önce tıklayarak, 1-6 kare arasında gitmek istediğiniz tam adımı seçebilirsiniz.">
                     <div class="super-power-title">Süper Güç (Tıkla Etkinleştir)</div>
                     <div class="coin-slot">
-                        <div class="token"><i class="fas fa-dice"></i></div>
-                        <div style="font-size: 1.2vmin; font-weight: 700; line-height:1;">Tekrar<br>Zar At</div>
+                        <div class="token"><i class="fas fa-map-marked-alt"></i></div>
+                        <div style="font-size: 1.2vmin; font-weight: 700; line-height:1;">Planlı<br>Keşif</div>
                     </div>
                 </div>
                 <div class="score-row">
@@ -340,11 +297,11 @@
                     </div>
                 </div>
                 <div class="super-power-box" style="cursor:pointer;" onclick="useTeamPower(1)"
-                    title="Kendi sıranızda tıklayarak kasadan mevcut paranızın %20'si kadar anında yatırım bonusu alırsınız.">
+                    title="Yatırım Teşviki: Kendi sıranızda tıklayarak kasadan anında +250 SBP yatırım desteği alırsınız.">
                     <div class="super-power-title">Süper Güç (Tıkla Etkinleştir)</div>
                     <div class="coin-slot">
-                        <div class="token"><i class="fas fa-percentage"></i></div>
-                        <div style="font-size: 1.2vmin; font-weight: 700; line-height:1;">+%20<br>Kazanç</div>
+                        <div class="token"><i class="fas fa-coins"></i></div>
+                        <div style="font-size: 1.2vmin; font-weight: 700; line-height:1;">Devlet<br>Teşviki</div>
                     </div>
                 </div>
                 <div class="score-row">
@@ -478,11 +435,11 @@
                     </div>
                 </div>
                 <div class="super-power-box" style="cursor:pointer;" onclick="useTeamPower(2)"
-                    title="Sadece kendi sıranızda, ekranda bir soru açıkken (fakat henüz cevaplamadan) tıklarsanız, 2 yanlış cevap elenir.">
+                    title="Akademik Çözüm: Kendi sıranızda, ekranda bir soru açıkken (cevaplamadan önce) tıklarsanız, sorunun doğru şıkkı otomatik işaretlenir ve +100 SBP akademik araştırma hibesi kazanılarak bir sonraki aşamaya geçilir.">
                     <div class="super-power-title">Süper Güç (Tıkla Etkinleştir)</div>
                     <div class="coin-slot">
-                        <div class="token"><i class="fas fa-search"></i></div>
-                        <div style="font-size: 1.2vmin; font-weight: 700; line-height:1;">İpucu<br>Gör</div>
+                        <div class="token"><i class="fas fa-graduation-cap"></i></div>
+                        <div style="font-size: 1.2vmin; font-weight: 700; line-height:1;">Akademik<br>Çözüm</div>
                     </div>
                 </div>
                 <div class="score-row">
@@ -517,11 +474,11 @@
                     </div>
                 </div>
                 <div class="super-power-box" style="cursor:pointer;" onclick="useTeamPower(3)"
-                    title="Kendi sıranızda tıklarsanız, sizden sonraki takımın sırası atlanır ve mola verilir.">
+                    title="Diplomatik Muafiyet: Kendi sıranızda tıklayarak diplomatik dokunulmazlık kazanırsınız. Rakip mülklerine geldiğinizde ödeyeceğiniz ilk kira muaf sayılacaktır.">
                     <div class="super-power-title">Süper Güç (Tıkla Etkinleştir)</div>
                     <div class="coin-slot">
-                        <div class="token"><i class="fas fa-handshake"></i></div>
-                        <div style="font-size: 1.2vmin; font-weight: 700; line-height:1;">Mola<br>İste</div>
+                        <div class="token"><i class="fas fa-shield-alt"></i></div>
+                        <div style="font-size: 1.2vmin; font-weight: 700; line-height:1;">Diplomatik<br>Muafiyet</div>
                     </div>
                 </div>
                 <div class="score-row">
@@ -617,9 +574,9 @@
             1: ["Birlikte Yaşam", "Ders Kitabı Bürosu"],
             2: ["Evimiz Dünya", "Coğrafya Kulübü"],
             3: ["Ortak Miras", "Tarih Kalesi"],
-            4: ["Yaşayan Demokr.", "Atatürk Evi"],
-            5: ["Hayat. Ekonomi", "Girişimci Ofisi"],
-            6: ["Teknoloji & Sos.", "Uzay Üssü"]
+            4: ["Yaşayan Demokrasi", "Atatürk Evi"],
+            5: ["Ekonomik Hayat", "Girişimci Ofisi"],
+            6: ["Teknoloji ve Toplum", "Uzay Üssü"]
         };
 
         // Bina kademeleri: 0 = arsa, 1 Kütüphane, 2 Müze, 3 Üniversite
@@ -779,6 +736,7 @@
                 p.innerHTML = `<i class="fas ${t.icon}" style="color:white; font-size:2vmin;"></i>`;
                 p.style.background = pawnColors[t.id] || t.color;
                 p.style.boxShadow = `0 0 1.2vmin ${pawnColors[t.id]}, 0 0.3vmin 0.8vmin rgba(0,0,0,0.5)`;
+                p.setAttribute('data-tooltip', `${t.name} (${t.sbp} SBP)`);
                 p.id = `logic-pawn-${t.id}`;
                 document.getElementById('board').appendChild(p);
             });
@@ -811,6 +769,16 @@
         function updatePawnPositions() {
             teams.forEach((t, i) => {
                 const p = document.getElementById(`logic-pawn-${t.id}`);
+                if (!p) return;
+                p.setAttribute('data-tooltip', `${t.name} (${t.sbp} SBP)`);
+                
+                // Sırası gelen takımın piyonuna active sınıfı ekle
+                if (teams[currentTurn].id === t.id) {
+                    p.classList.add('active');
+                } else {
+                    p.classList.remove('active');
+                }
+                
                 const sq = document.getElementById(`sq-${t.pos}`);
                 if (!sq) return;
                 const rect = sq.getBoundingClientRect();
@@ -1103,8 +1071,20 @@
                     // KENDİ MÜLKÜN: bina geliştir
                     showOwnPropertyModal(sq, preamble);
                 } else {
-                    // BAŞKASININ MÜLKÜ: kira öde
-                    showRentModal(sq, preamble);
+                    // BAŞKASININ MÜLKÜ: Diplomatik Muafiyet kontrolü
+                    if (t.diplomaticImmunity) {
+                        t.diplomaticImmunity = false;
+                        aiAuto(true);
+                        Swal.fire({
+                            title: 'Diplomatik Muafiyet 🤝',
+                            text: `${t.name} takımı diplomatik ayrıcalığını kullanarak bu mülkte kira ödemekten muaf tutuldu!`,
+                            icon: 'success'
+                        }).then(() => {
+                            nextTurn();
+                        });
+                    } else {
+                        showRentModal(sq, preamble);
+                    }
                 }
             }
         }
@@ -1333,23 +1313,10 @@
             setTimeout(nextTurn, 2500);
         }
 
-        let extraRollActivated = false;
-        let skipNextTurn = false;
-
         function nextTurn() {
             document.getElementById('game-overlay').style.display = 'none';
 
-            if (extraRollActivated && currentTurn === 0) {
-                extraRollActivated = false;
-                Swal.fire({ title: 'Kaşifler', text: 'Kaşifler süper gücü devrede: Tekrar zar atma hakkınız var!', icon: 'info' });
-            } else {
-                currentTurn = (currentTurn + 1) % teams.length;
-                if (skipNextTurn) {
-                    Swal.fire({ title: 'Diplomatlar', text: `${teams[currentTurn].name} takımı pas geçiliyor (Diplomatlar Molası devrede)!`, icon: 'info' });
-                    skipNextTurn = false;
-                    currentTurn = (currentTurn + 1) % teams.length;
-                }
-            }
+            currentTurn = (currentTurn + 1) % teams.length;
 
             updateActiveUI();
             document.getElementById('btn-roll').style.opacity = '1';
@@ -1366,42 +1333,99 @@
                 Swal.fire({ title: 'Uyarı', text: `${t.name} takımı süper gücünü yarışmada sadece 1 kez kullanabilir ve bu hak önceden kullanıldı!`, icon: 'warning' });
                 return;
             }
-            if (teams[currentTurn].id !== teamId && teamId !== 3) {
+            if (teams[currentTurn].id !== teamId) {
                 Swal.fire({ title: 'Uyarı', text: 'Sadece kendi sıranızda süper gücünüzü kullanabilirsiniz!', icon: 'warning' });
                 return;
             }
 
             if (teamId === 0) { // Kaşifler
-                extraRollActivated = true;
-                Swal.fire({ title: 'Süper Güç Aktif', text: 'Kaşifler süper gücü aktif! Bu hamlenizden sonra sıranızı kaybetmeyip tekrar zar atacaksınız.', icon: 'info' });
+                if (isRolling) return;
+                Swal.fire({
+                    title: 'Pusulanı Ayarla 🧭',
+                    text: 'Kaşifler süper gücü ile 1-6 kare arasında gitmek istediğin tam adımı seç:',
+                    icon: 'question',
+                    showCancelButton: true,
+                    cancelButtonText: 'İptal',
+                    confirmButtonText: 'İlerle',
+                    input: 'select',
+                    inputOptions: {
+                        '1': '1 Kare İleri',
+                        '2': '2 Kare İleri',
+                        '3': '3 Kare İleri',
+                        '4': '4 Kare İleri',
+                        '5': '5 Kare İleri',
+                        '6': '6 Kare İleri'
+                    },
+                    inputValue: '3'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        const steps = parseInt(result.value);
+                        t.powerReady = false;
+                        
+                        // dim superpower box
+                        let cards = document.querySelectorAll('.team-card');
+                        cards.forEach(card => {
+                            if (parseInt(card.getAttribute('data-team')) === 1) {
+                                card.querySelector('.super-power-box').style.opacity = '0.5';
+                            }
+                        });
+                        
+                        Swal.fire({ title: 'Keşif Başladı!', text: `${steps} kare ileri keşfe çıkıyorsunuz!`, icon: 'success', timer: 1500, showConfirmButton: false });
+                        movePlayer(steps);
+                    }
+                });
+                return;
             } else if (teamId === 1) { // Girişimciler
-                let bonus = Math.floor(t.sbp * 0.20);
-                t.sbp += bonus;
-                Swal.fire({ title: 'Süper Güç Aktif', text: `Girişimciler süper gücü aktif! Kasadan anında mevcut paranızın %20'si kadar bonus eklendi (+${bonus} SBP)!`, icon: 'success' });
+                t.sbp += 250;
+                Swal.fire({ title: 'Girişimci Teşviki 🪙', text: 'Girişimciler süper gücü aktif! Kasadan anında +250 SBP yatırım desteği eklendi.', icon: 'success' });
                 confetti({ particleCount: 100, spread: 80, colors: ['#eab308', '#ffffff'] });
             } else if (teamId === 2) { // Araştırmacılar
                 if (!activeQuestionMode) {
-                    Swal.fire({ title: 'Uyarı', text: 'Araştırmacılar süper gücünü (İpucu) SADECE ekranda takımınıza ait bir soru açıkken (cevaplamadan önce) kullanabilirsiniz!', icon: 'warning' });
+                    Swal.fire({ title: 'Uyarı', text: 'Araştırmacılar süper gücünü (Akademik Çözüm) SADECE ekranda takımınıza ait bir soru açıkken (cevaplamadan önce) kullanabilirsiniz!', icon: 'warning' });
                     return;
                 }
 
                 const btns = document.querySelectorAll('.opt-btn');
                 if (btns.length > 0 && btns[0].disabled) {
-                    Swal.fire({ title: 'Uyarı', text: 'Soruyu zaten cevapladınız! İpucu yeteneği kullanılamaz.', icon: 'warning' });
+                    Swal.fire({ title: 'Uyarı', text: 'Soruyu zaten cevapladınız! Akademik Çözüm yeteneği kullanılamaz.', icon: 'warning' });
                     return;
                 }
 
-                apply5050Joker();
-                Swal.fire({ title: 'Süper Güç Aktif', text: 'Araştırmacılar süper gücü aktif! 2 yanlış seçenek elendi.', icon: 'success' });
+                t.powerReady = false;
+                // Dim superpower box
+                let cards = document.querySelectorAll('.team-card');
+                cards.forEach(card => {
+                    if (parseInt(card.getAttribute('data-team')) === 3) {
+                        card.querySelector('.super-power-box').style.opacity = '0.5';
+                    }
+                });
+                
+                t.sbp += 100; // Akademik Hibe
+                
+                Swal.fire({
+                    title: 'Akademik Çözüm 🔬',
+                    text: 'Araştırmacılar süper gücü aktif! Doğru cevap otomatik işaretlendi ve +100 SBP akademik araştırma desteği kazandınız!',
+                    icon: 'success',
+                    timer: 2000,
+                    showConfirmButton: false
+                });
+
+                let correctBtn = document.getElementById('q-opt-' + currentCorrectAns);
+                if (correctBtn) {
+                    correctBtn.click();
+                }
+                
                 let btnAra = document.getElementById("btn-ara-power");
                 if (btnAra) btnAra.style.display = "none";
+                updateActiveUI();
+                return;
             } else if (teamId === 3) { // Diplomatlar
-                skipNextTurn = true;
-                Swal.fire({ title: 'Süper Güç Aktif', text: 'Diplomatlar süper gücü aktif! Mola istediniz, bir sonraki oynayacak takımın sırası pas geçilecek.', icon: 'info' });
+                t.diplomaticImmunity = true;
+                Swal.fire({ title: 'Diplomatik Muafiyet 🤝', text: 'Diplomatlar süper gücü aktif! Diplomatik dokunulmazlık kazandınız. Rakip mülklerine geldiğinizde ödeyeceğiniz ilk kira muaf sayılacaktır!', icon: 'success' });
             }
 
             t.powerReady = false;
-            // Optionally dim the superpower box
+            // Dim the superpower box
             let cards = document.querySelectorAll('.team-card');
             cards.forEach(card => {
                 if (parseInt(card.getAttribute('data-team')) === teamId + 1) {
@@ -1417,17 +1441,16 @@
 
             // Timer durdur
             if (timerInterval) { clearInterval(timerInterval); timerInterval = null; }
+            if (flashInterval) { clearInterval(flashInterval); flashInterval = null; }
             timeLeft = 25 * 60;
             document.getElementById('display-time').innerText = '25:00';
 
             // Takımları sıfırla
-            baseTeams.forEach(bt => { bt.sbp = 1500; bt.badges = 0; bt.pos = 0; bt.powerReady = true; bt.usedJokers = {}; });
+            baseTeams.forEach(bt => { bt.sbp = 1500; bt.badges = 0; bt.pos = 0; bt.powerReady = true; bt.usedJokers = {}; bt.diplomaticImmunity = false; });
             teams = [];
             currentTurn = 0;
             activeQuestionMode = false;
             activeJoker5050 = false;
-            extraRollActivated = false;
-            skipNextTurn = false;
             activeFlashEvent = null;
 
             // Tüm ünitelerin kullanılmış soru listelerini sıfırla
@@ -1455,6 +1478,7 @@
 
         // Timer logic
         let timerInterval;
+        let flashInterval;
         let timeLeft = 25 * 60; // 25 minutes
         function toggleTimer() {
             if (timerInterval) {
@@ -1482,6 +1506,7 @@
 
         function endGame() {
             clearSave(); // oyun bitti: kaydı sil
+            if (flashInterval) { clearInterval(flashInterval); flashInterval = null; }
             // Soru modalı açıksa kapat
             let overlay = document.getElementById('game-overlay');
             if (overlay) overlay.style.display = 'none';
@@ -1705,7 +1730,7 @@
                     teamIds: teams.map(t => t.id),
                     currentTurn,
                     timeLeft,
-                    teams: teams.map(t => ({ id: t.id, sbp: t.sbp, badges: t.badges, pos: t.pos, powerReady: t.powerReady, usedJokers: t.usedJokers || {} })),
+                    teams: teams.map(t => ({ id: t.id, sbp: t.sbp, badges: t.badges, pos: t.pos, powerReady: t.powerReady, usedJokers: t.usedJokers || {}, diplomaticImmunity: t.diplomaticImmunity || false })),
                     board
                 };
                 localStorage.setItem(SAVE_KEY, JSON.stringify(state));
@@ -1741,6 +1766,7 @@
                 const bt = baseTeams[s.id];
                 bt.sbp = s.sbp; bt.badges = s.badges; bt.pos = s.pos;
                 bt.powerReady = s.powerReady; bt.usedJokers = s.usedJokers || {};
+                bt.diplomaticImmunity = s.diplomaticImmunity || false;
             });
             currentTurn = state.currentTurn || 0;
             timeLeft = (typeof state.timeLeft === 'number') ? state.timeLeft : 25 * 60;
@@ -1777,7 +1803,8 @@
             if (timerInterval) { clearInterval(timerInterval); timerInterval = null; }
             toggleTimer();
             triggerNewFlashEvent();
-            setInterval(triggerNewFlashEvent, 3 * 60 * 1000);
+            if (flashInterval) { clearInterval(flashInterval); }
+            flashInterval = setInterval(triggerNewFlashEvent, 3 * 60 * 1000);
             maybeAITurn(); // devam edilen turda bot varsa otomatik oyna
         }
 
@@ -1893,7 +1920,8 @@
 
             // start flash events every 3 mins
             triggerNewFlashEvent();
-            setInterval(triggerNewFlashEvent, 3 * 60 * 1000);
+            if (flashInterval) { clearInterval(flashInterval); }
+            flashInterval = setInterval(triggerNewFlashEvent, 3 * 60 * 1000);
 
             maybeAITurn(); // ilk sıra bir bot takımındaysa otomatik başlat
         }
