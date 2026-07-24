@@ -1,3 +1,6 @@
+# Soru kaynagi (sadece yerel; GitHub'a gitmez — yayin: js/questions.bundle.js)
+js/questions.js
+
 # Keystore / imza (asla git'e ekleme)
 android/keystore/
 android/keystore.properties
