@@ -1,5 +1,5 @@
 {
-  "name": "sosyal-monopoly",
+  "name": "bilgiopoli",
   "version": "2.0.0",
   "description": "Bilgiopoli – Sosyal Bilgiler Eğitici Oyun",
   "main": "index.html",
@@ -8,12 +8,19 @@
     "test": "node tools/validate-questions.js",
     "validate": "node tools/validate-questions.js",
     "build:exe": "pyinstaller SosyalMonopoly.spec",
-    "serve": "python -m http.server 8000 --bind 0.0.0.0"
+    "serve": "python -m http.server 8000 --bind 0.0.0.0",
+    "icons:generate": "node tools/generate-icons.js",
+    "build:web": "node tools/sync-www.js",
+    "play:assets": "node tools/generate-play-assets.js",
+    "cap:sync": "npm run build:web && npx cap sync android",
+    "cap:open": "npx cap open android",
+    "android:release": "npm run play:assets && npm run cap:sync",
+    "android:bundle": "npm run android:release && cd android && gradlew.bat bundleRelease"
   },
   "keywords": [
     "education",
     "game",
-    "monopoly",
+    "bilgiopoli",
     "social-studies",
     "turkish",
     "smartboard"
@@ -21,19 +28,23 @@
   "author": "M.A.E",
   "license": "MIT",
   "devDependencies": {
+    "@capacitor/android": "^7.4.2",
+    "@capacitor/cli": "^7.4.2",
+    "@capacitor/core": "^7.4.2",
     "eslint": "^8.0.0",
     "playwright": "^1.61.0",
-    "prettier": "^2.8.0"
+    "prettier": "^2.8.0",
+    "sharp": "^0.34.3"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/username/sosyal-monopoly.git"
+    "url": "https://github.com/IRadagastI/Sosyal-Monopoly.git"
   },
   "bugs": {
-    "url": "https://github.com/username/sosyal-monopoly/issues"
+    "url": "https://github.com/IRadagastI/Sosyal-Monopoly/issues"
   },
-  "homepage": "https://github.com/username/sosyal-monopoly#readme",
+  "homepage": "https://github.com/IRadagastI/Sosyal-Monopoly#readme",
   "engines": {
-    "node": ">=14.0.0"
+    "node": ">=18.0.0"
   }
 }

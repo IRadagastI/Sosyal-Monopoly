@@ -1,0 +1,10 @@
+Bu klasordeki `.aab` dosyasi **henuz Play Store imzasi tasimaz**.
+
+Play Console'a yuklemeden once Android Studio'da imzali paket olusturun:
+
+1. `npm run cap:open`
+2. **Build → Generate Signed App Bundle / APK**
+3. **Android App Bundle** → keystore olusturun veya secin
+4. Cikti: `android/app/release/app-release.aab` (imzali)
+
+Detayli adimlar: `android/KEYSTORE_KURULUM.md`

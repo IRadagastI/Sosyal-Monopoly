@@ -1,0 +1,16 @@
+android/
+node_modules/
+.git/
+.github/
+dist/
+build/
+__pycache__/
+tools/
+*.exe
+*.spec.bak
+tmp_*.txt
+*.log
+index.html.bak
+Bilgiopoli.app/
+.vscode/
+.idea/
