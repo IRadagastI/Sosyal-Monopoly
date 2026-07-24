@@ -1,29 +1,29 @@
 // Capacitor icin www/ klasorune web dosyalarini kopyalar.
-// Orijinal dosyalar yerinde kalir; sadece Android paketi icin kopya olusturulur.
+// Duz metin js/questions.js KOPYALANMAZ — sadece sifreli questions.bundle.js gider.
 const fs = require('fs');
 const path = require('path');
+const { execSync } = require('child_process');
 
 const root = path.resolve(__dirname, '..');
 const www = path.join(root, 'www');
 
-// Kopyalanacak dosya ve klasorler
 const items = [
   'index.html',
   'manifest.json',
   'sw.js',
   'privacy.html',
   'css',
-  'js',
   'vendor',
   'icons'
 ];
 
-function copyRecursive(src, dest) {
+function copyRecursive(src, dest, skipFiles) {
   const stat = fs.statSync(src);
   if (stat.isDirectory()) {
     fs.mkdirSync(dest, { recursive: true });
     for (const entry of fs.readdirSync(src)) {
-      copyRecursive(path.join(src, entry), path.join(dest, entry));
+      if (skipFiles && skipFiles.has(path.join(src, entry))) continue;
+      copyRecursive(path.join(src, entry), path.join(dest, entry), skipFiles);
     }
     return;
   }
@@ -31,7 +31,9 @@ function copyRecursive(src, dest) {
   fs.copyFileSync(src, dest);
 }
 
-// Eski www icerigini temizle
+// Once sifreli soru paketini guncelle
+execSync('node tools/protect-questions.js', { cwd: root, stdio: 'inherit' });
+
 if (fs.existsSync(www)) {
   fs.rmSync(www, { recursive: true, force: true });
 }
@@ -47,4 +49,17 @@ for (const item of items) {
   console.log('Kopyalandi:', item);
 }
 
-console.log('\nwww/ hazir.');
+// js: sadece bundle + baska dosyalar (questions.js haric)
+const jsSrc = path.join(root, 'js');
+const jsDest = path.join(www, 'js');
+fs.mkdirSync(jsDest, { recursive: true });
+for (const entry of fs.readdirSync(jsSrc)) {
+  if (entry === 'questions.js') {
+    console.log('Atlandi (duz metin): js/questions.js');
+    continue;
+  }
+  copyRecursive(path.join(jsSrc, entry), path.join(jsDest, entry));
+  console.log('Kopyalandi: js/' + entry);
+}
+
+console.log('\nwww/ hazir (sorular sifreli).');

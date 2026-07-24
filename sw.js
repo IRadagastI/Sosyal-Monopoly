@@ -1,11 +1,11 @@
 // Bilgiopoli - Service Worker (offline destek)
-const CACHE_VERSION = 'bilgiopoli-v6';
+const CACHE_VERSION = 'bilgiopoli-v7';
 const CORE_ASSETS = [
   './',
   './index.html',
   './manifest.json',
   './css/style.css',
-  './js/questions.js',
+  './js/questions.bundle.js',
   './icons/icon.svg',
   './icons/icon-192.png',
   './icons/icon-512.png',

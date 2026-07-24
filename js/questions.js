@@ -1,5 +1,6 @@
-// Bilgiopoli - Soru Havuzu (5/6/7/8. sinif)
-// Bu dosya index.html icindeki ana script'ten ONCE yuklenmelidir.
+// js/questions.js — geliştirici kaynağı (düzenleme + npm test)
+// Oyun bu dosyayı DOĞRUDAN yüklemez; yayında js/questions.bundle.js kullanılır.
+// Soru değiştirdikten sonra: npm run protect:questions
 
 const questions5 = {
             1: [

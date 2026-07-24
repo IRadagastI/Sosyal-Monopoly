@@ -1,5 +1,5 @@
-// Soru havuzunu doğrular: her soru { q, opts[4], ans:0..3 } olmalı.
-// Kullanım: node tools/validate-questions.js
+// Soru havuzu doğrular: her soru { q, opts[4], ans:0..3 } olmalı.
+// Kaynak dosya: js/questions.js (bundle degil)
 const fs = require('fs');
 const path = require('path');
 const vm = require('vm');

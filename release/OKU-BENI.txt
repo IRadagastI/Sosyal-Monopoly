@@ -1,10 +1,7 @@
-Bu klasordeki `.aab` dosyasi **henuz Play Store imzasi tasimaz**.
+Bu klasordeki `.aab` dosyasi Play Store'a yuklenmeye hazirdir.
 
-Play Console'a yuklemeden once Android Studio'da imzali paket olusturun:
+Imzali paket: `Bilgiopoli-v2.0.0-SIGNED.aab`
 
-1. `npm run cap:open`
-2. **Build → Generate Signed App Bundle / APK**
-3. **Android App Bundle** → keystore olusturun veya secin
-4. Cikti: `android/app/release/app-release.aab` (imzali)
+Keystore bilgileri (guvenli saklayin): `android/keystore/KEYSTORE_BILGI.txt`
 
-Detayli adimlar: `android/KEYSTORE_KURULUM.md`
+ONEMLI: Keystore sifresini kaybederseniz uygulamayi guncelleyemezsiniz!
