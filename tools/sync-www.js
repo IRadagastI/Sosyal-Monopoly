@@ -31,8 +31,22 @@ function copyRecursive(src, dest, skipFiles) {
   fs.copyFileSync(src, dest);
 }
 
-// Once sifreli soru paketini guncelle
-execSync('node tools/protect-questions.js', { cwd: root, stdio: 'inherit' });
+// Once sifreli soru paketini guncelle.
+// js/questions.js sadece yerel kaynaktir (git'e girmez). Bulunmadigi makinede
+// mevcut js/questions.bundle.js zaten guncel kabul edilir; build'i kirmak yerine
+// bu adimi atla. Boylece soru havuzuna dokunmayan degisiklikler (arayuz/mantik)
+// kaynak dosya olmadan da yayina alinabilir.
+const questionsSrc = path.join(root, 'js', 'questions.js');
+const questionsBundle = path.join(root, 'js', 'questions.bundle.js');
+if (fs.existsSync(questionsSrc)) {
+  execSync('node tools/protect-questions.js', { cwd: root, stdio: 'inherit' });
+} else if (fs.existsSync(questionsBundle)) {
+  console.warn('js/questions.js yok — mevcut js/questions.bundle.js kullanilacak.');
+  console.warn('Sorulari degistirecekseniz once js/questions.js dosyasini geri koyun.');
+} else {
+  console.error('HATA: ne js/questions.js ne js/questions.bundle.js bulundu.');
+  process.exit(1);
+}
 
 if (fs.existsSync(www)) {
   fs.rmSync(www, { recursive: true, force: true });
