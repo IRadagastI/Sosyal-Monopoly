@@ -1,5 +1,8 @@
 // Bilgiopoli - Service Worker (offline destek)
-const CACHE_VERSION = 'bilgiopoli-v7';
+// ONEMLI: index.html/css/js her degistiginde bu surumu artir. Asagidaki fetch
+// stratejisi cache-first oldugu icin surum artmazsa cihaz eski kodu calistirmaya
+// devam eder.
+const CACHE_VERSION = 'bilgiopoli-v8';
 const CORE_ASSETS = [
   './',
   './index.html',
@@ -38,7 +41,9 @@ self.addEventListener('activate', (event) => {
   );
 });
 
-// İstekler: önce ağ, başarısız olursa önbellek (stale-while-revalidate benzeri)
+// İstekler: önbellekte varsa önce önbellek, arka planda ağdan tazelenir
+// (cache-first + background revalidate). Yeni sürüm ancak CACHE_VERSION
+// artırıldığında anında devreye girer.
 self.addEventListener('fetch', (event) => {
   const req = event.request;
   if (req.method !== 'GET') return;
