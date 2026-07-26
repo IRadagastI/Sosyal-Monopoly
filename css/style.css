@@ -34,6 +34,14 @@
             -webkit-user-drag: none;
         }
 
+        /* Mobil tarayici/WebView'in yazilari kendi kafasina gore buyutmesini
+           (font boosting) engelle. Olcek tamamen vmin'e bagli kalsin. */
+        html {
+            -webkit-text-size-adjust: 100%;
+            -moz-text-size-adjust: 100%;
+            text-size-adjust: 100%;
+        }
+
         body {
             margin: 0;
             height: 100vh;
