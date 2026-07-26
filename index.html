@@ -780,9 +780,28 @@
         }
 
         let isRolling = false;
+        let rollStartedAt = 0;
+
+        // Oyuncunun dokunmasini bekleyen bir pencere ekranda mi?
+        function turnUiBusy() {
+            const ov = document.getElementById('game-overlay');
+            const overlayOpen = ov && getComputedStyle(ov).display !== 'none';
+            const swalOpen = !!(window.Swal && Swal.isVisible());
+            return overlayOpen || swalOpen;
+        }
+
         function rollDice() {
-            if (isRolling) return;
+            if (isRolling) {
+                // Guvenlik agi: tur zinciri koptuysa (ekranda bekleyen hicbir pencere
+                // yok ve uzun suredir takili) oyunu kilitli birakma, sirayi kurtar.
+                if (!turnUiBusy() && Date.now() - rollStartedAt > 20000) {
+                    console.warn('Tur zinciri takildi; sira devrediliyor.');
+                    nextTurn();
+                }
+                return;
+            }
             isRolling = true;
+            rollStartedAt = Date.now();
             document.getElementById('btn-roll').style.opacity = '0.5';
 
             let rollTotal = 0;
@@ -822,7 +841,14 @@
             updatePawnPositions();
 
             setTimeout(() => {
-                handleSquare(t.pos, passedStart);
+                // handleSquare async; icinde bir hata olusursa tur zinciri sessizce
+                // kopuyor ve isRolling true kaliyordu. Hatada sirayi devret.
+                Promise.resolve()
+                    .then(() => handleSquare(t.pos, passedStart))
+                    .catch(err => {
+                        console.error('Kare islenirken hata:', err);
+                        nextTurn();
+                    });
             }, 600);
         }
 
@@ -1607,6 +1633,18 @@
         }
 
         function openFinal() {
+            // Buyuk Final bagimsiz bir bonus; tur devam ederken acilirsa turun soru
+            // penceresini eziyor ve checkFinal() overlay'i nextTurn() cagirmadan
+            // kapattigi icin isRolling true kaliyordu -> ZAR AT kalici olarak olu.
+            if (isRolling || activeQuestionMode) {
+                Swal.fire({
+                    title: 'Önce sıranı tamamla',
+                    text: 'Büyük Final Kapışması sadece sıra beklerken açılabilir. Devam eden hamleni bitirdikten sonra tekrar dene.',
+                    icon: 'warning',
+                    confirmButtonColor: '#fbbf24'
+                });
+                return;
+            }
             let fq = getRandomFinalQuestion();
 
             showMsgModal(`
