@@ -1,7 +1,10 @@
-// SVG'den Play Store / PWA icin PNG ikonlar uretir.
+// Ana ikon kaynagindan (YICON1.png) Play Store / PWA / Android launcher PNG uretir.
 // Kullanim: node tools/generate-icons.js
 const fs = require('fs');
 const path = require('path');
+const { generateAndroidLauncherIcons } = require('./generate-android-icons');
+
+const MASTER_ICON = 'YICON1.png';
 
 async function main() {
   let sharp;
@@ -13,8 +16,12 @@ async function main() {
   }
 
   const iconsDir = path.resolve(__dirname, '..', 'icons');
-  const svgPath = path.join(iconsDir, 'icon.svg');
-  const svg = fs.readFileSync(svgPath);
+  const masterPath = path.join(iconsDir, MASTER_ICON);
+  if (!fs.existsSync(masterPath)) {
+    console.error('Ana ikon bulunamadi:', masterPath);
+    process.exit(1);
+  }
+  const source = fs.readFileSync(masterPath);
 
   const specs = [
     { size: 192, name: 'icon-192.png', maskable: false },
@@ -26,10 +33,9 @@ async function main() {
   for (const s of specs) {
     const out = path.join(iconsDir, s.name);
     if (s.maskable) {
-      // Maskable: %10 guvenli kenar boslugu + koyu arka plan
       const inner = Math.round(s.size * 0.8);
       const pad = Math.round((s.size - inner) / 2);
-      const innerBuf = await sharp(svg).resize(inner, inner).png().toBuffer();
+      const innerBuf = await sharp(source).resize(inner, inner).png().toBuffer();
       await sharp({
         create: {
           width: s.size,
@@ -42,10 +48,13 @@ async function main() {
         .png()
         .toFile(out);
     } else {
-      await sharp(svg).resize(s.size, s.size).png().toFile(out);
+      await sharp(source).resize(s.size, s.size).png().toFile(out);
     }
     console.log('OK:', s.name);
   }
+
+  const root = path.resolve(__dirname, '..');
+  await generateAndroidLauncherIcons(sharp, source, root);
 }
 
 main().catch((err) => {

@@ -2,14 +2,13 @@
 // ONEMLI: index.html/css/js her degistiginde bu surumu artir. Asagidaki fetch
 // stratejisi cache-first oldugu icin surum artmazsa cihaz eski kodu calistirmaya
 // devam eder.
-const CACHE_VERSION = 'bilgiopoli-v8';
+const CACHE_VERSION = 'bilgiopoli-v9';
 const CORE_ASSETS = [
   './',
   './index.html',
   './manifest.json',
   './css/style.css',
   './js/questions.bundle.js',
-  './icons/icon.svg',
   './icons/icon-192.png',
   './icons/icon-512.png',
   './icons/icon-maskable-512.png',

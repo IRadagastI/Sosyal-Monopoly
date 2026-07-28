@@ -15,8 +15,8 @@
     "play:assets": "node tools/generate-play-assets.js",
     "cap:sync": "npm run build:web && npx cap sync android",
     "cap:open": "npx cap open android",
-    "android:release": "npm run play:assets && npm run cap:sync",
-    "android:bundle": "npm run android:release && cd android && gradlew.bat bundleRelease"
+    "android:release": "npm run icons:generate && npm run cap:sync",
+    "android:bundle": "npm run android:release && cd android && gradlew.bat bundleRelease && cd .. && node tools/publish-aab.js"
   },
   "keywords": [
     "education",

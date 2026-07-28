@@ -20,7 +20,7 @@ async function ensureSharp() {
 async function generateFeatureGraphic(sharp) {
   const width = 1024;
   const height = 500;
-  const iconPath = path.join(root, 'icons', 'icon-512.png');
+  const iconPath = path.join(root, 'icons', 'icon-play-store.png');
   const icon = await sharp(iconPath).resize(220, 220).png().toBuffer();
 
   // Basit gradient arka plan + ikon + metin alani (SVG overlay)
@@ -79,18 +79,44 @@ function startServer(port) {
   });
 }
 
+async function launchBrowser(playwright) {
+  const tries = [
+    { channel: 'chrome' },
+    { channel: 'msedge' },
+    {}
+  ];
+  for (const opts of tries) {
+    try {
+      return await playwright.chromium.launch({ headless: true, ...opts });
+    } catch {
+      /* sonraki yontemi dene */
+    }
+  }
+  throw new Error(
+    'Tarayici acilamadi. Chrome veya Edge yuklu olmali; alternatif: npx playwright install chromium'
+  );
+}
+
 async function generateScreenshots() {
   let playwright;
   try {
     playwright = require('playwright');
   } catch {
     console.warn('playwright yuklu degil; ekran goruntuleri atlandi.');
-    return;
+    return false;
   }
 
   const port = 8765;
   const server = await startServer(port);
-  const browser = await playwright.chromium.launch();
+  let browser;
+  try {
+    browser = await launchBrowser(playwright);
+  } catch (err) {
+    await new Promise((r) => server.close(r));
+    console.warn(err.message);
+    return false;
+  }
+
   const context = await browser.newContext({
     viewport: { width: 1280, height: 720 },
     deviceScaleFactor: 2
@@ -99,16 +125,17 @@ async function generateScreenshots() {
 
   try {
     await page.goto(`http://127.0.0.1:${port}/index.html`, { waitUntil: 'networkidle' });
-    await page.waitForTimeout(800);
+    await page.waitForTimeout(1000);
     await page.screenshot({ path: path.join(outDir, 'screenshot-01-landing.png'), fullPage: false });
 
     await page.click('.btn-start');
-    await page.waitForSelector('#smartboard-frame', { state: 'visible', timeout: 10000 });
-    await page.waitForTimeout(1200);
+    await page.waitForSelector('#smartboard-frame', { state: 'visible', timeout: 15000 });
+    await page.waitForTimeout(1500);
     await page.screenshot({ path: path.join(outDir, 'screenshot-02-gameboard.png'), fullPage: false });
 
     console.log('OK: play-store/screenshot-01-landing.png');
     console.log('OK: play-store/screenshot-02-gameboard.png');
+    return true;
   } finally {
     await browser.close();
     await new Promise((r) => server.close(r));
@@ -116,32 +143,20 @@ async function generateScreenshots() {
 }
 
 async function generateAndroidIcons(sharp) {
-  const src = path.join(root, 'icons', 'icon-512.png');
-  const resDir = path.join(root, 'android', 'app', 'src', 'main', 'res');
-  const sizes = {
-    'mipmap-mdpi': 48,
-    'mipmap-hdpi': 72,
-    'mipmap-xhdpi': 96,
-    'mipmap-xxhdpi': 144,
-    'mipmap-xxxhdpi': 192
-  };
-
-  for (const [folder, size] of Object.entries(sizes)) {
-    const dir = path.join(resDir, folder);
-    fs.mkdirSync(dir, { recursive: true });
-    const buf = await sharp(src).resize(size, size).png().toBuffer();
-    await sharp(buf).toFile(path.join(dir, 'ic_launcher.png'));
-    await sharp(buf).toFile(path.join(dir, 'ic_launcher_round.png'));
-    console.log('OK: android .../' + folder + '/ic_launcher.png');
-  }
+  const { generateAndroidLauncherIcons } = require('./generate-android-icons');
+  const master = path.join(root, 'icons', 'YICON1.png');
+  const source = fs.readFileSync(master);
+  await generateAndroidLauncherIcons(sharp, source, root);
 }
 
 async function main() {
   fs.mkdirSync(outDir, { recursive: true });
   const sharp = await ensureSharp();
   await generateFeatureGraphic(sharp);
-  await generateAndroidIcons(sharp);
-  await generateScreenshots();
+  const shots = await generateScreenshots();
+  if (!shots) {
+    console.warn('Ekran goruntuleri uretilemedi; mevcut play-store/ dosyalari kullanilacak.');
+  }
 }
 
 main().catch((err) => {

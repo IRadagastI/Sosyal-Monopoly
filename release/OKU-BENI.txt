@@ -1,7 +1,22 @@
-Bu klasordeki `.aab` dosyasi Play Store'a yuklenmeye hazirdir.
+BILGIOPOLI - PLAY STORE PAKETI
+================================
 
-Imzali paket: `Bilgiopoli-v2.0.0-SIGNED.aab`
+Bu klasorde her zaman TEK guncel imzali .aab dosyasi bulunur.
+Yeni surum derlendiginde eskiler otomatik silinir.
 
-Keystore bilgileri (guvenli saklayin): `android/keystore/KEYSTORE_BILGI.txt`
+Guncel dosya: Bilgiopoli-v2.0.3-SIGNED.aab
+Surum: 2.0.3 (203)
+
+Play Console yukleme:
+  Test edin ve yayinlayin -> Dahili test -> Yeni surum olustur
+  Bu .aab dosyasini surukleyip birakin.
+
+Kaynak (gradle ciktisi):
+  android/app/build/outputs/bundle/release/app-release.aab
+
+Keystore: android/keystore/ (git'e girmez)
+Keystore bilgisi: android/keystore/KEYSTORE_BILGI.txt
 
 ONEMLI: Keystore sifresini kaybederseniz uygulamayi guncelleyemezsiniz!
+
+Son guncelleme: 26.07.2026 23:21:52
