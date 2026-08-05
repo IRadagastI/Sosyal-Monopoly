@@ -10,7 +10,7 @@ Bu işlem şifreleme değildir. Tarayıcıya teslim edilen içerik kararlı bir 
 { q: "Soru metni", opts: ["A", "B", "C", "D"], ans: 0 }
 ```
 
-`ans`, doğru seçeneğin 0–3 arasındaki indeksidir. Soru metninde yalnızca satır sonu amacıyla `<br>` etiketi kabul edilir.
+`ans`, doğru seçeneğin 0–3 arasındaki indeksidir. Her soruda ayrıca resmî `outcome` kazanım/öğrenme çıktısı kodu ile `program` alanı bulunur. Soru metninde yalnızca satır sonu amacıyla `<br>` etiketi kabul edilir.
 
 ## Soruları güncelleme
 
@@ -30,6 +30,6 @@ npm run test:e2e
 
 ## Temiz klon davranışı
 
-Özel kaynak dosyası bulunmayan temiz bir klonda `npm test` yine çalışır: izole bir JavaScript ortamında bundle'ı açar, 604 sorunun biçimini denetler ve manifest özetini karşılaştırır. `npm run build:web` doğrulamayı geçmeyen bundle'ı dağıtıma kopyalamaz.
+Özel kaynak dosyası bulunmayan temiz bir klonda `npm test` yine çalışır: izole bir JavaScript ortamında bundle'ı açar; soru biçimini, program/kazanım kodlarını, yinelenen metinleri ve manifest özetini denetler. `npm run build:web` doğrulamayı geçmeyen bundle'ı dağıtıma kopyalamaz.
 
 Windows EXE ve Android paketleri yalnızca bundle ile SHA-256 manifestini içerir; `js/questions.js` paketlere alınmaz.

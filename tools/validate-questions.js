@@ -49,8 +49,15 @@ const loaded = loadPools();
 const pools = loaded.pools;
 let errors = 0;
 let total = 0;
+const seenTexts = new Map();
 
-function checkQ(label, q) {
+function expectedOutcomePrefix(poolName) {
+  const match = poolName.match(/(?:questions|finalQuestionsPool)([5-8])/);
+  if (!match) return null;
+  return match[1] === "8" ? "İTA.8." : `SB.${match[1]}.`;
+}
+
+function checkQ(label, q, poolName) {
   total++;
   if (!q || typeof q !== "object" || Array.isArray(q)) {
     console.error(`[HATA] ${label}: soru nesne değil`);
@@ -72,6 +79,31 @@ function checkQ(label, q) {
     console.error(`[HATA] ${label}: ans geçersiz (${q.ans})`);
     errors++;
   }
+  const prefix = expectedOutcomePrefix(poolName);
+  if (typeof q.outcome !== "string" || !q.outcome.startsWith(prefix)) {
+    console.error(
+      `[HATA] ${label}: kazanım kodu ${prefix} ile başlamalı (${q.outcome})`,
+    );
+    errors++;
+  }
+  const expectedProgram = prefix === "İTA.8." ? "MEB-ITA-2018" : "TYMM-2024";
+  if (q.program !== expectedProgram) {
+    console.error(
+      `[HATA] ${label}: program ${expectedProgram} olmalı (${q.program})`,
+    );
+    errors++;
+  }
+  if (typeof q.q === "string") {
+    const normalized = q.q.trim().toLocaleLowerCase("tr-TR");
+    if (seenTexts.has(normalized)) {
+      console.error(
+        `[HATA] ${label}: yinelenen soru (${seenTexts.get(normalized)})`,
+      );
+      errors++;
+    } else {
+      seenTexts.set(normalized, label);
+    }
+  }
   const optionFields = Array.isArray(q.opts)
     ? q.opts.map((opt, index) => [`opts[${index}]`, opt])
     : [];
@@ -89,12 +121,14 @@ function checkQ(label, q) {
 
 for (const [name, pool] of Object.entries(pools)) {
   if (Array.isArray(pool)) {
-    pool.forEach((q, i) => checkQ(`${name}[${i}]`, q));
+    pool.forEach((q, i) => checkQ(`${name}[${i}]`, q, name));
     console.log(`${name}: ${pool.length} soru`);
   } else {
     let count = 0;
     for (const unit of Object.keys(pool)) {
-      pool[unit].forEach((q, i) => checkQ(`${name}.unit${unit}[${i}]`, q));
+      pool[unit].forEach((q, i) =>
+        checkQ(`${name}.unit${unit}[${i}]`, q, name),
+      );
       count += pool[unit].length;
     }
     console.log(`${name}: ${count} soru (${Object.keys(pool).length} ünite)`);

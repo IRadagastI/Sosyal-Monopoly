@@ -92,36 +92,36 @@ let activeFlashEvent = null;
 const flashEvents = [
   {
     id: "heyelan",
-    title: "SON DAKİKA: İpek Yolu Heyelanı",
-    text: "Turuncu (Ortak Miras) karelerine gelen takımlar mülk almak/geçmek için 200 SBP yol çalışması vergisi ödemek zorunda kalır.",
+    title: "SON DAKİKA: Kütüphane Bakımı",
+    text: "Turuncu karelere gelen takımlar okul kaynaklarına katkı için 200 SBP bakım payı öder.",
     bg: "#fef08a",
     border: "#ca8a04",
   },
   {
     id: "kriz",
-    title: "SON DAKİKA: Küresel Enflasyon",
-    text: "Sarı (Ekonomi) karelerine ayak basan her takım anında 100 SBP ceza öder!",
+    title: "SON DAKİKA: Bütçe Düzenlemesi",
+    text: "Sarı karelere gelen her takım anında 100 SBP gider payı öder!",
     bg: "#fee2e2",
     border: "#b91c1c",
   },
   {
     id: "bilim",
-    title: "SON DAKİKA: TÜBİTAK Bilim Şenliği",
-    text: "Mor (Teknoloji) karelerine gelen takımlara, destek amaçlı fazladan 150 SBP hibe ediliyor!",
+    title: "SON DAKİKA: Bilgi Yarışması",
+    text: "Mor karelere gelen takımlara başarı desteği olarak 150 SBP veriliyor!",
     bg: "#f3e8ff",
     border: "#6d28d9",
   },
   {
     id: "iklim",
-    title: "SON DAKİKA: Küresel İklim Zirvesi",
-    text: "Yeşil (Evimiz Dünya) karelerine gelenler fazladan 1 Doğa Dostu Rozeti kazanır!",
+    title: "SON DAKİKA: Yeşil Okul Etkinliği",
+    text: "Yeşil karelere gelenler fazladan 1 Başarı Rozeti kazanır!",
     bg: "#dcfce7",
     border: "#15803d",
   },
   {
     id: "baris",
-    title: "SON DAKİKA: Uluslararası Barış Günü",
-    text: "Kırmızı (Demokrasi) karelerine gelen her takım kasadan hediye 200 SBP kazanır!",
+    title: "SON DAKİKA: Dayanışma Günü",
+    text: "Kırmızı karelere gelen her takım kasadan 200 SBP dayanışma desteği kazanır!",
     bg: "#ffe4e6",
     border: "#e11d48",
   },
@@ -132,13 +132,22 @@ const boardData = [];
 
 // 11x7 Layout -> 32 Squares. Start Bottom Right (0).
 // Custom naming as requested: Tarih Kalesi, Atatürk Evi, Ders Kitabı Bürosu, TEMA İstasyonu vb.
-const customNames = {
-  1: ["Birlikte Yaşam", "Ders Kitabı Bürosu"],
+const socialStudiesNames = {
+  1: ["Birlikte Yaşamak", "Toplumsal Birlik"],
   2: ["Evimiz Dünya", "Coğrafya Kulübü"],
-  3: ["Ortak Miras", "Tarih Kalesi"],
+  3: ["Ortak Mirasımız", "Tarih Kalesi"],
   4: ["Yaşayan Demokrasi", "Atatürk Evi"],
-  5: ["Ekonomik Hayat", "Girişimci Ofisi"],
-  6: ["Teknoloji ve Toplum", "Uzay Üssü"],
+  5: ["Hayatımızdaki Ekonomi", "Girişimci Ofisi"],
+  6: ["Teknoloji ve Sosyal Bilimler", "Bilim Merkezi"],
+};
+
+const revolutionHistoryNames = {
+  1: ["Bir Kahraman Doğuyor", "Mustafa Kemal"],
+  2: ["Millî Uyanış", "Bağımsızlık Yolu"],
+  3: ["Millî Bir Destan", "İstiklal Yolu"],
+  4: ["Çağdaşlaşan Türkiye", "Atatürk İlkeleri"],
+  5: ["Demokratikleşme Çabaları", "Çok Partili Hayat"],
+  6: ["Türk Dış Politikası", "Atatürk ve Sonrası"],
 };
 
 // Bina kademeleri: 0 = arsa, 1 Kütüphane, 2 Müze, 3 Üniversite
@@ -157,6 +166,8 @@ function buildCostOf(price) {
 
 function setupBoardData() {
   boardData.length = 0; // her oyunda sıfırla (tekrar başlatmada çift veriyi önler)
+  const customNames =
+    currentGrade === "8" ? revolutionHistoryNames : socialStudiesNames;
   let unitIdx = 0;
   // Sabit tahta: her ünite karesi için belirli isimler (rastgele değil)
   let nameCounters = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0 };

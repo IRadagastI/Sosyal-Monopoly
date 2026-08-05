@@ -1,4 +1,5 @@
 const assert = require("assert");
+/* global activeQuestions, applyGrade, boardData, renderBoard */
 const fs = require("fs");
 const http = require("http");
 const path = require("path");
@@ -108,6 +109,38 @@ async function finishHumanTurn(page) {
     });
     page.on("pageerror", (error) => browserErrors.push(error.message));
     await page.goto(url, { waitUntil: "load" });
+    const curriculumState = await page.evaluate(() => {
+      const result = {};
+      for (const grade of ["5", "6", "7", "8"]) {
+        applyGrade(grade);
+        renderBoard();
+        result[grade] = {
+          units: Object.keys(activeQuestions).length,
+          questions: Object.values(activeQuestions).reduce(
+            (sum, values) => sum + values.length,
+            0,
+          ),
+          firstOutcome: activeQuestions[1][0].outcome,
+          firstTitle: boardData.find((square) => square.type === "unit").title,
+        };
+      }
+      applyGrade("6");
+      return result;
+    });
+    for (const grade of ["5", "6", "7"]) {
+      assert.deepStrictEqual(curriculumState[grade], {
+        units: 6,
+        questions: 48,
+        firstOutcome: `SB.${grade}.1.1`,
+        firstTitle: "Birlikte Yaşamak",
+      });
+    }
+    assert.deepStrictEqual(curriculumState["8"], {
+      units: 6,
+      questions: 48,
+      firstOutcome: "İTA.8.1.1",
+      firstTitle: "Bir Kahraman Doğuyor",
+    });
     await startTwoTeamGame(page, true);
     await finishHumanTurn(page);
     await page.waitForFunction(

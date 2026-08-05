@@ -1,4 +1,4 @@
-# Bilgiopoli v2.1.0 – Android Yayın Rehberi
+# Bilgiopoli v2.2.0 – Android Yayın Rehberi
 
 Bu rehber, doğrulanmış Android paketlerinin üretilmesi ve Google Play'e yüklenmesi içindir.
 
@@ -7,8 +7,8 @@ Bu rehber, doğrulanmış Android paketlerinin üretilmesi ve Google Play'e yük
 | Alan | Değer |
 |---|---|
 | Paket adı | `com.iradagasti.bilgiopoli` |
-| Sürüm adı | `2.1.0` |
-| Sürüm kodu | `204` |
+| Sürüm adı | `2.2.0` |
+| Sürüm kodu | `205` |
 | Ekran yönü | `sensorLandscape` |
 | Hedef çıktı | İmzalı APK ve AAB |
 
@@ -35,8 +35,8 @@ Son komut sırasıyla web dağıtımını hazırlar, Capacitor eşitlemesini yap
 Başarılı çıktı:
 
 ```text
-release/Bilgiopoli-v2.1.0-SIGNED.apk
-release/Bilgiopoli-v2.1.0-SIGNED.aab
+release/Bilgiopoli-v2.2.0-SIGNED.apk
+release/Bilgiopoli-v2.2.0-SIGNED.aab
 release/SHA256SUMS.txt
 ```
 
@@ -45,8 +45,8 @@ Paketleri paylaşmadan önce `release/SHA256SUMS.txt` dosyasındaki özetlerle b
 ## Google Play mağaza girdisi
 
 - Uygulama adı: **Bilgiopoli**
-- Kısa açıklama: Sosyal Bilgiler müfredatına uygun eğitici takım oyunu
-- Tam açıklama: 5–8. sınıf, 604 soru, AI rakip modu ve çevrimdışı kullanım
+- Kısa açıklama: Sosyal Bilgiler ve İnkılap Tarihi programlarına uygun eğitici takım oyunu
+- Tam açıklama: 5–7. sınıf Maarif Modeli ve 8. sınıf İnkılap Tarihi kazanımlarına bağlı 208 soru, AI rakip modu ve çevrimdışı kullanım
 - İkon: `icons/icon-play-store.png`
 - Özellik grafiği: `play-store/feature-graphic-1024x500.png`
 - Yatay ekran görüntüleri: `play-store/screenshot-01-landing.png` ve `play-store/screenshot-02-gameboard.png`
@@ -66,9 +66,9 @@ Yeni yayında şu üç alan birlikte güncellenmelidir:
 
 | Dosya | Alan | Bu sürüm |
 |---|---|---|
-| `package.json` | `version` | `2.1.0` |
-| `android/app/build.gradle` | `versionName` | `2.1.0` |
-| `android/app/build.gradle` | `versionCode` | `204` |
+| `package.json` | `version` | `2.2.0` |
+| `android/app/build.gradle` | `versionName` | `2.2.0` |
+| `android/app/build.gradle` | `versionCode` | `205` |
 
 ## Yararlı komutlar
 

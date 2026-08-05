@@ -1,16 +1,26 @@
-# Bilgiopoli – Sosyal Bilgiler v2.1.0
+# Bilgiopoli – Sosyal Bilgiler v2.2.0
 
-Bilgiopoli, 5–8. sınıf öğrencileri için hazırlanmış, çevrimdışı da çalışabilen bir Sosyal Bilgiler takım oyunudur. 16:9 akıllı tahta, Windows ve yatay Android ekranları hedeflenir.
+Bilgiopoli, 5–7. sınıf Sosyal Bilgiler ile 8. sınıf T.C. İnkılap Tarihi ve Atatürkçülük dersleri için hazırlanmış, çevrimdışı da çalışabilen bir takım oyunudur. 16:9 akıllı tahta, Windows ve yatay Android ekranları hedeflenir.
 
 ## Özellikler
 
-- 5, 6, 7 ve 8. sınıf seviyeleri ile altı konu ünitesi
+- 5, 6 ve 7. sınıfta Türkiye Yüzyılı Maarif Modeli'nin altı öğrenme alanı
+- 8. sınıfta 2018 MEB programının yedi ünitesi (tahtanın son renk grubunda 6 ve 7. üniteler birlikte)
+- Kazanım koduyla izlenen, sınıf ve program uyumu otomatik denetlenen 208 soru
 - İki ila dört insan/AI takımı, takım güçleri ve jokerler
 - SBP puanı, mülkler, binalar ve doğa dostu rozetleri
 - 25 dakikalık ders süresi ve son üç dakikada Büyük Final
 - Her takım için Büyük Final'de yalnızca bir deneme hakkı
 - Tek yuvalı, doğrulanan ve eski kayıtları dönüştüren oyun kaydı
 - PWA, imzalı Android APK/AAB ve tek dosyalı Windows EXE dağıtımı
+
+## v2.2.0 ile gelenler
+
+- 5, 6 ve 7. sınıf soru havuzları Türkiye Yüzyılı Maarif Modeli öğrenme çıktılarına göre yeniden hazırlandı.
+- 8. sınıf havuzu yürürlükteki 2018 İnkılap Tarihi programının 39 kazanımına göre ayrıldı.
+- Sınıf dışı sorular kaldırıldı; her soruya program ve kazanım kodu eklendi.
+- Tahta başlıkları seçilen sınıfa göre Sosyal Bilgiler veya İnkılap Tarihi ünitelerini gösteriyor.
+- Doğrulama aracı yanlış sınıf kodunu, yanlış programı ve yinelenen soru metnini reddediyor.
 
 ## v2.1.0 ile gelenler
 

@@ -1,9 +1,9 @@
 BILGIOPOLI - YAYIN PAKETLERI
 
-Sürüm: 2.1.0 (204)
-AAB: Bilgiopoli-v2.1.0-SIGNED.aab
-APK: Bilgiopoli-v2.1.0-SIGNED.apk
-EXE: Bilgiopoli-v2.1.0.exe
+Sürüm: 2.2.0 (205)
+AAB: Bilgiopoli-v2.2.0-SIGNED.aab
+APK: Bilgiopoli-v2.2.0-SIGNED.apk
+EXE: Bilgiopoli-v2.2.0.exe
 
 Android paketlerinin imzası otomatik doğrulanmıştır.
 Tüm SHA-256 değerleri SHA256SUMS.txt içindedir.
