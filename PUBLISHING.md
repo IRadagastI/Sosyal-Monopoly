@@ -1,132 +1,92 @@
-# Google Play'e Yayınlama Rehberi — Bilgiopoli
+# Bilgiopoli v2.1.0 – Android Yayın Rehberi
 
-Bu rehber, projede hazırlanan Android paketini Google Play'e yüklemeniz için adım adım yol gösterir.
+Bu rehber, doğrulanmış Android paketlerinin üretilmesi ve Google Play'e yüklenmesi içindir.
 
----
+## Sürüm bilgileri
 
-## Hazır Olanlar (Projede)
+| Alan | Değer |
+|---|---|
+| Paket adı | `com.iradagasti.bilgiopoli` |
+| Sürüm adı | `2.1.0` |
+| Sürüm kodu | `204` |
+| Ekran yönü | `sensorLandscape` |
+| Hedef çıktı | İmzalı APK ve AAB |
 
-| Öğe | Durum | Konum |
-|-----|--------|-------|
-| Capacitor Android projesi | Hazır | `android/` |
-| Yatay ekran kilidi | Hazır | `AndroidManifest.xml` → `sensorLandscape` |
-| Paket adı | `com.iradagasti.bilgiopoli` | |
-| Sürüm | `2.0.0` (versionCode `200`) | `android/app/build.gradle` |
-| PWA ikonları (PNG) | Hazır | `icons/icon-192.png`, `icon-512.png`, `icon-maskable-512.png` |
-| Play Store ikonu | Hazır | `icons/icon-play-store.png` |
-| Feature graphic | Hazır | `play-store/feature-graphic-1024x500.png` |
-| Ekran görüntüleri | Hazır | `play-store/screenshot-*.png` |
-| Gizlilik politikası (HTML) | Hazır | `privacy.html` |
-| Gizlilik politikası (Markdown) | Hazır | `PRIVACY.md` |
+## Gereksinimler
 
----
+- Node.js 20+
+- Android SDK
+- JDK 21 (Android Studio'nun JBR'ı desteklenir)
+- `android/keystore.properties` ve burada gösterilen keystore
+- Google Play Console hesabı
 
-## 1. Gereksinimler
+Keystore ile parola dosyaları Git'e alınmaz. Release derlemesi bu bilgiler yoksa veya imza doğrulanamazsa başarısız olur; yanlışlıkla imzasız AAB yayımlamaz.
 
-- Node.js 18+
-- Android Studio (SDK + JDK 17)
-- Google Play Console hesabı (tek seferlik ~25 USD)
-
----
-
-## 2. Android Derleme
+## Tek komutla doğrulanmış paket
 
 ```bash
-npm install
-npm run android:release   # ikonlar + www kopyasi + cap sync
-npx cap open android      # Android Studio acilir
+npm ci
+npm run test:all
+npm run android:artifacts
 ```
 
-Android Studio'da:
-1. **Build → Generate Signed Bundle / APK**
-2. **Android App Bundle (.aab)** seçin
-3. Yeni veya mevcut imza anahtarınızı (keystore) kullanın
-4. Çıktı `.aab` dosyasını Play Console'a yükleyin
+Son komut sırasıyla web dağıtımını hazırlar, Capacitor eşitlemesini yapar, Android birim testi ve lint çalıştırır, release APK/AAB üretir ve imzaları doğrular.
 
-> **Önemli:** Keystore dosyanızı ve şifresini güvenli saklayın. Kaybederseniz uygulama güncelleyemezsiniz.
+Başarılı çıktı:
 
----
-
-## 3. Gizlilik Politikası URL'si (HTTPS)
-
-Play Console **canlı bir HTTPS linki** ister.
-
-### GitHub Pages ile (önerilen)
-
-1. GitHub repo: `IRadagastI/Sosyal-Monopoly`
-2. **Settings → Pages → Source:** `main` branch, `/ (root)`
-3. Kaydedin; birkaç dakika sonra şu adres çalışır:
-
-```
-https://iradagasti.github.io/Sosyal-Monopoly/privacy.html
+```text
+release/Bilgiopoli-v2.1.0-SIGNED.apk
+release/Bilgiopoli-v2.1.0-SIGNED.aab
+release/SHA256SUMS.txt
 ```
 
-Bu URL'yi Play Console → **Uygulama içeriği → Gizlilik politikası** alanına yapıştırın.
+Paketleri paylaşmadan önce `release/SHA256SUMS.txt` dosyasındaki özetlerle birlikte saklayın. Keystore yedeğini güvenli ve ayrı bir konumda koruyun; kaybı gelecekteki güncellemeleri engelleyebilir.
 
----
+## Google Play mağaza girdisi
 
-## 4. Play Console Yükleme Kontrol Listesi
+- Uygulama adı: **Bilgiopoli**
+- Kısa açıklama: Sosyal Bilgiler müfredatına uygun eğitici takım oyunu
+- Tam açıklama: 5–8. sınıf, 604 soru, AI rakip modu ve çevrimdışı kullanım
+- İkon: `icons/icon-play-store.png`
+- Özellik grafiği: `play-store/feature-graphic-1024x500.png`
+- Yatay ekran görüntüleri: `play-store/screenshot-01-landing.png` ve `play-store/screenshot-02-gameboard.png`
+- Gizlilik politikası: `https://iradagasti.github.io/Sosyal-Monopoly/privacy.html`
 
-### Mağaza girişi
-- [ ] **Uygulama adı:** Bilgiopoli (Monopoly kelimesini kullanmayın)
-- [ ] **Kısa açıklama:** Sosyal Bilgiler müfredatına uygun eğitici mülk edinme oyunu
-- [ ] **Tam açıklama:** 5–8. sınıf, 604 soru, AI rakip modu, çevrimdışı
-- [ ] **Uygulama ikonu (512×512):** `icons/icon-play-store.png`
-- [ ] **Feature graphic (1024×500):** `play-store/feature-graphic-1024x500.png`
-- [ ] **Ekran görüntüleri (yatay):** `play-store/screenshot-01-landing.png`, `screenshot-02-gameboard.png`
-- [ ] **Gizlilik politikası URL:** (yukarıdaki GitHub Pages linki)
+Play Console formlarında uygulamanın gerçek davranışını esas alın:
 
-### Politika formları
-- [ ] **İçerik derecelendirme anketi:** Eğitim / Her yaş / Şiddet yok
-- [ ] **Data Safety:** Veri toplanmıyor; konum, kişisel bilgi, analitik yok
-- [ ] **Hedef kitle:** 5–12 yaş (eğitim uygulaması)
-- [ ] **Reklam:** Hayır
+- Reklam ve uygulama içi satın alma yoktur.
+- Hesap, analitik ve kişisel veri toplama yoktur.
+- Oyun kaydı cihazda tutulur; Android yedeklemesi kapalıdır.
+- Hedef yaş grupları eğitim içeriği ve 5–8. sınıf kapsamına göre seçilmelidir.
+- Yeni yüklemede sürüm kodu önceki Play sürümünden yüksek olmalıdır.
 
-### Teknik
-- [ ] `.aab` dosyasını Production veya Internal testing'e yükleyin
-- [ ] Her güncellemede `android/app/build.gradle` içinde `versionCode` artırın (ör. 201, 202…)
+## Sürümleme
 
----
+Yeni yayında şu üç alan birlikte güncellenmelidir:
 
-## 5. Sürümleme Kuralı
+| Dosya | Alan | Bu sürüm |
+|---|---|---|
+| `package.json` | `version` | `2.1.0` |
+| `android/app/build.gradle` | `versionName` | `2.1.0` |
+| `android/app/build.gradle` | `versionCode` | `204` |
 
-| Alan | Dosya | Örnek |
-|------|-------|-------|
-| Web sürümü | `package.json` → `version` | `2.0.0` |
-| Android sürüm adı | `android/app/build.gradle` → `versionName` | `2.0.0` |
-| Android sürüm kodu | `android/app/build.gradle` → `versionCode` | `200`, sonra `201`… |
-
----
-
-## 6. Yararlı Komutlar
+## Yararlı komutlar
 
 ```bash
-npm run dev              # Yerel gelistirme sunucusu
-npm test                 # Soru havuzu dogrulama
-npm run icons:generate   # PNG ikonlari yeniden uret
-npm run build:web        # www/ klasorunu guncelle
-npm run cap:sync         # www -> android kopyala
-npm run play:assets      # Play Store grafiklerini yeniden uret
-npm run android:release  # Hepsini birden (yayin oncesi)
+npm run dev                 # yalnızca yerel geliştirme sunucusu
+npm test                    # hızlı bütünlük kontrolleri
+npm run test:e2e            # tarayıcı oyun senaryoları
+npm run build:web           # www dağıtımını hazırla
+npm run android:release     # web + Capacitor eşitlemesi
+npm run android:artifacts   # test + lint + imzalı APK/AAB + doğrulama
+npm run build:exe           # doğrulanmış Windows EXE
 ```
 
----
+## Yayın öncesi dış kontroller
 
-## 7. Sizin Manuel Yapmanız Gerekenler
+- En az bir gerçek Android cihazda yatay düzeni, büyük sistem yazısını ve birkaç tam turu deneyin.
+- Google Play iç test kanalına AAB'yi yükleyip Play'in otomatik cihaz raporunu inceleyin.
+- Data Safety, içerik derecelendirme ve hedef kitle formlarını hesap sahibi olarak onaylayın.
+- İncelemeye göndermeden önce mağaza metni ve ekran görüntülerini son kez kontrol edin.
 
-Bunlar kodla otomatik yapılamaz:
-
-1. **GitHub Pages'i açmak** (Settings → Pages)
-2. **Play Console hesabı** oluşturmak / giriş yapmak
-3. **Signed .aab** derlemek (Android Studio + keystore)
-4. **İçerik derecelendirme** anketini doldurmak
-5. **Data Safety** formunu onaylamak
-6. **Uygulamayı incelemeye göndermek**
-
----
-
-## Notlar
-
-- Oyun **yatay (landscape)** modda çalışır; telefonda dikey tutulunca uyarı gösterir.
-- Uygulama **internet izni** ister (Capacitor WebView için) ancak veri göndermez.
-- Marka adı olarak her yerde **Bilgiopoli** kullanın; "Monopoly" tescilli markadır.
+Kod deposu bu hesap/cihaz işlemlerini otomatikleştiremez; paket üretimi ve yerel imza doğrulaması ise `npm run android:artifacts` tarafından yapılır.

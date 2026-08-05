@@ -1,4 +1,5 @@
-// Bilgiopoli - sifreli soru paketi (otomatik uretilir)
+// Bilgiopoli - obfuscate soru paketi (otomatik uretilir; sifreleme degildir)
+// source-sha256: 3e8b1d4fd237e64eef22ec77e91aee08ed9b20762139d77ff28b25ef4757af68
 (function(){
 'use strict';
 var _kb=new Uint8Array([110,117,74,14,40,60,58,12,20,229,238,239,221,223,249,178,180,134,144,109,126,110,68,84,44,104,44,3,11,243,169,146,157,136,242]);

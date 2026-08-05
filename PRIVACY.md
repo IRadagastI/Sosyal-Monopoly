@@ -1,13 +1,13 @@
 # Gizlilik Politikası — Bilgiopoli
 
-**Son güncelleme:** Temmuz 2025
+**Son güncelleme:** Ağustos 2026
 
 ## Özet
 Bilgiopoli, çocuklara ve öğrencilere yönelik eğitici bir oyundur. Gizliliğinizi ciddiye alıyoruz. Bu uygulama **kişisel veri toplamaz, saklamaz veya üçüncü taraflarla paylaşmaz.**
 
 ## Topladığımız Veriler
 - **Hiçbir kişisel veri toplanmaz.** Ad, e-posta, konum, kişi listesi veya kimlik bilgisi istenmez.
-- Oyun ilerlemesi (skor, ayarlar) yalnızca **cihazınızda yerel olarak** (`localStorage`) saklanır ve hiçbir sunucuya gönderilmez.
+- Oyun ilerlemesi (skor ve oyun durumu) yalnızca **cihazınızda yerel olarak** (`localStorage`) saklanır ve hiçbir sunucuya gönderilmez. Android uygulama yedeklemesi kapalıdır.
 
 ## Çevrimdışı Çalışma
 Uygulama internet bağlantısı olmadan çalışır. Veriler cihazdan dışarı çıkmaz.

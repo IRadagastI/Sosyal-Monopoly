@@ -1,17 +1,19 @@
-// Soru havuzunu sifreleyip js/questions.bundle.js uretir.
-// Kaynak: js/questions.js (duzenleme) | Yayin: js/questions.bundle.js (sifreli, okunmasi zor)
-const fs = require('fs');
-const path = require('path');
-const vm = require('vm');
+// Soru havuzunu obfuscate edip js/questions.bundle.js üretir.
+// Bu işlem şifreleme değildir; çevrimdışı istemcide tam gizlilik sağlanamaz.
+const fs = require("fs");
+const path = require("path");
+const vm = require("vm");
+const crypto = require("crypto");
 
-const ROOT = path.resolve(__dirname, '..');
-const SRC = path.join(ROOT, 'js', 'questions.js');
-const OUT = path.join(ROOT, 'js', 'questions.bundle.js');
+const ROOT = path.resolve(__dirname, "..");
+const SRC = path.join(ROOT, "js", "questions.js");
+const OUT = path.join(ROOT, "js", "questions.bundle.js");
+const HASH_OUT = path.join(ROOT, "js", "questions.bundle.sha256");
 
 function buildKey() {
-  const parts = ['com', 'iradagasti', 'bilgiopoli', 'soru', '2025'];
-  let key = parts.join(':');
-  let out = '';
+  const parts = ["com", "iradagasti", "bilgiopoli", "soru", "2025"];
+  let key = parts.join(":");
+  let out = "";
   for (let i = 0; i < key.length; i++) {
     out += String.fromCharCode(key.charCodeAt(i) ^ ((i * 13 + 13) % 256));
   }
@@ -34,21 +36,27 @@ function xorBytes(buf, keyStr) {
 }
 
 function loadPools() {
-  const code = fs.readFileSync(SRC, 'utf8');
+  const code = fs.readFileSync(SRC, "utf8");
   const sandbox = {};
   vm.createContext(sandbox);
-  const wrapped = code + '\nthis.__pools = { questions5, questions6, questions7, questions8, finalQuestionsPool5, finalQuestionsPool6, finalQuestionsPool7, finalQuestionsPool8 };';
+  const wrapped =
+    code +
+    "\nthis.__pools = { questions5, questions6, questions7, questions8, finalQuestionsPool5, finalQuestionsPool6, finalQuestionsPool7, finalQuestionsPool8 };";
   vm.runInContext(wrapped, sandbox);
   return sandbox.__pools;
 }
 
 function main() {
   const pools = loadPools();
+  const sourceHash = crypto
+    .createHash("sha256")
+    .update(fs.readFileSync(SRC))
+    .digest("hex");
   const json = JSON.stringify(pools);
   const key = buildKey();
   const keyCodes = [...key].map((c) => c.charCodeAt(0) & 0xff);
-  const encrypted = xorBytes(Buffer.from(json, 'utf8'), key);
-  const b64 = encrypted.toString('base64');
+  const encrypted = xorBytes(Buffer.from(json, "utf8"), key);
+  const b64 = encrypted.toString("base64");
 
   // 80 karakterlik parcalara bol - duz metin aramasini zorlastirir
   const chunks = [];
@@ -56,7 +64,8 @@ function main() {
     chunks.push(b64.slice(i, i + 80));
   }
 
-  const bundle = `// Bilgiopoli - sifreli soru paketi (otomatik uretilir)
+  const bundle = `// Bilgiopoli - obfuscate soru paketi (otomatik uretilir; sifreleme degildir)
+// source-sha256: ${sourceHash}
 (function(){
 'use strict';
 var _kb=new Uint8Array(${JSON.stringify(keyCodes)});
@@ -81,10 +90,15 @@ window.__questionsReady=Promise.resolve();
 })();
 `;
 
-  fs.writeFileSync(OUT, bundle, 'utf8');
+  fs.writeFileSync(OUT, bundle, "utf8");
+  const bundleHash = crypto
+    .createHash("sha256")
+    .update(Buffer.from(bundle, "utf8"))
+    .digest("hex");
+  fs.writeFileSync(HASH_OUT, `${bundleHash}  questions.bundle.js\n`, "utf8");
 
   // Dogrulama
-  const roundTrip = xorBytes(Buffer.from(b64, 'base64'), key).toString('utf8');
+  const roundTrip = xorBytes(Buffer.from(b64, "base64"), key).toString("utf8");
   const parsed = JSON.parse(roundTrip);
   let count = 0;
   for (const p of Object.values(parsed)) {
@@ -92,10 +106,11 @@ window.__questionsReady=Promise.resolve();
     else count += Object.values(p).reduce((a, u) => a + u.length, 0);
   }
 
-  console.log('Sifreli paket:', path.relative(ROOT, OUT));
-  console.log('Ham JSON:', (json.length / 1024).toFixed(1), 'KB');
-  console.log('Sifreli paket:', (bundle.length / 1024).toFixed(1), 'KB');
-  console.log('Toplam soru:', count);
+  console.log("Obfuscate paket:", path.relative(ROOT, OUT));
+  console.log("Ham JSON:", (json.length / 1024).toFixed(1), "KB");
+  console.log("Obfuscate paket:", (bundle.length / 1024).toFixed(1), "KB");
+  console.log("SHA-256:", bundleHash);
+  console.log("Toplam soru:", count);
 }
 
 main();

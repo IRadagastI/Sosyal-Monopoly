@@ -1,0 +1,3 @@
+1b16065cfff3f4849d5cf49cd49968bb9ee0896871d1e76e91043ec3aad709bf  Bilgiopoli-v2.1.0-SIGNED.aab
+610956d607770ea3746b0f7dbac2fd7c99fb8923589444c285ec5cb74b9d2f59  Bilgiopoli-v2.1.0-SIGNED.apk
+f2bb62d0f900f4edab384924b89a6b3270ebe2b3f748cb1f80bb7f9814ee9255  Bilgiopoli-v2.1.0.exe

@@ -1,89 +1,41 @@
-# Yapılacaklar — Mobil Düzeltmeleri (fix/mobil-yazi-tasmasi-ve-zar-kilitlenmesi)
+# Bilgiopoli v2.1.0 – Yayın Öncesi Kontrol Listesi
 
-Bu daldaki 5 commit iki hatayı çözüyor: telefonda yazıların karelerden taşması
-ve ZAR AT'ın kalıcı olarak kilitlenmesi. Aşağıdakiler **henüz yapılmadı**.
+## Otomatik olarak doğrulananlar
 
----
+- [x] Soru paketi içeriği ve SHA-256 bütünlüğü
+- [x] Temiz klonda özel soru kaynağı olmadan doğrulama
+- [x] JavaScript sözdizimi, lint ve biçim kontrolü
+- [x] Sayfada CSP, harici oyun motoru ve inline olay işleyicisi bulunmaması
+- [x] İnsan/AI sıra devri ve zar kilidi toparlanması
+- [x] Büyük Final'in son üç dakika ve takım başına tek deneme kuralı
+- [x] Menüye dönüşte eski zamanlayıcıların iptali
+- [x] Android birim testi, lint, release derlemesi ve paket imzası
+- [x] Windows EXE dosya yapısı ve sürüm özeti
 
-## 1. Cihazda test (öncelikli)
+## Gerçek Android cihaz kontrolü
 
-Düzeltmelerin ikisi de tarayıcıda doğrulandı, **gerçek cihazda doğrulanmadı**.
-Yazı taşmasının çözümü `MainActivity.java`'daki WebView ayarı ve bu ancak APK
-derlenince çalışır — tarayıcıda test edilemez.
+Samsung ve benzeri geniş ekranlı bir cihazda, yatay konumda:
 
-```bash
-npm install
-npm run build:web && npx cap sync android
-npx cap open android
-```
+- [ ] Kare adları taşmadan okunuyor.
+- [ ] Normal ve büyütülmüş sistem yazı boyutunda temel düzen korunuyor.
+- [ ] Yakınlaştırma hareketi çalışıyor ve oyun kontrolleri erişilebilir kalıyor.
+- [ ] Zar → hareket → soru/mülk → sıra devri zinciri birkaç tur boyunca kopmuyor.
+- [ ] Oyun ortasında Büyük Final kilitli; son üç dakikada yalnızca bir kez açılıyor.
+- [ ] Uygulamayı kapatıp açınca geçerli kayıt devam ediyor.
+- [ ] Çevrimdışıyken uygulama açılıyor ve soru/ikon/yazı tipi eksik kalmıyor.
 
-Android Studio açılınca telefonu USB ile bağlayıp **Run ▶** (geliştirici modu +
-USB hata ayıklama açık olmalı). Bu aşamada keystore gerekmez, `versionCode`
-artırılmaz.
+## Google Play hesabı işlemleri
 
-Kontrol listesi (Samsung S25 Ultra, yatay):
+- [ ] AAB'yi önce iç test kanalına yükle.
+- [ ] Play otomatik cihaz test raporunu incele.
+- [ ] Data Safety ve içerik derecelendirme formlarını onayla.
+- [ ] Gizlilik politikası bağlantısının HTTPS üzerinden açıldığını doğrula.
+- [ ] Mağaza metni ve görsellerini kontrol edip incelemeye gönder.
 
-- [ ] Kare adları kutulara sığıyor: "GİRİŞİMCİ OFİSİ", "TEKNOLOJİ VE TOPLUM",
-      "EKONOMİK HAYAT", "TEMA İSTASYONU"
-- [ ] ZAR AT'a basınca zar atılıyor ve piyon ilerliyor
-- [ ] Tur ortasında **BÜYÜK FİNAL KAPIŞMASI**'na dokun → "Önce sıranı tamamla"
-      uyarısı gelmeli, oyun kilitlenmemeli
-- [ ] Sıra beklerken BÜYÜK FİNAL normal açılıyor (regresyon kontrolü)
-- [ ] Birkaç tam tur oyna: soru → satın alma → sıra devri zinciri kopmuyor
-- [ ] Telefonun sistem yazı boyutu büyütülmüş haldeyken de düzen bozulmuyor
+## Bakım notları
 
-Test geçerse dalı `main`'e merge et.
-
-> Not: Telefonda yazılar artık taşmayacak ama masaüstüyle **aynı oranda**, yani
-> küçük olacak. Bu 16:9 akıllı tahta tasarımının doğal sonucu. Telefona özel
-> daha büyük yazılı bir düzen istenirse ayrı bir çalışma gerekir (bkz. Bölüm 4).
-
----
-
-## 2. Yayın (test geçtikten sonra)
-
-- [ ] `android/app/build.gradle` → `versionCode` artır (şu an `200` → `201`).
-      Play aynı versionCode'u ikinci kez kabul etmez.
-- [ ] İmzalı `.aab` üret: Android Studio → **Build → Generate Signed Bundle /
-      APK → Android App Bundle**
-- [ ] Play Console'a yükle
-
-**Keystore bu makinede yok.** `android/keystore/` ve `android/keystore.properties`
-git'e girmiyor. `build.gradle` imza yapılandırmasını yalnızca `keystore.properties`
-varsa uyguluyor; dosya yokken `gradlew bundleRelease` çalıştırılırsa **imzasız**
-paket üretilir ve Play reddeder. Keystore başka bir makinedeyse buraya getirilmeli.
-
----
-
-## 3. Bilinen tuzaklar (tekrar eden)
-
-- **`sw.js` → `CACHE_VERSION`**: fetch stratejisi cache-first
-  (`return cached || network`). `index.html` / `css` her değiştiğinde bu sürüm
-  artırılmalı, yoksa cihaz eski kodu çalıştırmaya devam eder. Bu oturumda
-  gerçekten yaşandı: tarayıcı düzeltilmiş dosyaya rağmen eski kodu sundu.
-  Şu an `v8`.
-- **`js/questions.js` bu makinede yok** (yerel kaynak, git'e girmez). Artık
-  build'i kırmıyor; mevcut `js/questions.bundle.js` kullanılıyor. Ancak
-  **soruları değiştirecekseniz** önce bu dosyayı geri koymanız gerekir, yoksa
-  değişiklikleriniz bundle'a yansımaz.
-- **`npm run android:bundle` sadece Windows'ta çalışır** — script `gradlew.bat`
-  çağırıyor. macOS'ta bu komutu kullanmayın.
-
----
-
-## 4. Ele alınmayan / sonraya kalan
-
-- **Telefona özel düzen**: Arayüz tamamen `vmin` ile ölçekleniyor; telefon yatay
-  modunda `1vmin ≈ 4.24px`. Yazılar okunaklı ama küçük. Telefonda daha büyük
-  görünmesi isteniyorsa ayrı bir mobil düzen (veya sabit piksel tasarım +
-  `transform: scale`) gerekir — bu, mevcut 60+ `vmin` tanımını etkileyen büyük
-  bir değişiklik.
-- **Yeni küçük yazı eklerken dikkat**: `vmin` tabanlı 1.5vmin altındaki her yeni
-  yazı, telefonda aynı sınıf hataya açık. WebView ayarı artık koruyor, ancak
-  tasarımda 1vmin altına inmemek güvenli.
-- **`sw.js` stratejisi**: cache-first olarak bırakıldı, yalnızca yorumu gerçek
-  davranışla uyumlu hale getirildi. `index.html` için network-first'e geçmek
-  sürüm artırma zorunluluğunu ortadan kaldırırdı; çevrimdışı davranışı
-  etkilediği için bilinçli olarak değiştirilmedi.
-- **`.claude/launch.json`**: yerel önizleme sunucusu ayarı, commit edilmedi
-  (takip edilmiyor). Gerekmiyorsa silinebilir.
+- Geçerli Service Worker önbelleği `bilgiopoli-v10` değerindedir. Kullanıcıya giden web dosyaları değiştiğinde sürümü artırın.
+- `js/questions.js` özel yerel kaynaktır. Değişiklikten sonra `npm run protect:questions`; ardından `npm test` çalıştırın ve bundle ile SHA dosyasını birlikte gönderin.
+- `npm run android:artifacts` Windows/macOS/Linux ayrımını kendisi yapar ve JDK 21 arar.
+- Her Play yüklemesinde `versionCode` önceki sürümden yüksek olmalıdır.
+- 16:9 tasarım küçük telefonlarda doğal olarak daha yoğundur; kapsamlı telefona özel yerleşim ayrı bir tasarım çalışmasıdır.

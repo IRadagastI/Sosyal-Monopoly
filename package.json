@@ -1,22 +1,31 @@
 {
   "name": "bilgiopoli",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "Bilgiopoli – Sosyal Bilgiler Eğitici Oyun",
   "main": "index.html",
   "scripts": {
-    "dev": "python -m http.server 8000",
-    "test": "node tools/validate-questions.js",
+    "dev": "python -m http.server 8000 --bind 127.0.0.1",
+    "test": "npm run test:questions && npm run test:syntax && npm run test:structure",
+    "test:questions": "node tools/verify-question-bundle.js && node tools/validate-questions.js && node tools/validate-questions.js --bundle",
+    "test:syntax": "node tools/syntax-check.js",
+    "test:structure": "node tools/check-index.js",
+    "test:e2e": "node tools/e2e-test.js",
+    "test:all": "npm test && npm run test:e2e",
+    "lint": "eslint js/game.js tools/build-android.js tools/check-index.js tools/e2e-test.js tools/protect-questions.js tools/publish-android.js tools/publish-exe.js tools/sync-www.js tools/syntax-check.js tools/validate-questions.js tools/verify-question-bundle.js",
+    "format:check": "prettier --check js/game.js tools/build-android.js tools/check-index.js tools/e2e-test.js tools/protect-questions.js tools/publish-android.js tools/publish-exe.js tools/sync-www.js tools/syntax-check.js tools/validate-questions.js tools/verify-question-bundle.js package.json eslint.config.mjs",
     "validate": "node tools/validate-questions.js",
     "protect:questions": "node tools/protect-questions.js",
-    "build:exe": "pyinstaller SosyalMonopoly.spec",
-    "serve": "python -m http.server 8000 --bind 0.0.0.0",
+    "build:exe": "python -m PyInstaller --clean --noconfirm SosyalMonopoly.spec && node tools/publish-exe.js",
+    "serve": "npm run build:web && python -m http.server 8000 --bind 0.0.0.0 --directory www",
     "icons:generate": "node tools/generate-icons.js",
     "build:web": "node tools/sync-www.js",
     "play:assets": "node tools/generate-play-assets.js",
     "cap:sync": "npm run build:web && npx cap sync android",
     "cap:open": "npx cap open android",
     "android:release": "npm run icons:generate && npm run cap:sync",
-    "android:bundle": "npm run android:release && cd android && gradlew.bat bundleRelease && cd .. && node tools/publish-aab.js"
+    "android:artifacts": "npm run android:release && node tools/build-android.js",
+    "android:apk": "npm run android:artifacts",
+    "android:bundle": "npm run android:artifacts"
   },
   "keywords": [
     "education",
@@ -29,13 +38,13 @@
   "author": "M.A.E",
   "license": "MIT",
   "devDependencies": {
-    "@capacitor/android": "^7.4.2",
-    "@capacitor/cli": "^7.4.2",
-    "@capacitor/core": "^7.4.2",
-    "eslint": "^8.0.0",
-    "playwright": "^1.61.0",
-    "prettier": "^2.8.0",
-    "sharp": "^0.34.3"
+    "@capacitor/android": "^7.6.8",
+    "@capacitor/cli": "^7.6.8",
+    "@capacitor/core": "^7.6.8",
+    "eslint": "^10.8.0",
+    "playwright": "^1.62.1",
+    "prettier": "^3.9.0",
+    "sharp": "^0.35.3"
   },
   "repository": {
     "type": "git",
@@ -46,6 +55,6 @@
   },
   "homepage": "https://github.com/IRadagastI/Sosyal-Monopoly#readme",
   "engines": {
-    "node": ">=18.0.0"
+    "node": ">=20.0.0"
   }
 }

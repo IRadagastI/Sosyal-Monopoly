@@ -1,2 +1,9 @@
-# Auto detect text files and perform LF normalization
+# Metin dosyalarını varsayılan olarak LF biçiminde sakla.
 * text=auto
+
+# SHA-256 ile doğrulanan üretim paketi byte-byte korunmalıdır.
+js/questions.bundle.js -text
+
+# Metin meta dosyaları bütün platformlarda kararlı kalsın.
+js/questions.bundle.sha256 text eol=lf
+release/SHA256SUMS.txt text eol=lf

@@ -1,32 +1,33 @@
-// index.html sonundaki ana <script> ve js/questions.js için sözdizimi kontrolü.
+// Harici oyun motoru ve soru kaynak/bundle dosyaları için sözdizimi kontrolü.
 // new Function(...) derler ama çalıştırmaz -> sadece SyntaxError yakalar.
-const fs = require('fs');
-const path = require('path');
-const ROOT = path.resolve(__dirname, '..');
+const fs = require("fs");
+const path = require("path");
+const ROOT = path.resolve(__dirname, "..");
 
 function checkSyntax(label, code) {
   try {
-    // eslint-disable-next-line no-new-func
     new Function(code);
-    console.log('[OK]   ' + label);
+    console.log("[OK]   " + label);
     return true;
   } catch (e) {
-    console.error('[FAIL] ' + label + ' -> ' + e.message);
+    console.error("[FAIL] " + label + " -> " + e.message);
     return false;
   }
 }
 
 let ok = true;
 
-// questions.js
-ok &= checkSyntax('js/questions.js', fs.readFileSync(path.join(ROOT, 'js', 'questions.js'), 'utf8'));
-
-// index.html içindeki son inline <script> (src'siz)
-const html = fs.readFileSync(path.join(ROOT, 'index.html'), 'utf8');
-const re = /<script>([\s\S]*?)<\/script>/g;
-let m, last = null;
-while ((m = re.exec(html)) !== null) last = m[1];
-if (!last) { console.error('inline script bulunamadı'); process.exit(1); }
-ok &= checkSyntax('index.html ana script', last);
+const sourcePath = path.join(ROOT, "js", "questions.js");
+if (fs.existsSync(sourcePath)) {
+  ok &= checkSyntax("js/questions.js", fs.readFileSync(sourcePath, "utf8"));
+}
+ok &= checkSyntax(
+  "js/questions.bundle.js",
+  fs.readFileSync(path.join(ROOT, "js", "questions.bundle.js"), "utf8"),
+);
+ok &= checkSyntax(
+  "js/game.js",
+  fs.readFileSync(path.join(ROOT, "js", "game.js"), "utf8"),
+);
 
 process.exit(ok ? 0 : 1);

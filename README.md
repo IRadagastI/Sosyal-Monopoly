@@ -1,201 +1,119 @@
-# Bilgiopoli – Sosyal Bilgiler v2.0
+# Bilgiopoli – Sosyal Bilgiler v2.1.0
 
-Bilgiopoli, 5-7. sınıf öğrencileri için tasarlanmış interaktif bir Sosyal Bilgiler eğitim oyunudur. Akıllı tahta ve dijital sınıflar için optimize edilmiştir.
+Bilgiopoli, 5–8. sınıf öğrencileri için hazırlanmış, çevrimdışı da çalışabilen bir Sosyal Bilgiler takım oyunudur. 16:9 akıllı tahta, Windows ve yatay Android ekranları hedeflenir.
 
-## 🎮 Özellikler
+## Özellikler
 
-### 📚 Eğitsel İçerik
-- **6 Ünite**: Birlikte Yaşamak, Evimiz Dünya, Ortak Miras, Yaşayan Demokrasi, Hayat Ekonomi, Teknoloji & Sosyal
-- **4 Sınıf Seviyesi**: 5, 6, 7 ve 8 (LGS) müfredatına uygun sorular
-- **Zengin Soru Havuzu**: Her sınıf ve ünite için ayrı soru setleri
-- **TEMA İstasyonları**: Çevre bilinci ve doğa dostu rozetleri
+- 5, 6, 7 ve 8. sınıf seviyeleri ile altı konu ünitesi
+- İki ila dört insan/AI takımı, takım güçleri ve jokerler
+- SBP puanı, mülkler, binalar ve doğa dostu rozetleri
+- 25 dakikalık ders süresi ve son üç dakikada Büyük Final
+- Her takım için Büyük Final'de yalnızca bir deneme hakkı
+- Tek yuvalı, doğrulanan ve eski kayıtları dönüştüren oyun kaydı
+- PWA, imzalı Android APK/AAB ve tek dosyalı Windows EXE dağıtımı
 
-### 🎯 Oyun Mekanikleri
-- **4 Takım**: Kaşifler, Girişimciler, Araştırmacılar, Diplomatlar
-- **Süper Güçler**: Her takımın özel yetenekleri
-- **Joker Kartlar**: 50/50, Çift Şans, Kalkan
-- **Flash Haberler**: Sürpriz oyun içi olaylar
-- **Büyük Final**: Son 3 dakikada ekstra puanlar
+## v2.1.0 ile gelenler
 
-### 🏆 Öğrenci Gelişimi
-- **SBP Puan Sistemi**: Sosyal Bilgiler Puanı
-- **Doğa Dostu Rozetleri**: Çevre bilinci ödülleri
-- **Performans Takibi**: Anlık skor ve ilerleme göstergesi
-- **25 Dakikalık Oyun**: Ders saatlerine uygun süre
+- Oyun sıfırlandığında eski zar, AI ve animasyon zamanlayıcıları artık yeni oyuna sızmıyor.
+- Zar ve sıra devri kilitlenmelerine karşı otomatik toparlanma eklendi.
+- Büyük Final yalnızca son üç dakikada açılıyor ve takım başına tek kullanım kuralı kayda dahil ediliyor.
+- Bozuk veya değiştirilmiş kayıtlar yüklenmeden önce kapsamlı biçimde doğrulanıyor.
+- Dinamik içerik güvenli biçimde ekrana yazılıyor; sayfaya içerik güvenlik politikası uygulandı.
+- Fare, dokunmatik ve klavye ile çalışabilen ortak eylem sistemi kuruldu; tarayıcı yakınlaştırması açıldı.
+- Android sistem yazı ölçeği kontrollü biçimde destekleniyor ve uygulama yedeği kapalı.
+- Kaynak soru dosyasını içermeyen temiz klonlarda soru paketi bütünlük kontrolü yapılabiliyor.
+- Web, Android ve Windows için sürekli entegrasyon; uçtan uca oyun senaryoları ve imza kontrolleri eklendi.
 
-## 🚀 Yenilikler (v2.0)
+## Proje yapısı
 
-### 🏗️ Teknik Yapı
-- **Tek Dosya Dağıtım**: Tüm HTML, CSS, JavaScript ve soru havuzu `index.html` içinde gömülü (kurulum gerektirmez)
-- **PWA Desteği**: `manifest.json` ve `sw.js` ile yüklenebilir uygulama
-- **Masaüstü Paketi**: `pywebview` + PyInstaller ile `.exe` derleme
-- **Kaydet/Devam Et**: `localStorage` ile tek slotlu oyun kaydı
-
-### 🎨 Kullanıcı Deneyimi
-- **Modern Arayüz**: Glassmorphism temalı, neon vurgulu 16:9 akıllı tahta tasarımı
-- **Animasyonlar**: Zar atma, konfeti (canvas-confetti) ve geçiş efektleri
-- **SweetAlert2 Modalları**: Soru, sonuç ve bilgilendirme pencereleri
-- **Responsive Tasarım**: `vmin` tabanlı ölçekleme ile farklı ekranlara uyum
-
-## 📁 Proje Yapısı
-
-> Proje modüler bir yapıya kavuşturulmuştur: HTML iskeleti `index.html` içinde,
-> stiller `css/style.css`, soru havuzu `js/questions.js` içinde yer alır. Oyun
-> motoru hâlâ `index.html` sonundaki `<script>` bloğundadır.
-
-```
-sosyal-monopoly/
-├── index.html            # HTML iskeleti + oyun motoru (script)
-├── css/
-│   └── style.css         # Tüm stiller (arka plan görseli dahil)
-├── js/
-│   └── questions.js      # Soru havuzu (questions5/6/7/8 + final havuzları)
-├── vendor/               # Yerelleştirilmiş kütüphaneler (offline için)
-│   ├── confetti.browser.min.js
-│   ├── sweetalert2.all.min.js
-│   ├── fontawesome/      # FA solid css + webfont
-│   └── fonts/            # Outfit yazı tipi (woff2 + outfit.css)
-├── tools/
-│   ├── split.js              # index.html'i css/js'e ayıran betik
-│   ├── validate-questions.js # soru havuzu doğrulayıcı
-│   └── check-index.js        # index yapısı kontrolü
-├── manifest.json         # PWA manifesti
-├── sw.js                 # Service Worker (çevrimdışı önbellek)
-├── icons/                # PWA ikonu (icon.svg)
-├── main.py               # pywebview masaüstü sarmalayıcı
-├── SosyalMonopoly.spec   # PyInstaller derleme tanımı
-├── package.json          # Proje bilgileri ve script'ler
-└── README.md             # Bu dosya
-
-# Aşağıdakiler git'e dahil edilmez (.gitignore):
-#   build/   dist/   *.exe   tmp_*.txt   index.html.bak
+```text
+Sosyal-Monopoly/
+├── index.html                    # Uygulama iskeleti
+├── css/style.css                 # Arayüz ve erişilebilirlik stilleri
+├── js/game.js                    # Oyun motoru
+├── js/questions.bundle.js        # Dağıtılan, gizlenmiş soru paketi
+├── js/questions.bundle.sha256    # Paket bütünlük özeti
+├── vendor/                       # Çevrimdışı üçüncü taraf dosyaları
+├── android/                      # Capacitor Android projesi
+├── tools/                        # Doğrulama, test ve paketleme araçları
+├── main.py                       # Windows masaüstü sarmalayıcısı
+├── SosyalMonopoly.spec           # PyInstaller yapılandırması
+├── manifest.json / sw.js         # PWA tanımı ve çevrimdışı önbellek
+└── .github/workflows/ci.yml      # Otomatik kalite kontrolleri
 ```
 
-### Soru Doğrulama
+`js/questions.js` düzenlenebilir ana kaynaktır ve içerik koruması amacıyla Git'e alınmaz. Yayın paketi şifreleme sağlamaz; yalnızca kolay kopyalamayı zorlaştıran bir gizleme uygular. Bütünlük, takip edilen SHA-256 özetiyle doğrulanır.
+
+## Kurulum ve geliştirme
+
+Gereksinimler: Node.js 20 veya üzeri. Android paketi için Android SDK ve JDK 21; Windows paketi için Python 3.12 önerilir.
+
 ```bash
-npm test          # veya: node tools/validate-questions.js
-```
-Her sorunun `{ q, opts[4], ans:0..3 }` biçimine uygunluğunu denetler.
-
-## 🎮 Nasıl Oynanır
-
-### Başlangıç
-1. Oyunu tarayıcıda açın
-2. En az 2 takım seçin
-3. "Oyunu Başlat" butonuna tıklayın
-
-### Oyun Akışı
-1. **Zar At**: “Zar At” butonuna tıkla
-2. **Hareket Et**: Zar toplamı kadar ilerle
-3. **Soru Cevapla**: Karedeki soruyu yanıtla
-4. **SBP Kazan**: Doğru cevaplar için puan al
-5. **Rozet Topla**: TEMA istasyonlarından rozet kazan
-6. **Joker Kullan**: Stratejik avantajlar için
-
-### Kontroller
-Oyun fare/dokunmatik ile oynanır:
-- **Zar At** butonu: Sıradaki takımın zarını atar
-- **Kare/Joker** düğmeleri: M. lük al, bina yap, joker kullan
-- **Ana menü “DEVAM ET”**: Kayıtlı oyunu yükler
-
-> Not: Klavye kısayolları (Space/Ctrl+S vb.) henüz uygulanmadı; planlanan özelliklerdir.
-
-## 🛠️ Kurulum ve Çalıştırma
-
-### Geliştirme Ortamı
-```bash
-# Projiyi klonlayın
-git clone https://github.com/username/sosyal-monopoly.git
-cd sosyal-monopoly
-
-# Yerel sunucuyu başlatın
+git clone https://github.com/IRadagastI/Sosyal-Monopoly.git
+cd Sosyal-Monopoly
+npm ci
 npm run dev
-# veya
-python -m http.server 8000
-
-# Tarayıcıda açın
-http://localhost:8000
 ```
 
-### Python Uygulaması
+Yerel adres: `http://127.0.0.1:8000`
+
+### Kalite kontrolleri
+
 ```bash
-# Gerekli kütüphaneleri yükleyin
-pip install pywebview
-
-# Uygulamayı çalıştırın
-python main.py
+npm test                 # soru paketi, sözdizimi ve sayfa yapısı
+npm run lint             # JavaScript kalite kontrolü
+npm run format:check     # biçim kontrolü
+npm run test:e2e         # gerçek tarayıcıda oyun senaryoları
+npm run test:all         # tüm web kontrolleri
 ```
 
-### `.exe` Derleme (Windows)
+Testler; insan/AI sıra devri, final zaman sınırı, takım başına tek final hakkı, menüye dönüşte eski işlemlerin iptali ve temiz klonda soru paketi doğrulamasını kapsar.
+
+## Paketleme
+
+### Windows EXE
+
 ```bash
-pip install pyinstaller pywebview
-pyinstaller SosyalMonopoly.spec
-# Çıktı: dist/SosyalMonopoly.exe
+python -m pip install -r requirements-build.txt
+npm run build:exe
 ```
 
-## 🎓 Eğitsel Faydaları
+Doğrulanmış çıktı `release/` altında sürüm numarası ve SHA-256 özetiyle yayımlanır. Düzenlenebilir `js/questions.js` EXE içine alınmaz.
 
-### Öğrenci Gelişimi
-- **Eleştirel Düşünme**: Soru çözme becerileri
-- **Takım Çalışması**: İş birliği ve iletişim
-- **Stratejik Planlama**: Kaynak yönetimi
-- **Çevre Bilinci**: Doğa dostu davranışlar
-- **Sosyal Beceriler**: Rekabet ve sportmenlik
+### Android APK ve AAB
 
-### Müfredat Uygunluğu
-- **Milli Eğitim Standartları**: MEB müfredatına uygun
-- **Kazanım Odaklı**: Her ünite için özel kazanımlar
-- **Değerler Eğitimi**: Demokrasi, hoşgörü, dayanışma
-- **Disiplinlerarası**: Tarih, coğrafya, vatandaşlık
+Önce Git'e alınmayan `android/keystore.properties` ve ilgili keystore dosyası hazır olmalıdır. Ardından:
 
-## 🔧 Teknik Özellikler
+```bash
+npm ci
+npm run android:artifacts
+```
 
-### Tarayıcı Desteği
-- ✅ Chrome 80+
-- ✅ Firefox 75+
-- ✅ Safari 13+
-- ✅ Edge 80+
+Komut Android birim testini ve lint denetimini çalıştırır, release APK/AAB üretir, iki imzayı doğrular ve sonuçları `release/` altına kopyalar. Ayrıntılar [PUBLISHING.md](PUBLISHING.md) dosyasındadır.
 
-### Performans
-- **Tek Dosya**: Harici JS modülü bağımlılığı yok; soru havuzu gömülü
-- **Hedef Ekran**: 16:9 akıllı tahta ve geniş ekranlar için optimize
+## Oyun akışı
 
-### Erişilebilirlik (yol haritası)
-Mevcut sürüm tam WCAG uyumlu değildir. Planlanan iyileştirmeler:
-- Soru şıkları için `<button>` + `aria` etiketleri ve klavye odak desteği
-- Yüksek kontrast ve daha büyük okunabilir font seçenekleri
+1. Sınıf düzeyini seçin ve en az iki takım ekleyin.
+2. Sıradaki takım zar atar ve piyon otomatik ilerler.
+3. Gelinen kareye göre soru, mülk, kira, haber veya rozet işlemi tamamlanır.
+4. Soru jokerleri ve takım güçleri stratejik biçimde kullanılabilir.
+5. Son üç dakikada her takım Büyük Final'i bir kez deneyebilir.
+6. Süre dolduğunda puan, mülk ve rozetlere göre sonuç gösterilir.
 
-## 🤝 Katkıda Bulunma
+Eylemler fare/dokunmatik yanında `Tab`, `Enter` ve `Space` ile de kullanılabilir. Tarayıcı yakınlaştırması ve Android sistem yazı ölçeği desteklenir. Tasarım erişilebilirlik açısından iyileştirilmiştir ancak resmi bir WCAG uygunluk beyanı değildir; gerçek cihaz ve yardımcı teknoloji denemeleri yayın öncesi kontrol listesinde tutulur.
 
-### Geliştirme
-1. Fork yapın
-2. Feature branch oluşturun: `git checkout -b feature/yeni-ozellik`
-3. Değişiklikleri yapın: `git commit -am 'Yeni özellik eklendi'`
-4. Push yapın: `git push origin feature/yeni-ozellik`
-5. Pull Request oluşturun
+## Soru katkıları
 
-### Soru Katkıları
-- Yeni sorular eklemek için `js/questions.js` dosyasını düzenleyin (`questions5/6/7/8` ve `finalQuestionsPool5/6/7/8`)
-- Soru formatı: `{ q: "Soru metni", opts: ["A", "B", "C", "D"], ans: 0 }` (`ans` 0–3 arası, doğru şıkkın indeksi)
-- Değişiklikten sonra `npm test` ile soru havuzunu doğrulayın
-- Lütfen müfredat uygunluğuna dikkat edin
+Yerel `js/questions.js` içindeki `questions5/6/7/8` ve `finalQuestionsPool5/6/7/8` havuzlarını düzenleyin:
 
-## 📄 Lisans
+```javascript
+{ q: "Soru metni", opts: ["A", "B", "C", "D"], ans: 0 }
+```
 
-Bu proje MIT Lisansı altında dağıtılmaktadır. Detaylar için [LICENSE](LICENSE) dosyasını inceleyin.
+Ardından `npm run protect:questions` ve `npm test` çalıştırın; oluşan bundle ve SHA-256 dosyalarını birlikte commit edin. Ayrıntılar [js/README-SORULAR.md](js/README-SORULAR.md) içindedir.
 
-## 📞 İletişim
+## Gizlilik ve lisans
 
-- **Sorular ve Geri Bildirim**: GitHub Issues
-- **Eğitsel İş Birliği**: [email protected]
-- **Teknik Destek**: [email protected]
+Uygulama reklam, analitik veya kullanıcı hesabı içermez; oyun kaydı yalnızca cihazda tutulur. Ayrıntılar [PRIVACY.md](PRIVACY.md) dosyasındadır.
 
-## 🙏 Teşekkürler
-
-- Milli Eğitim Bakanlığı - Müfredat desteği için
-- TEMA Vakfı - Çevre eğitimi içeriği için
-- Tüm öğretmenler - Değerli geri bildirimler için
-
----
-
-**Bilgiopoli – Sosyal Bilgiler** - Eğitimi daha eğlenceli hale getirin! 🎓🎮
+Bu proje [MIT Lisansı](LICENSE) ile dağıtılır.
